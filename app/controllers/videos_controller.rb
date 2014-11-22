@@ -8,5 +8,9 @@ class VideosController < ApplicationController
     @video = Video.find(params[:id])
   end
 
+  def search
+    @result = Video.search_by_title(params[:query])
+  end
+
 
 end

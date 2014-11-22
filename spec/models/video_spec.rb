@@ -10,7 +10,7 @@ describe Video do
 
     it "should fail fiding if no video" do
       Video.create(title: "Interstellar", description: "a big step for humans")
-      expect(Video.search_by_title("Inception")).to_not eq(Video.first)
+      expect(Video.search_by_title("Inception")).to_not eq([Video.first])
     end
 
     it "should find 1 video by title" do
