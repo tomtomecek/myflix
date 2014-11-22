@@ -20,6 +20,8 @@ describe Video do
     expect(vid.category).to eq(Category.first)
   end
 
+  it { should belong_to(:category) }
+
   it "should have a title" do
     video = Video.new(description: "Skynet ...")
     expect(video).to be_invalid

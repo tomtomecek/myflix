@@ -16,4 +16,7 @@ describe Category do
     expect(Category.first.videos).to eq([video1, video2])  # Order matters
   end
 
+  it { should have_many(:videos) }
+
+
 end
