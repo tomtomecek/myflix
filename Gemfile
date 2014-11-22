@@ -1,10 +1,11 @@
 source 'https://rubygems.org'
 ruby '2.1.1'
 
+gem 'rails', '4.1.1'
 gem 'bootstrap-sass'
 gem 'bootstrap-form'
 gem 'coffee-rails'
-gem 'rails', '4.1.1'
+gem 'bcrypt', '~> 3.1.7'
 gem 'haml-rails'
 gem 'sass-rails'
 gem 'uglifier'
