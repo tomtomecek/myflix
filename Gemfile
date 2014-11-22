@@ -12,12 +12,14 @@ gem 'pg'
 
 group :development do
   gem 'thin'
+  gem 'spring'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'hirb'
 end
 
 group :development, :test do
+  gem 'spring-commands-rspec'
   gem 'pry'
   gem 'pry-nav'
   gem 'rspec-rails', '2.99'
