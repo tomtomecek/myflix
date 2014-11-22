@@ -7,8 +7,8 @@
     %li= link_to "People"
   = form_tag search_videos_path, method: "get", class: "col-md-5 navbar-form" do
     .form-group
-      = text_field_tag :query, nil, class: "form-control", placeholder: "Search for videos here"
-      = submit_tag "Search", class: "btn btn-default"
+      = text_field_tag :query, params[:query] || '', class: "form-control", placeholder: "Search for videos here"
+      = submit_tag "Search", name: nil, class: "btn btn-default"
   #user_links.pull-right
     %ul
       %li.dropdown
