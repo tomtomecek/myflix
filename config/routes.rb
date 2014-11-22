@@ -3,10 +3,9 @@ Myflix::Application.routes.draw do
 
   root "static_pages#front"
 
-  get '/sign_in', to: "sessions#new"
-  post '/sign_in', to: "sessions#create"
-  get '/register', to: "users#new"
-  post '/register', to: "users#create"
+  get   '/sign_in', to: "sessions#new"
+  post  '/sign_in', to: "sessions#create"
+  get   '/register', to: "users#new"
 
   get 'home', to: "categories#index"
 
@@ -16,4 +15,5 @@ Myflix::Application.routes.draw do
       get 'search', to: "videos#search"
     end
   end
+  resources :users, only: [:create]
 end
