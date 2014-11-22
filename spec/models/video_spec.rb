@@ -18,6 +18,6 @@ describe Video do
   it "can have a category" do
     cat = Category.create(name: "Movies")
     vid = Video.create(title: "Terminator", category: cat)
-    expect(Video.first.category).to eq(Category.first)
+    expect(vid.category).to eq(Category.first)
   end
 end

@@ -13,6 +13,7 @@ describe Category do
     video1 = Video.create(title: "Terminator1", category: cat)
     video2 = Video.create(title: "Terminator2", category: cat)
     expect(Category.first.videos).to include(video1, video2)
+    expect(Category.first.videos).to eq([video1, video2])  # Order matters
   end
 
 end
