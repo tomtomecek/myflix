@@ -49,3 +49,8 @@ Video.create(category: Category.find_by(name: "TV shows"),
              description: "Fry, a pizza guy is accidentally frozen in 1999 and thawed out New Year's Eve 2999.", 
              small_cover_url: "/tmp/futurama.jpg", 
              large_cover_url: "/tmp/futurama_large.jpg")
+
+
+User.create(email: "tom@example.com", password: "123", fullname: "Tom Hannon")
+User.create(email: "alice@example.com", password: "123", fullname: "Alice Wonderland")
+User.create(email: "phil@example.com", password: "123", fullname: "Philip J. Fry")

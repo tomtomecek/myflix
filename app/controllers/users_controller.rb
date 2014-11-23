@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
     if @user.save
       flash[:success] = "Welcome to myFlix, you have successfully registered."
-      redirect_to home_url
+      redirect_to sign_in_url
     else
       render :new
     end
