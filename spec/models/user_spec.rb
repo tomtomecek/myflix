@@ -6,4 +6,9 @@ describe User do
   it { should validate_presence_of(:password) }
   it { should validate_presence_of(:fullname) }
 
+  it "creates user with downcased email" do
+    user = User.create(email: "TEST@EXAMPLE.COM", password: "123", fullname: "TEST USER")
+    expect(user.reload.email).to eq("test@example.com")
+  end
+
 end

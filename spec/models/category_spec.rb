@@ -26,6 +26,11 @@ describe Category do
       expect(cat.recent_videos).to eq([vid3, vid2, vid1])
     end
 
+    it "returns an empty array if no video" do
+      cat = Category.create(name: "TV shows")
+      expect(cat.recent_videos).to eq([])
+    end
+
   end
 
 end
