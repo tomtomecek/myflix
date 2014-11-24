@@ -9,12 +9,7 @@ describe VideosController do
 
     it { expect(assigns(:video)).to eq(video) }
     it { expect(response).to render_template :show }
-    it "sorts the @video.reviews descending" do
-      review1 = Fabricate(:review, video: video)
-      review2 = Fabricate(:review, video: video)
-
-      expect(assigns(:video).reviews).to eq([review2, review1])
-    end
+    
   end
 
   describe "GET search" do

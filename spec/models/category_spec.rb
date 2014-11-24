@@ -4,7 +4,7 @@ describe Category do
  
   it { should have_many(:videos) }
 
-  describe "#recent_videos" do
+  describe ".recent_videos" do
     
     it "should return max 6 videos" do
       cat = Category.create(name: "TV shows")
