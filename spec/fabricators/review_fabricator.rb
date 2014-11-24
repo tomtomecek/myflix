@@ -1,6 +1,6 @@
 Fabricator(:review) do
-  rating { 5 }
-  body { Faker::Lorem.words(10).join(" ") }
+  rating { Array(1..5).sample }
+  body { Faker::Lorem.words(Array(100..120).sample).join(" ") }
   user
   video
 end

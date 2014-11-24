@@ -30,4 +30,36 @@ describe Video do
     end
   end
 
+  describe "#average_rating" do
+    let(:video) { Fabricate(:video) }
+    it "returns 0.0 if no review" do
+      expect(video.average_rating).to eq(0.0)
+    end
+    it "returns float rating as review if 1 review" do
+      Fabricate(:review)
+    end
+    it "returns average rating from all review ratings"
+
+    
+  end
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

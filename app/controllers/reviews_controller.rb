@@ -2,7 +2,6 @@ class ReviewsController < ApplicationController
   #before_action :require_user
 
   def create
-    binding.pry
     @video = Video.find(params[:video_id])
     @review = @video.reviews.build(review_params)
     @review.user = current_user

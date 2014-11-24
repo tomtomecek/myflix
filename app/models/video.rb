@@ -12,4 +12,9 @@ class Video < ActiveRecord::Base
   def total_reviews
     self.reviews.count
   end
+
+  def average_rating
+    0.0
+  end
+
 end

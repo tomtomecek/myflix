@@ -1,5 +1,5 @@
 Fabricator(:video) do
   title { Faker::Lorem.word }
-  description { Faker::Lorem.words(5).join(" ") }
+  description { Faker::Lorem.words(Array(30..40).sample).join(" ") }
   category
 end

@@ -9,7 +9,7 @@
       .video_info.col-sm-3
         %header
           %h3= @video.title
-          /%span Rating: 4.5/5.0
+          %span Rating: #{@video.average_rating}/5.0
         %p= @video.description
         .actions
           %a.btn.btn-primary(href="") Watch Now
@@ -43,4 +43,4 @@
                 %span Rating: #{review.rating} / 5
                 %p by #{ link_to review.user.fullname, '' }
               .col-sm-8
-                %p In my opinion, this is one of the best shows ever made. It's not only funny, but despite being so frequently silly, it's very smart as well. Math, science, history, all get referenced. The best parts of the show are the subtle things, those little things in the background or just on screen for a couple of seconds that just make you laugh out loud if you were paying attention. The writers even appear to have been thinking ahead, because if you play close attention to the first episode, you can see a literal shadow of an event revealed seasons later.
+                %p= review.body

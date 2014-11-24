@@ -23,13 +23,13 @@ end
 group :development, :test do
   gem 'spring-commands-rspec'
   gem 'faker'
+  gem 'fabrication'
   gem 'pry'
   gem 'pry-nav'
   gem 'rspec-rails', '2.99'
 end
 
 group :test do
-  gem 'fabrication'
   gem 'database_cleaner', '1.2.0'
   gem 'shoulda-matchers', require: false
 end
