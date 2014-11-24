@@ -5,14 +5,15 @@ describe VideosController do
   before { session[:user_id] = Fabricate(:user).id }
   
   describe "GET show" do
-    it "sets the @video variable" do      
-      get :show, id: video
-      expect(assigns(:video)).to eq(video)
-    end
+    before { get :show, id: video }
 
-    it "renders the show template" do      
-      get :show, id: video
-      expect(response).to render_template :show
+    it { expect(assigns(:video)).to eq(video) }
+    it { expect(response).to render_template :show }
+    it "sorts the @video.reviews descending" do
+      review1 = Fabricate(:review, video: video)
+      review2 = Fabricate(:review, video: video)
+
+      expect(assigns(:video).reviews).to eq([review2, review1])
     end
   end
 
