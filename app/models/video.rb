@@ -14,7 +14,11 @@ class Video < ActiveRecord::Base
   end
 
   def average_rating
-    0.0
+    if reviews.any?
+      (reviews.map(&:rating).inject(:+) / reviews.count).to_f
+    else
+      0.0
+    end
   end
 
 end

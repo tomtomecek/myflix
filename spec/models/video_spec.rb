@@ -30,31 +30,28 @@ describe Video do
     end
   end
 
-  describe "#average_rating" do
+  describe ".average_rating" do
     let(:video) { Fabricate(:video) }
+    subject { video.average_rating }
+    
     it "returns 0.0 if no review" do
-      expect(video.average_rating).to eq(0.0)
+      expect(subject).to eq(0.0)
     end
     it "returns float rating as review if 1 review" do
-      Fabricate(:review)
+      review = Fabricate(:review, video: video)
+      expect(subject).to eq(review.rating.to_f)
     end
-    it "returns average rating from all review ratings"
-
+    it "returns average rating from all review ratings" do
+      Fabricate.times(4, :review, video: video)
+      sum = video.reviews.map(&:rating).inject(:+)
+      count = video.reviews.count
+      average = (sum/count).to_f
+      expect(subject).to eq(average)
+    end
     
   end
 
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 
