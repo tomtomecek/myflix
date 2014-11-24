@@ -7,7 +7,7 @@ describe ReviewsController do
 
   describe "POST create" do
     
-    context "creates the review if record is valid" do
+    context "creates the review if valid" do
       before do
         post :create, video_id: video.id, review: Fabricate.attributes_for(:review, user: user, video: video)
       end
@@ -15,12 +15,14 @@ describe ReviewsController do
       it "creates the review under video if record is valid" do        
         expect(assigns(:video)).to eq(video)
         expect(Review.count).to eq(1)
-      end
-      it { expect(response).to redirect_to video }        
+      end      
+      it { expect(response).to redirect_to video }
     end
 
-    context "does not create the review if record is invalid" do
-      before { post :create, video_id: video.id, review: Fabricate.attributes_for(:review, body: "") }
+    context "does not create the review if invalid" do
+      before do 
+        post :create, video_id: video.id, review: Fabricate.attributes_for(:review, body: "")
+      end
 
       it { expect(response).to render_template 'videos/show' }
     end
