@@ -1,5 +1,5 @@
 class VideosController < ApplicationController
-  #before_action :require_user
+  before_action :require_user
 
   def index
     @videos = Video.all
@@ -12,6 +12,5 @@ class VideosController < ApplicationController
   def search
     @result = Video.search_by_title(params[:query])
   end
-
 
 end

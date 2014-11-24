@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe VideosController do
   let(:video) { Fabricate(:video) }
+  before { session[:user_id] = Fabricate(:user).id }
   
   describe "GET show" do
     it "sets the @video variable" do      
