@@ -1,38 +1,29 @@
 require 'spec_helper'
 
 describe VideosController do
+  let(:video) { Fabricate(:video) }
   
   describe "GET show" do
-    it "sets the @video variable" do
-      interstellar = Video.create(title: "Interstellar", description: "a big step for humans.")
-      
-      get :show, id: interstellar
-      expect(assigns(:video)).to eq(interstellar)
+    it "sets the @video variable" do      
+      get :show, id: video
+      expect(assigns(:video)).to eq(video)
     end
 
-    it "renders the show template" do
-      interstellar = Video.create(title: "Interstellar", description: "a big step for humans.")
-      
-      get :show, id: interstellar
+    it "renders the show template" do      
+      get :show, id: video
       expect(response).to render_template :show
     end
   end
 
   describe "GET search" do
     it "sets the @result variable" do
-      interstellar = Video.create(title: "Interstellar", description: "a big step for humans.")
-      
-      get :search, query: "Interstellar"
-      expect(assigns(:result)).to eq([interstellar])
+      get :search, query: video.title
+      expect(assigns(:result)).to eq([video])
     end
 
     it "renders the search template" do
-      interstellar = Video.create(title: "Interstellar", description: "a big step for humans.")
-      
       get :search
       expect(response).to render_template :search
     end
-
   end
-
 end
