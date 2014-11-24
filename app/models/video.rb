@@ -8,4 +8,8 @@ class Video < ActiveRecord::Base
     return [] if title.blank?
     where("title LIKE ?", "%#{title}%")
   end
+
+  def total_reviews
+    self.reviews.count
+  end
 end

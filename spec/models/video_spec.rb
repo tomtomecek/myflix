@@ -20,4 +20,14 @@ describe Video do
       expect(Video.search_by_title("stella")).to eq([stellarium, interstellar])
     end
   end
+
+  describe ".total_reviews" do
+    let(:video) { Fabricate(:video) }
+
+    it "returns total reviews count for video" do
+      Fabricate.times(3, :review, video: video)
+      expect(video.total_reviews).to eq(3)
+    end
+  end
+
 end
