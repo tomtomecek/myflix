@@ -30,7 +30,6 @@ describe ReviewsController do
 
         it { expect(response).to render_template 'videos/show' }
         it { expect(assigns(:review).errors.any?).to be true }
-        it { expect(flash.any?).to be true }
       end
     end
 

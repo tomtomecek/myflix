@@ -21,15 +21,13 @@
       = bootstrap_form_for [@video, @review], inline_errors: true do |f|
         %fieldset
           .form-group
-            = f.label :rating, "Rate this video"
             .row
               .col-sm-3
-                = f.select :rating, rating_options, hide_label: :true
+                = f.select :rating, rating_options, label: "Rate this video"
           .form-group
-            = f.label :body, "Write review"
             .row
               .col-sm-8
-                = f.text_area :body, rows: 6, hide_label: :true
+                = f.text_area :body, rows: 6, label: "Write review"
         %fieldset.form-group.actions.clearfix
           = f.submit "Submit", class: "btn"
           = link_to "Cancel", @video

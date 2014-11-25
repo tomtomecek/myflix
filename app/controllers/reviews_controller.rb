@@ -9,7 +9,6 @@ class ReviewsController < ApplicationController
     if @review.save
       redirect_to @video
     else
-      flash.now[:danger] = "xxx"
       render 'videos/show'
     end
   end
