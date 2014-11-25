@@ -9,7 +9,7 @@ describe ReviewsController do
     context "signed in" do
       before { session[:user_id] = user.id }
 
-      context "review record valid" do
+      context "the review record is valid" do
         before do
           post :create, 
             video_id: video.id, 
@@ -17,15 +17,20 @@ describe ReviewsController do
         end
 
         it { expect(assigns(:video)).to eq(video) }
-        it { expect(Review.count).to    eq(1) }      
+        it { expect(Review.count).to    eq(1) }
         it { expect(response).to        redirect_to video }
       end
 
-      it "review record invalid" do
-        post :create, 
-          video_id: video.id, 
-          review: Fabricate.attributes_for(:review, body: "")
-        expect(response).to render_template 'videos/show'
+      context "the review record is invalid" do
+        before do
+          post :create, 
+            video_id: video.id, 
+            review: Fabricate.attributes_for(:review, body: "")
+        end
+
+        it { expect(response).to render_template 'videos/show' }
+        it { expect(assigns(:review).errors.any?).to be true }
+        it { expect(flash.any?).to be true }
       end
     end
 

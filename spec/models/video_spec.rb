@@ -42,11 +42,9 @@ describe Video do
       expect(subject).to eq(review.rating.to_f)
     end
     it "returns average rating from all review ratings" do
-      Fabricate.times(4, :review, video: video)
-      sum = video.reviews.map(&:rating).inject(:+)
-      count = video.reviews.count
-      average = (sum/count).to_f
-      expect(subject).to eq(average)
+      Fabricate(:review, video: video, rating: 2)
+      Fabricate(:review, video: video, rating: 3)
+      expect(subject).to eq(2.5)
     end
     
   end

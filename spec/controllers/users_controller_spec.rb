@@ -27,6 +27,7 @@ describe UsersController do
       before { post :create, user: { email: "" } }
 
       it { expect(response).to render_template :new }
+      it { expect(assigns(:user).errors.any?).to be true }
     end
   end
   
