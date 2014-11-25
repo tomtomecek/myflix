@@ -11,39 +11,39 @@ describe VideosController do
         get :show, id: video
       end
 
-      it { expect(assigns(:video)).to eq(video) }
-      it { expect(assigns(:review)).to be_new_record }
-      it { expect(assigns(:review)).to be_instance_of(Review)}
-      it { expect(response).to render_template :show }
+      it "sets @video" do
+        expect(assigns(:video)).to eq(video)
+      end
+      
+      it "sets @reviews" do
+        review1 = Fabricate(:review, video: video)
+        review2 = Fabricate(:review, video: video)
+        expect(assigns(:reviews)).to match_array([review1, review2])
+      end
+
+      it "sets @review" do
+        expect(assigns(:review)).to be_new_record
+        expect(assigns(:review)).to be_instance_of(Review)
+      end
     end
 
-    context "not signed in" do
-      it "redirects to the root url" do
-        get :show, id: video
-        expect(response).to redirect_to root_url
-      end
+ 
+    it "redirects to the root url for unauthenticated users" do
+      get :show, id: video
+      expect(response).to redirect_to root_url
     end
   end
 
-  describe "GET search" do
-    context "signed in" do
-      before { session[:user_id] = Fabricate(:user).id }
-      
-      it "sets the @result variable" do
-        get :search, query: video.title
-        expect(assigns(:result)).to eq([video])
-      end
-      it "renders the search template" do
-        get :search
-        expect(response).to render_template :search
-      end
+  describe "GET search" do      
+    it "sets the @result variable for authenticated users" do
+      session[:user_id] = Fabricate(:user).id
+      get :search, query: video.title
+      expect(assigns(:result)).to eq([video])
     end
 
-    context "not signed in" do
-      it "redirects to the root url" do
-        get :search        
-        expect(response).to redirect_to root_url
-      end
+    it "redirects to the root url for unauthenticated users" do
+      get :search        
+      expect(response).to redirect_to root_url
     end
   end
 end

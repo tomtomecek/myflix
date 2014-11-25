@@ -1,47 +1,71 @@
 require 'spec_helper'
 
 describe SessionsController do
-
-  describe "GET new" do
-    it "redirects to home url if logged in" do
-      session[:user_id] = Fabricate(:user).id
-
-      get :new
-      expect(response).to redirect_to home_url
-    end
-
-    it "renders the new template if not logged in" do
+  describe "GET new" do    
+    it "renders :new template for unauthorized user" do
       get :new
       expect(response).to render_template :new
+    end
+
+    it "redirects to home url for authorized user" do
+      session[:user_id] = Fabricate(:user).id
+      get :new
+      expect(response).to redirect_to home_url
     end
   end
 
   describe "POST create" do
     let(:user) { Fabricate(:user, email: "tom@example.com") }
 
-    it "redirects to home url on successful login" do      
-      post :create, email: user.email, password: user.password
-      expect(response).to redirect_to home_url
-      expect(flash[:success]).to eq("You have logged in.")
+    context "with valid credentials" do
+      before { post :create, email: user.email, password: user.password }
+      
+      it "sets user id to session" do
+        expect(session[:user_id]).to eq(user.id)
+      end
+
+      it "redirects to home url" do
+        expect(response).to redirect_to home_url
+      end
+      
+      it "sets flash success" do
+        expect(flash[:success].present?).to be true
+      end
     end
-    it "renders the new template on fail login" do
-      post :create, email: "", password: user.password
-      expect(response).to render_template :new
-      expect(flash[:danger]).to eq("Incorrect email or password. Please try again.")
+    
+    context "with invalid credentials" do
+      before { post :create, email: "", password: user.password }
+
+      it "does not set user id to session" do
+        expect(session[:user_id]).to be nil
+      end
+
+      it "renders :new template" do
+        expect(response).to render_template :new
+      end
+
+      it "sets flash danger" do
+        expect(flash[:danger].present?).to be true
+      end
     end
   end
   
   describe "DELETE destroy" do
-    it "sets the session has to nil" do
+    before do
       session[:user_id] = Fabricate(:user).id
       get :destroy
+    end
+
+    it "sets the session to nil" do
       expect(session[:user_id]).to be nil
     end
-    
+
     it "redirects to root url" do
-      get :destroy
       expect(response).to redirect_to root_url
     end
-  end
 
+    it "sets flash success" do
+      expect(flash[:success].present?).to be true
+    end
+  end
 end

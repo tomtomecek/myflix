@@ -1,46 +1,66 @@
 require 'spec_helper'
 
 describe ReviewsController do
-  
   describe "POST create" do
-    let(:user) { Fabricate(:user) }
     let(:video) { Fabricate(:video) }
-    
-    context "signed in" do
-      before { session[:user_id] = user.id }
 
-      context "the review record is valid" do
-        before do
-          post :create, 
-            video_id: video.id, 
-            review: Fabricate.attributes_for(:review, user: user, video: video)
+    context "for authenticated user" do
+      let(:current_user) { Fabricate(:user) }
+      before { session[:user_id] = current_user.id }
+
+      context "with valid data" do
+        before do 
+          post :create, review: Fabricate.attributes_for(:review), video_id: video.id
         end
 
-        it { expect(assigns(:video)).to eq(video) }
-        it { expect(Review.count).to    eq(1) }
-        it { expect(response).to        redirect_to video }
+        it "redirects to video url" do
+          expect(response).to redirect_to video
+        end
+
+        it "creates a review" do
+          expect(Review.count).to eq(1)
+        end
+        
+        it "creates a review under video" do
+          expect(Review.first.video).to eq(video)
+        end
+        
+        it "creates a review under video and under user" do
+          expect(Review.first.user).to eq(current_user)
+        end
       end
 
-      context "the review record is invalid" do
-        before do
-          post :create, 
-            video_id: video.id, 
-            review: Fabricate.attributes_for(:review, body: "")
+      context "with invalid data" do
+        it "does not create a review" do
+          post :create, review: { rating: 2 }, video_id: video.id
+          expect(Review.count).to eq(0)
         end
 
-        it { expect(response).to render_template 'videos/show' }
-        it { expect(assigns(:review).errors.any?).to be true }
+        it "renders videos/show template" do
+          post :create, review: { rating: 2 }, video_id: video.id
+          expect(response).to render_template 'videos/show'
+        end
+
+        it "sets @video" do
+          post :create, review: { rating: 2 }, video_id: video.id
+          expect(assigns(:video)).to eq(video)
+        end
+
+        it "sets @reviews" do
+          review = Fabricate(:review, video: video)
+          post :create, review: { rating: 2 }, video_id: video.id
+          expect(assigns(:reviews)).to match_array([review])
+        end
       end
     end
-
-    context "not signed in" do
-      it "redirects to the root url" do
+    
+    context "for unauthenticated user" do
+      it "redirects to root url" do
         post :create, 
-          video_id: video.id, 
-          review: Fabricate.attributes_for(:review, user: user, video: video)
+          review: Fabricate.attributes_for(:review, video: video), 
+          video_id: video.id
         expect(response).to redirect_to root_url
       end
     end
-  end
-  
+  end 
 end

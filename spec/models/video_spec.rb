@@ -21,15 +21,6 @@ describe Video do
     end
   end
 
-  describe ".total_reviews" do
-    let(:video) { Fabricate(:video) }
-
-    it "returns total reviews count for video" do
-      Fabricate.times(3, :review, video: video)
-      expect(video.total_reviews).to eq(3)
-    end
-  end
-
   describe ".average_rating" do
     let(:video) { Fabricate(:video) }
     subject { video.average_rating }
