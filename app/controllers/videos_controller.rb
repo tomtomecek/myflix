@@ -7,11 +7,11 @@ class VideosController < ApplicationController
 
   def show
     @video = Video.find(params[:id])
+    @review = Review.new
   end
 
   def search
     @result = Video.search_by_title(params[:query])
   end
-
 
 end

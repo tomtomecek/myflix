@@ -9,8 +9,36 @@
       .video_info.col-sm-3
         %header
           %h3= @video.title
-          /%span Rating: 4.5/5.0
+          %span Rating: #{@video.average_rating}/5.0
         %p= @video.description
         .actions
           %a.btn.btn-primary(href="") Watch Now
           %a.btn.btn-default(href="") + My Queue
+
+%section.reviews.container
+  .row
+    .col-sm-10.col-sm-offset-1
+      = bootstrap_form_for [@video, @review], inline_errors: true do |f|
+        %fieldset
+          .form-group
+            .row
+              .col-sm-3
+                = f.select :rating, rating_options, label: "Rate this video"
+          .form-group
+            .row
+              .col-sm-8
+                = f.text_area :body, rows: 6, label: "Write review"
+        %fieldset.form-group.actions.clearfix
+          = f.submit "Submit", class: "btn"
+          = link_to "Cancel", @video
+      %header
+        %h3 User Reviews (#{@video.total_reviews})
+      %ul
+        - @video.reviews.each do |review|
+          %article.review
+            %li.row
+              .col-sm-2
+                %span Rating: #{review.rating} / 5
+                %p by #{ link_to review.user.fullname, '' }
+              .col-sm-8
+                %p= review.body
