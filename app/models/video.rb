@@ -1,8 +1,7 @@
 class Video < ActiveRecord::Base
   belongs_to :category
   has_many :reviews, -> { order('created_at DESC') }
-
-  validates :title, :description, presence: true
+  validates_presence_of :title, :description
 
   def self.search_by_title(title)
     return [] if title.blank?
@@ -10,12 +9,12 @@ class Video < ActiveRecord::Base
   end
 
   def total_reviews
-    self.reviews.count
+    reviews.count
   end
 
   def average_rating
     if reviews.any?
-      (reviews.map(&:rating).inject(:+).to_f / reviews.count).round(1)
+      reviews.average(:rating).to_f.round(1)
     else
       0.0
     end
