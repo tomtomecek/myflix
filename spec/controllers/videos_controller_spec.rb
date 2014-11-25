@@ -11,9 +11,20 @@ describe VideosController do
         get :show, id: video
       end
 
-      it { expect(assigns(:video)).to eq(video) }
-      it { expect(assigns(:review)).to be_new_record }
-      it { expect(assigns(:review)).to be_instance_of(Review)}
+      it "sets @video" do
+        expect(assigns(:video)).to eq(video)
+      end
+      
+      it "sets @reviews" do
+        review1 = Fabricate(:review, video: video)
+        review2 = Fabricate(:review, video: video)
+        expect(assigns(:reviews)).to match_array([review1, review2])
+      end
+
+      it "sets @review" do
+        expect(assigns(:review)).to be_new_record
+        expect(assigns(:review)).to be_instance_of(Review)
+      end
     end
 
  
