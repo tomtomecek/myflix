@@ -5,14 +5,8 @@ describe SessionsController do
   describe "GET new" do
     it "redirects to home url if logged in" do
       session[:user_id] = Fabricate(:user).id
-
       get :new
       expect(response).to redirect_to home_url
-    end
-
-    it "renders the new template if not logged in" do
-      get :new
-      expect(response).to render_template :new
     end
   end
 
@@ -36,8 +30,7 @@ describe SessionsController do
       session[:user_id] = Fabricate(:user).id
       get :destroy
       expect(session[:user_id]).to be nil
-    end
-    
+    end    
     it "redirects to root url" do
       get :destroy
       expect(response).to redirect_to root_url

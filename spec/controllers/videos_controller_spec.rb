@@ -14,36 +14,25 @@ describe VideosController do
       it { expect(assigns(:video)).to eq(video) }
       it { expect(assigns(:review)).to be_new_record }
       it { expect(assigns(:review)).to be_instance_of(Review)}
-      it { expect(response).to render_template :show }
     end
 
-    context "not signed in" do
-      it "redirects to the root url" do
-        get :show, id: video
-        expect(response).to redirect_to root_url
-      end
+ 
+    it "redirects to the root url for unauthenticated users" do
+      get :show, id: video
+      expect(response).to redirect_to root_url
     end
   end
 
-  describe "GET search" do
-    context "signed in" do
-      before { session[:user_id] = Fabricate(:user).id }
-      
-      it "sets the @result variable" do
-        get :search, query: video.title
-        expect(assigns(:result)).to eq([video])
-      end
-      it "renders the search template" do
-        get :search
-        expect(response).to render_template :search
-      end
+  describe "GET search" do      
+    it "sets the @result variable for authenticated users" do
+      session[:user_id] = Fabricate(:user).id
+      get :search, query: video.title
+      expect(assigns(:result)).to eq([video])
     end
 
-    context "not signed in" do
-      it "redirects to the root url" do
-        get :search        
-        expect(response).to redirect_to root_url
-      end
+    it "redirects to the root url for unauthenticated users" do
+      get :search        
+      expect(response).to redirect_to root_url
     end
   end
 end
