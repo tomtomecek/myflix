@@ -72,6 +72,29 @@ describe QueueItemsController do
     end
   end
 
+  describe "DELETE destroy" do
+    let(:tom)        { Fabricate(:user) }
+    let(:queue_item) { Fabricate(:queue_item, user: tom) }
+    
+    context "for authorized user" do
+      before { session[:user_id] = tom.id }
+      
+      it "redirects to my_queue" do
+        delete :destroy, id: queue_item.id
+        expect(response).to redirect_to my_queue_url
+      end
+      
+      it "destroys the queue_item" do
+        delete :destroy, id: queue_item.id
+        expect(QueueItem.count).to eq(0)
+      end
+    end
 
-  
+    context "for unauthorized user" do
+      it "redirects to root url" do
+        delete :destroy, id: queue_item.id
+        expect(response).to redirect_to root_url
+      end
+    end
+  end
 end

@@ -11,6 +11,12 @@ class QueueItemsController < ApplicationController
     redirect_to my_queue_url
   end
 
+  def destroy
+    queue_item = QueueItem.find(params[:id])
+    queue_item.destroy
+    redirect_to my_queue_url
+  end
+
   private
 
     def queue_video(video)
