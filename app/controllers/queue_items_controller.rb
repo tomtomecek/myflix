@@ -6,8 +6,23 @@ class QueueItemsController < ApplicationController
   end
 
   def create
-    QueueItem.create(video_id: params[:video_id], user: current_user)
+    video = Video.find(params[:video_id])
+    queue_video(video)
     redirect_to my_queue_url
   end
+
+  private
+
+    def queue_video(video)
+      QueueItem.create(video: video, user: current_user, position: new_queued_position) unless is_video_queued?(video)
+    end
+
+    def new_queued_position
+      current_user.queue_items.count + 1
+    end
+
+    def is_video_queued?(video)
+      current_user.queue_items.map(&:video).include?(video)
+    end
 
 end

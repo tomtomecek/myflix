@@ -22,20 +22,4 @@ describe QueueItem do
       expect(queue_item.rating).to be nil
     end
   end
-
-  describe "#position=" do
-    it "sets position to 1 for first queue_item in current user's queue" do
-      user       = Fabricate(:user)
-      queue_item = Fabricate(:queue_item, user: user)
-      expect(user.queue_items.first.position).to eq(1)
-    end
-
-    it "sets position to 3 for second queue_item in current user's queue" do
-      user       = Fabricate(:user)
-      Fabricate.times(3, :queue_item, user: user)
-      expect(user.queue_items.last.position).to eq(3)
-    end
-    
-  end
-
 end
