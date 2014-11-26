@@ -6,7 +6,6 @@ class QueueItemsController < ApplicationController
   end
 
   def create
-    #binding.pry
     QueueItem.create(video_id: params[:video_id], user: current_user)
     redirect_to my_queue_url
   end
