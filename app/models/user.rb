@@ -8,4 +8,8 @@ class User < ActiveRecord::Base
 
   validates :email, :password, :fullname, presence: true
   validates :email, uniqueness: { case_sensitive: false }
+
+  def owns?(queue_item)
+    self.queue_items.include?(queue_item)
+  end
 end
