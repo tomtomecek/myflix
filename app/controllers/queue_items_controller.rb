@@ -22,11 +22,11 @@ class QueueItemsController < ApplicationController
     # QueueItem.transaction do
 
     # end
-
-
-    params[:positions].each_with_index do |new_position, index|
-      queue_item = current_user.queue_items[index]
-      queue_item.update(position: new_position)
+    if params[:positions]
+      params[:positions].each_with_index do |new_position, index|
+        queue_item = current_user.queue_items[index]
+        queue_item.update(position: new_position)
+      end
     end
     redirect_to my_queue_url
   end

@@ -119,13 +119,16 @@ describe QueueItemsController do
       end
 
       it "updates positions of all queue_items for user" do
-        queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
-        queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
-        patch :reorder, positions: [2, 1]
-        expect(tom.queue_items.map(&:position)).to eq([2, 1])
+        queue_item1 = Fabricate(:queue_item, user: tom)
+        queue_item2 = Fabricate(:queue_item, user: tom)
+        queue_item3 = Fabricate(:queue_item, user: tom)
+        patch :reorder, positions: [2, 1, 3]
+        expect(tom.queue_items).to eq([queue_item2, queue_item1, queue_item3])
       end
 
       context "does not update any position" do
+        it "when there is only 1 queue_item"
+
         it "when any position is blank" do
         end
 
