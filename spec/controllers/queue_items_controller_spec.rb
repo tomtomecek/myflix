@@ -89,7 +89,7 @@ describe QueueItemsController do
         expect(QueueItem.count).to eq(0)
       end
 
-      it "normalizes queue items" do
+      it "normalizes the remaining queue items" do
         tom               = Fabricate(:user)
         session[:user_id] = tom.id
         queue_item1       = Fabricate(:queue_item, user: tom, position: 1)
