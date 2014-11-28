@@ -73,8 +73,7 @@ describe QueueItemsController do
   end
 
   describe "DELETE destroy" do
-    context "for authorized user" do
-      
+    context "for authorized user" do      
       it "redirects to my_queue" do
         session[:user_id] = Fabricate(:user).id
         queue_item        = Fabricate(:queue_item)
@@ -88,6 +87,15 @@ describe QueueItemsController do
         queue_item        = Fabricate(:queue_item, user: tom)
         delete :destroy, id: queue_item.id
         expect(QueueItem.count).to eq(0)
+      end
+
+      it "normalizes queue items" do
+        tom               = Fabricate(:user)
+        session[:user_id] = tom.id
+        queue_item1       = Fabricate(:queue_item, user: tom, position: 1)
+        queue_item2       = Fabricate(:queue_item, user: tom, position: 2)
+        delete :destroy, id: queue_item1.id
+        expect(queue_item2.reload.position).to eq(1)
       end
 
       it "does not destroy the queue item of different user" do
@@ -109,33 +117,60 @@ describe QueueItemsController do
   end
 
   describe "PATCH reorder" do
-    context 'for authorized user' do
+    context "for authorized user" do
       let(:tom) { Fabricate(:user) }
       before { session[:user_id] = tom.id }
 
-      it "redirects to my_queue_url" do
-        patch :reorder
-        expect(response).to redirect_to my_queue_url
-      end
-
-      it "updates positions of all queue_items for user" do
-        queue_item1 = Fabricate(:queue_item, user: tom)
-        queue_item2 = Fabricate(:queue_item, user: tom)
-        queue_item3 = Fabricate(:queue_item, user: tom)
-        patch :reorder, positions: [2, 1, 3]
-        expect(tom.queue_items).to eq([queue_item2, queue_item1, queue_item3])
-      end
-
-      context "does not update any position" do
-        it "when there is only 1 queue_item"
-
-        it "when any position is blank" do
+      context "with valid data" do
+        it "redirects to my_queue_url" do
+          queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
+          queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
+          patch :reorder, queue_items: [{id: queue_item1.id, position: 1}, {id:queue_item2.id, position: 2}]
+          expect(response).to redirect_to my_queue_url
         end
 
-        it "when all items are not integers" do
+        it "updates positions of all queue_items" do
+          queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
+          queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
+          patch :reorder, queue_items: [{id: queue_item1.id, position: 2}, {id:queue_item2.id, position: 1}]
+          expect(tom.queue_items).to eq([queue_item2, queue_item1])
         end
 
-        it "when there are duplicate positions" do
+        it "normalizes the queue items" do
+          queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
+          queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
+          patch :reorder, queue_items: [{id: queue_item1.id, position: 3}, {id:queue_item2.id, position: 2}]
+          expect(tom.queue_items.map(&:position)).to eq([1, 2])          
+        end
+      end
+
+      context "with invalid data" do
+        it "redirects to my_queue_url" do
+          queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
+          queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
+          patch :reorder, queue_items: [{id: queue_item1.id, position: 3.5}, {id:queue_item2.id, position: 2}]
+          expect(response).to redirect_to my_queue_url
+        end
+
+        it "provides an error flash message" do
+          queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
+          queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
+          patch :reorder, queue_items: [{id: queue_item1.id, position: 3.5}, {id:queue_item2.id, position: 2}]
+          expect(flash[:danger]).to be_present
+        end
+
+        it "does not update any queue_item unless position is an integer" do
+          queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
+          queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
+          patch :reorder, queue_items: [{id: queue_item1.id, position: 3}, {id:queue_item2.id, position: 2.2}]
+          expect(queue_item1.reload.position).to eq(1)
+        end
+
+        it "does not update queue items for any other user" do
+          bob = Fabricate(:user)
+          queue_item = Fabricate(:queue_item, user: bob, position: 1)
+          patch :reorder, queue_items: [{id: queue_item.id, position: 3}]
+          expect(queue_item.reload.position).to eq(1)
         end
       end
     end

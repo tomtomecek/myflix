@@ -1,4 +1,4 @@
 Fabricator(:queue_item) do
-  position { sequence(:position) { |i| i + 1 } }
-  video  
+  position { [1,2,3].sample }
+  video
 end
