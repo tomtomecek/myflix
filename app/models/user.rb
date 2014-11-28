@@ -12,4 +12,10 @@ class User < ActiveRecord::Base
   def owns?(queue_item)
     self.queue_items.include?(queue_item)
   end
+
+  def normalizes_queue_items
+    queue_items.each_with_index do |queue_item, index|
+      queue_item.update(position: index + 1)
+    end
+  end
 end
