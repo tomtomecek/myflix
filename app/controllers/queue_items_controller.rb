@@ -18,7 +18,7 @@ class QueueItemsController < ApplicationController
     redirect_to my_queue_url
   end
 
-  def reorder
+  def update_queue
     begin
       update_queued_items
       current_user.normalizes_queue_items

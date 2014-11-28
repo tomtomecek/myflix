@@ -1,7 +1,7 @@
 Myflix::Application.routes.draw do
   get 'ui(/:action)', controller: 'ui'
 
-  root "static_pages#front"
+  root 'static_pages#front'
 
   get  '/sign_in', to: "sessions#new"
   post '/sign_in', to: "sessions#create"
@@ -23,7 +23,7 @@ Myflix::Application.routes.draw do
   resources :users, only: [:create]
   resources :queue_items, only: [:create, :destroy] do
     collection do
-      patch 'reorder', to: "queue_items#reorder"
+      patch 'update_queue', to: "queue_items#update_queue", as: :update
     end
   end
 end

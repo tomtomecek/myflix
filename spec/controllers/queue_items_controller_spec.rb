@@ -112,7 +112,7 @@ describe QueueItemsController do
     end
   end
 
-  describe "PATCH reorder" do
+  describe "PATCH update_queue" do
     context "for authorized user" do
       let(:tom) { Fabricate(:user) }
       before { session[:user_id] = tom.id }
@@ -121,21 +121,21 @@ describe QueueItemsController do
         it "redirects to my_queue_url" do
           queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
           queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
-          patch :reorder, queue_items: [{id: queue_item1.id, position: 1}, {id:queue_item2.id, position: 2}]
+          patch :update_queue, queue_items: [{id: queue_item1.id, position: 1}, {id:queue_item2.id, position: 2}]
           expect(response).to redirect_to my_queue_url
         end
 
         it "updates positions of all queue_items" do
           queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
           queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
-          patch :reorder, queue_items: [{id: queue_item1.id, position: 2}, {id:queue_item2.id, position: 1}]
+          patch :update_queue, queue_items: [{id: queue_item1.id, position: 2}, {id:queue_item2.id, position: 1}]
           expect(tom.queue_items).to eq([queue_item2, queue_item1])
         end
 
         it "normalizes the queue items" do
           queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
           queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
-          patch :reorder, queue_items: [{id: queue_item1.id, position: 3}, {id:queue_item2.id, position: 2}]
+          patch :update_queue, queue_items: [{id: queue_item1.id, position: 3}, {id:queue_item2.id, position: 2}]
           expect(tom.queue_items.map(&:position)).to eq([1, 2])          
         end
       end
@@ -144,28 +144,28 @@ describe QueueItemsController do
         it "redirects to my_queue_url" do
           queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
           queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
-          patch :reorder, queue_items: [{id: queue_item1.id, position: 3.5}, {id:queue_item2.id, position: 2}]
+          patch :update_queue, queue_items: [{id: queue_item1.id, position: 3.5}, {id:queue_item2.id, position: 2}]
           expect(response).to redirect_to my_queue_url
         end
 
         it "provides an error flash message" do
           queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
           queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
-          patch :reorder, queue_items: [{id: queue_item1.id, position: 3.5}, {id:queue_item2.id, position: 2}]
+          patch :update_queue, queue_items: [{id: queue_item1.id, position: 3.5}, {id:queue_item2.id, position: 2}]
           expect(flash[:danger]).to be_present
         end
 
         it "does not update any queue_item unless position is an integer" do
           queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
           queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
-          patch :reorder, queue_items: [{id: queue_item1.id, position: 3}, {id:queue_item2.id, position: 2.2}]
+          patch :update_queue, queue_items: [{id: queue_item1.id, position: 3}, {id:queue_item2.id, position: 2.2}]
           expect(queue_item1.reload.position).to eq(1)
         end
 
         it "does not update queue items for any other user" do
           bob = Fabricate(:user)
           queue_item = Fabricate(:queue_item, user: bob, position: 1)
-          patch :reorder, queue_items: [{id: queue_item.id, position: 3}]
+          patch :update_queue, queue_items: [{id: queue_item.id, position: 3}]
           expect(queue_item.reload.position).to eq(1)
         end
       end
@@ -173,7 +173,7 @@ describe QueueItemsController do
 
     context "for unauthorized user" do
       it "redirects to root_url" do
-        patch :reorder
+        patch :update_queue
         expect(response).to redirect_to root_url
       end
     end
