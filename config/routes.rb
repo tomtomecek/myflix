@@ -21,5 +21,9 @@ Myflix::Application.routes.draw do
     resources :reviews, only: [:create]
   end
   resources :users, only: [:create]
-  resources :queue_items, only: [:create, :destroy]
+  resources :queue_items, only: [:create, :destroy] do
+    collection do
+      patch 'reorder', to: "queue_items#reorder"
+    end
+  end
 end

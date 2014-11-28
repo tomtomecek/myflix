@@ -72,7 +72,7 @@ describe QueueItemsController do
     end
   end
 
-  describe "DELETE destroy" do    
+  describe "DELETE destroy" do
     context "for authorized user" do
       
       it "redirects to my_queue" do
@@ -103,6 +103,43 @@ describe QueueItemsController do
     context "for unauthorized user" do
       it "redirects to root url" do
         delete :destroy, id: 1
+        expect(response).to redirect_to root_url
+      end
+    end
+  end
+
+  describe "PATCH reorder" do
+    context 'for authorized user' do
+      let(:tom) { Fabricate(:user) }
+      before { session[:user_id] = tom.id }
+
+      it "redirects to my_queue_url" do
+        patch :reorder
+        expect(response).to redirect_to my_queue_url
+      end
+
+      it "updates positions of all queue_items for user" do
+        queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
+        queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
+        patch :reorder, positions: [2, 1]
+        expect(tom.queue_items.map(&:position)).to eq([2, 1])
+      end
+
+      context "does not update any position" do
+        it "when any position is blank" do
+        end
+
+        it "when all items are not integers" do
+        end
+
+        it "when there are duplicate positions" do
+        end
+      end
+    end
+
+    context "for unauthorized user" do
+      it "redirects to root_url" do
+        patch :reorder
         expect(response).to redirect_to root_url
       end
     end

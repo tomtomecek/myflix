@@ -17,6 +17,20 @@ class QueueItemsController < ApplicationController
     redirect_to my_queue_url
   end
 
+  def reorder
+    #binding.pry
+    # QueueItem.transaction do
+
+    # end
+
+
+    params[:positions].each_with_index do |new_position, index|
+      queue_item = current_user.queue_items[index]
+      queue_item.update(position: new_position)
+    end
+    redirect_to my_queue_url
+  end
+
   private
 
     def queue_video(video)
