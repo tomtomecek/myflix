@@ -125,26 +125,67 @@ describe QueueItemsController do
           expect(response).to redirect_to my_queue_url
         end
 
-        it "updates positions of all queue_items" do
-          queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
-          queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
-          patch :update_queue, queue_items: [{id: queue_item1.id, position: 2}, {id:queue_item2.id, position: 1}]
-          expect(tom.queue_items).to eq([queue_item2, queue_item1])
+        context "positions" do
+          it "updates positions of all queue_items" do
+            queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
+            queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
+            patch :update_queue, queue_items: [{id: queue_item1.id, position: 2}, {id:queue_item2.id, position: 1}]
+            expect(tom.queue_items).to eq([queue_item2, queue_item1])
+          end
+
+          it "normalizes the queue items" do
+            queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
+            queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
+            patch :update_queue, queue_items: [{id: queue_item1.id, position: 3}, {id:queue_item2.id, position: 2}]
+            expect(tom.queue_items.map(&:position)).to eq([1, 2])          
+          end
         end
 
-        it "normalizes the queue items" do
-          queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
-          queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
-          patch :update_queue, queue_items: [{id: queue_item1.id, position: 3}, {id:queue_item2.id, position: 2}]
-          expect(tom.queue_items.map(&:position)).to eq([1, 2])          
+        context "ratings" do
+          it "updates reviews with ratings and body" do            
+            queue_item1 = Fabricate(:queue_item, user: tom)
+            queue_item2 = Fabricate(:queue_item, user: tom)
+            review1     = Fabricate(:review, user: tom, rating: 1)
+            review2     = Fabricate(:review, user: tom, rating: 2)
+            patch :update_queue, queue_items: [{id: queue_item1.id, review_id: review1.id, rating: 1}, {id: queue_item2.id, review_id: review2.id,rating: 5}]
+            expect(tom.reviews.map(&:rating)).to eq([1, 5])
+          end
+
+          it "creates a review without body but with rating" do
+            video       = Fabricate(:video)
+            queue_item  = Fabricate(:queue_item, user: tom, video: video)
+            patch :update_queue, queue_items: [{ id: queue_item.id, video_id: video.id, review_id: "", rating: 4 }]
+            expect(queue_item.rating).to eq(4)
+          end
+
+          it "does not create a review if rating is blank" do
+            video       = Fabricate(:video)
+            queue_item  = Fabricate(:queue_item, user: tom, video: video)
+            patch :update_queue, queue_items: [{ id: queue_item.id, video_id: video.id, review_id: "", rating: "" }]
+            expect(queue_item.review).to eq(nil)
+          end
+
+          it "updates review with rating without body" do
+            video       = Fabricate(:video)
+            queue_item  = Fabricate(:queue_item, user: tom, video: video)
+            patch :update_queue, queue_items: [{ id: queue_item.id, video_id: video.id, review_id: "", rating: 5 }]
+            patch :update_queue, queue_items: [{ id: queue_item.id, video_id: video.id, review_id: Review.first.id, rating: 1 }]
+            expect(queue_item.rating).to eq(1)
+          end
         end
+        
       end
 
       context "with invalid data" do
+        it "redirects to my_queue_url if params are missing" do
+          patch :update_queue
+          expect(response).to redirect_to my_queue_url
+        end
+
         it "redirects to my_queue_url" do
           queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
           queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
-          patch :update_queue, queue_items: [{id: queue_item1.id, position: 3.5}, {id:queue_item2.id, position: 2}]
+          patch :update_queue, queue_items: [{ id: queue_item1.id, position: 3.5}, {id:queue_item2.id, position: 2 }]
           expect(response).to redirect_to my_queue_url
         end
 
