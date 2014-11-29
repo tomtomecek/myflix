@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   has_secure_password validations: false
 
   has_many :reviews
-  has_many :queue_items
+  has_many :queue_items, -> { order(:position) }
 
   before_create { |user| user.email = user.email.downcase }
 
@@ -11,5 +11,11 @@ class User < ActiveRecord::Base
 
   def owns?(queue_item)
     self.queue_items.include?(queue_item)
+  end
+
+  def normalizes_queue_items
+    queue_items.each_with_index do |queue_item, index|
+      queue_item.update(position: index + 1)
+    end
   end
 end
