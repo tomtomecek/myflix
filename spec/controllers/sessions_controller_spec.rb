@@ -15,57 +15,27 @@ describe SessionsController do
   end
 
   describe "POST create" do
-    let(:user) { Fabricate(:user, email: "tom@example.com") }
+    let(:user) { Fabricate(:user) }
 
     context "with valid credentials" do
       before { post :create, email: user.email, password: user.password }
-      
-      it "sets user id to session" do
-        expect(session[:user_id]).to eq(user.id)
-      end
-
-      it "redirects to home url" do
-        expect(response).to redirect_to home_url
-      end
-      
-      it "sets flash success" do
-        expect(flash[:success].present?).to be true
-      end
+      it { expect(session[:user_id]).to equal user.id }
+      it { expect(response).to redirect_to home_url }
+      it { expect(flash[:success]).to be_present }
     end
     
     context "with invalid credentials" do
-      before { post :create, email: "", password: user.password }
-
-      it "does not set user id to session" do
-        expect(session[:user_id]).to be nil
-      end
-
-      it "renders :new template" do
-        expect(response).to render_template :new
-      end
-
-      it "sets flash danger" do
-        expect(flash[:danger].present?).to be true
-      end
+      before { post :create, email: "", password: "no match" }
+      it { expect(session[:user_id]).to be nil }
+      it { expect(response).to render_template :new }
+      it { expect(flash[:danger]).to be_present }
     end
   end
   
   describe "DELETE destroy" do
-    before do
-      session[:user_id] = Fabricate(:user).id
-      get :destroy
-    end
-
-    it "sets the session to nil" do
-      expect(session[:user_id]).to be nil
-    end
-
-    it "redirects to root url" do
-      expect(response).to redirect_to root_url
-    end
-
-    it "sets flash success" do
-      expect(flash[:success].present?).to be true
-    end
+    before { set_current_user; get :destroy }    
+    it { expect(session[:user_id]).to be nil }
+    it { expect(response).to redirect_to root_url }
+    it { expect(flash[:success]).to be_present }
   end
 end

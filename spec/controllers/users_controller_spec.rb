@@ -16,9 +16,8 @@ describe UsersController do
       it "creates the user" do
         expect(User.count).to eq(1)
       end
-      it "redirects to sign in url" do
-        expect(response).to redirect_to sign_in_url
-      end
+      
+      it { expect(response).to redirect_to sign_in_url }
     end
 
     context "invalid input" do
@@ -27,13 +26,12 @@ describe UsersController do
       it "does not create a user if invalid input" do
         expect(User.count).to eq(0)
       end
-      it "renders the :new template" do
-        expect(response).to render_template :new
-      end
+      
       it "sets errors on @user" do
         expect(assigns(:user).errors.any?).to be true
       end
+
+      it { expect(response).to render_template :new }
     end
-  end
-  
+  end  
 end

@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 describe VideosController do
+
+  before { set_current_user }
+  
   let(:video) { Fabricate(:video) }
   let(:review) { Fabricate.build(:review) }
     
   describe "GET show" do
     context "signed in" do
-      before do
-        session[:user_id] = Fabricate(:user).id
-        get :show, id: video
-      end
+      before { get :show, id: video }
 
       it "sets @video" do
         expect(assigns(:video)).to eq(video)
@@ -26,24 +26,20 @@ describe VideosController do
         expect(assigns(:review)).to be_instance_of(Review)
       end
     end
-
  
-    it "redirects to the root url for unauthenticated users" do
-      get :show, id: video
-      expect(response).to redirect_to root_url
+    it_behaves_like "require_sign_in" do
+      let(:action) { get :show, id: video }
     end
   end
 
   describe "GET search" do      
     it "sets the @result variable for authenticated users" do
-      session[:user_id] = Fabricate(:user).id
       get :search, query: video.title
       expect(assigns(:result)).to eq([video])
     end
 
-    it "redirects to the root url for unauthenticated users" do
-      get :search        
-      expect(response).to redirect_to root_url
+    it_behaves_like "require_sign_in" do
+      let(:action) { get :search }
     end
   end
 end
