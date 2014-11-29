@@ -26,6 +26,6 @@ describe Category do
       should eq([vid3, vid2, vid1])
     end
 
-    it { should eq([]) }
+    it { should == [] }
   end
 end
