@@ -25,20 +25,27 @@ describe QueueItem do
     end
   end
 
-  describe "#review" do
-    let(:video)  { Fabricate(:video) }
-    let(:tom)    { Fabricate(:user) }
+  describe "#rating=" do
+    let(:video)      { Fabricate(:video) }
+    let(:tom)        { Fabricate(:user) }
+    let(:queue_item) { Fabricate(:queue_item, user: tom, video: video) }
 
-    it "returns the review when the review is present" do
-      review     = Fabricate(:review, user: tom, video: video)
-      queue_item = Fabricate(:queue_item, user: tom, video: video)
-      expect(queue_item.review).to eq(review)
+    it "changes the rating of the review if the review is present" do
+      review = Fabricate(:review, user: tom, video: video, rating: 2)
+      queue_item.rating = 4
+      expect(Review.first.rating).to eq(4)
     end
 
-    it "returns nil when the review is missing" do
-      queue_item = Fabricate(:queue_item, user: tom, video: video)
-      expect(queue_item.review).to be nil
+    it "clears the rating of the review if the review is present" do
+      review = Fabricate(:review, user: tom, video: video, rating: 2)
+      queue_item.rating = nil
+      expect(Review.first.rating).to be nil
     end
-    
+
+    it "creates a review with the rating if the review is not present" do
+      queue_item.rating = 3
+      expect(Review.first.rating).to eq(3)
+    end
   end
+  
 end

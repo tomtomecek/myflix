@@ -20,7 +20,6 @@ class QueueItemsController < ApplicationController
 
   def update_queue
     if params[:queue_items]
-      update_ratings
       begin
         update_positions      
         current_user.normalizes_queue_items      
@@ -47,23 +46,9 @@ class QueueItemsController < ApplicationController
 
     def update_positions
       ActiveRecord::Base.transaction do
-        params[:queue_items].each do |updated_queue_item|
-          queue_item = QueueItem.find(updated_queue_item[:id])          
-          queue_item.update!(position: updated_queue_item[:position]) if queue_item.user == current_user
-        end
-      end
-    end
-
-    def update_ratings
-      params[:queue_items].each do |updated_qi|
-        unless updated_qi[:review_id].blank?
-          review = Review.find(updated_qi[:review_id])
-          review.update(rating: updated_qi[:rating])
-        else
-          unless updated_qi[:rating].blank?
-            review = Review.new(rating: updated_qi[:rating], video_id: updated_qi[:video_id], user: current_user)
-            review.save(validate: false)
-          end
+        params[:queue_items].each do |qi_data|
+          queue_item = QueueItem.find(qi_data[:id])          
+          queue_item.update!(position: qi_data[:position], rating: qi_data[:rating]) if queue_item.user == current_user
         end
       end
     end

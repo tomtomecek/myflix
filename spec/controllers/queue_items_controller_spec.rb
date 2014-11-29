@@ -142,38 +142,27 @@ describe QueueItemsController do
         end
 
         context "ratings" do
-          it "updates reviews with ratings and body" do            
-            queue_item1 = Fabricate(:queue_item, user: tom)
-            queue_item2 = Fabricate(:queue_item, user: tom)
-            review1     = Fabricate(:review, user: tom, rating: 1)
-            review2     = Fabricate(:review, user: tom, rating: 2)
-            patch :update_queue, queue_items: [{id: queue_item1.id, review_id: review1.id, rating: 1}, {id: queue_item2.id, review_id: review2.id,rating: 5}]
-            expect(tom.reviews.map(&:rating)).to eq([1, 5])
+          let(:video) { Fabricate(:video) }
+          let(:queue_item) { Fabricate(:queue_item, user: tom, video: video) }
+          subject { Review.first.rating }
+
+          it "updates review with ratings and body" do
+            review      = Fabricate(:review, user: tom, video: video, rating: 1)
+            patch :update_queue, queue_items: [{id: queue_item.id, position: 1, rating: 5}]
+            expect(subject).to eq(5)
           end
 
           it "creates a review without body but with rating" do
-            video       = Fabricate(:video)
-            queue_item  = Fabricate(:queue_item, user: tom, video: video)
-            patch :update_queue, queue_items: [{ id: queue_item.id, video_id: video.id, review_id: "", rating: 4 }]
-            expect(queue_item.rating).to eq(4)
+            patch :update_queue, queue_items: [{ id: queue_item.id, position: 1,rating: 4 }]
+            expect(subject).to eq(4)
           end
 
           it "does not create a review if rating is blank" do
-            video       = Fabricate(:video)
-            queue_item  = Fabricate(:queue_item, user: tom, video: video)
-            patch :update_queue, queue_items: [{ id: queue_item.id, video_id: video.id, review_id: "", rating: "" }]
-            expect(queue_item.review).to eq(nil)
-          end
-
-          it "updates review with rating without body" do
-            video       = Fabricate(:video)
-            queue_item  = Fabricate(:queue_item, user: tom, video: video)
-            patch :update_queue, queue_items: [{ id: queue_item.id, video_id: video.id, review_id: "", rating: 5 }]
-            patch :update_queue, queue_items: [{ id: queue_item.id, video_id: video.id, review_id: Review.first.id, rating: 1 }]
-            expect(queue_item.rating).to eq(1)
+            patch :update_queue, queue_items: [{ id: queue_item.id, position: 1, rating: "" }]
+            expect(subject).to eq(nil)
           end
         end
-        
+      
       end
 
       context "with invalid data" do
