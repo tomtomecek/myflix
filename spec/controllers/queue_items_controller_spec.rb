@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe QueueItemsController do
+  
   describe "GET index" do
     context "for authorized user" do
       it "sets @queue_items" do
@@ -118,24 +119,21 @@ describe QueueItemsController do
       before { session[:user_id] = tom.id }
 
       context "with valid data" do
+        let(:queue_item1) { Fabricate(:queue_item, user: tom, position: 1) }
+        let(:queue_item2) { Fabricate(:queue_item, user: tom, position: 2) }
+
         it "redirects to my_queue_url" do
-          queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
-          queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
           patch :update_queue, queue_items: [{id: queue_item1.id, position: 1}, {id:queue_item2.id, position: 2}]
           expect(response).to redirect_to my_queue_url
         end
 
         context "positions" do
           it "updates positions of all queue_items" do
-            queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
-            queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
             patch :update_queue, queue_items: [{id: queue_item1.id, position: 2}, {id:queue_item2.id, position: 1}]
             expect(tom.queue_items).to eq([queue_item2, queue_item1])
           end
 
           it "normalizes the queue items" do
-            queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
-            queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
             patch :update_queue, queue_items: [{id: queue_item1.id, position: 3}, {id:queue_item2.id, position: 2}]
             expect(tom.queue_items.map(&:position)).to eq([1, 2])          
           end
@@ -166,28 +164,25 @@ describe QueueItemsController do
       end
 
       context "with invalid data" do
+        let(:queue_item1) { Fabricate(:queue_item, user: tom, position: 1) }
+        let(:queue_item2) { Fabricate(:queue_item, user: tom, position: 2) }
+        
         it "redirects to my_queue_url if params are missing" do
           patch :update_queue
           expect(response).to redirect_to my_queue_url
         end
 
         it "redirects to my_queue_url" do
-          queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
-          queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
           patch :update_queue, queue_items: [{ id: queue_item1.id, position: 3.5}, {id:queue_item2.id, position: 2 }]
           expect(response).to redirect_to my_queue_url
         end
 
         it "provides an error flash message" do
-          queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
-          queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
           patch :update_queue, queue_items: [{id: queue_item1.id, position: 3.5}, {id:queue_item2.id, position: 2}]
           expect(flash[:danger]).to be_present
         end
 
         it "does not update any queue_item unless position is an integer" do
-          queue_item1 = Fabricate(:queue_item, user: tom, position: 1)
-          queue_item2 = Fabricate(:queue_item, user: tom, position: 2)
           patch :update_queue, queue_items: [{id: queue_item1.id, position: 3}, {id:queue_item2.id, position: 2.2}]
           expect(queue_item1.reload.position).to eq(1)
         end
