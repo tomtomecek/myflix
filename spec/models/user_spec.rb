@@ -9,8 +9,23 @@ describe User do
   it { should validate_presence_of(:fullname) }
 
   it "creates user with downcased email" do
-    user = User.create(email: "TEST@EXAMPLE.COM", password: "123", fullname: "TEST USER")
-    expect(user.reload.email).to eq("test@example.com")
+    tom = Fabricate(:user, email: "TEST@EXAMPLE.COM")
+    expect(tom.reload.email).to eq("test@example.com")
+  end
+
+  describe "#queued_video?" do
+    it "returns true if current user queued video" do
+      tom = Fabricate(:user)
+      video = Fabricate(:video)
+      Fabricate(:queue_item, user: tom, video: video)
+      expect(tom.queued_video?(video)).to be true
+    end
+    
+    it "returns false if current user did not queue video" do
+      tom = Fabricate(:user)
+      video = Fabricate(:video)
+      expect(tom.queued_video?(video)).to be false
+    end
   end
 
 end
