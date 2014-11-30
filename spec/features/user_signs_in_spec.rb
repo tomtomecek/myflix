@@ -1,21 +1,23 @@
 require 'spec_helper'
 
-feature "Signing in" do
+feature "User signing in" do
   
-  background do
-    Fabricate(:user, email: "t.t@example.com", password: "password")
-  end
+  given(:tom) { Fabricate(:user) }
 
-  scenario "successful login" do
-    visit sign_in_path
+  scenario "successful sign in" do
+    sign_in(tom)
     
-    fill_in "Email",    with: "t.t@example.com"
-    fill_in "Password", with: "password"
-    click_on "Sign in"
-    
-    page.should have_content "You have logged in"
+    expect(page).to have_content "You have logged in"    
   end
 
   scenario "unsuccessful login" do
+    visit sign_in_path
+    
+    fill_in "email",    with: tom.email
+    fill_in "password", with: "no match"
+    click_on "Sign in"
+    
+    expect(page).to have_content "Incorrect email or password"
   end
+
 end
