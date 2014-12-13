@@ -17,7 +17,7 @@ describe UsersController do
         expect(User.count).to eq(1)
       end
       
-      it { expect(response).to redirect_to sign_in_url }
+      it { should redirect_to sign_in_url }
     end
 
     context "invalid input" do
@@ -31,7 +31,15 @@ describe UsersController do
         expect(assigns(:user).errors.any?).to be true
       end
 
-      it { expect(response).to render_template :new }
+      it { should render_template :new }
     end
-  end  
+  end
+
+  describe "GET show" do
+    it "sets the @user" do
+      alice = Fabricate(:user)
+      get :show, id: alice.id
+      expect(assigns(:user)).to eq(alice)
+    end
+  end
 end
