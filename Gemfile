@@ -14,7 +14,6 @@ gem 'pg'
 
 group :development do
   gem 'thin'
-  gem 'spring'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'hirb'
@@ -22,7 +21,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'spring-commands-rspec'
   gem 'faker'
   gem 'fabrication'
   gem 'pry'
