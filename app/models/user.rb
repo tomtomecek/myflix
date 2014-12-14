@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   has_secure_password validations: false
 
-  has_many :reviews
+  has_many :reviews, -> { order(created_at: :desc) }
   has_many :queue_items, -> { order(:position) }
 
   before_create { |user| user.email = user.email.downcase }
