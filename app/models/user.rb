@@ -7,9 +7,9 @@ class User < ActiveRecord::Base
 
   before_create { |user| user.email = user.email.downcase }
 
-  validates :email, :password, :fullname, presence: true
-  validates :email, uniqueness: { case_sensitive: false }
-
+  validates_presence_of :email, :password, :fullname
+  validates_uniqueness_of :email, case_sensitive: false
+  
   def owns?(queue_item)
     self.queue_items.include?(queue_item)
   end
