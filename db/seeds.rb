@@ -1,4 +1,4 @@
-User.create(email: "tom@example.com", password: "password", fullname: "Tom Tom")
+tom = User.create(email: "tom@example.com", password: "password", fullname: "Tom Tom")
 Fabricate.times(10, :user)
 
 tv_shows = Category.create(name: "TV shows")
@@ -14,3 +14,5 @@ movies = Category.create(name: "Movies")
 
   15.times { Fabricate(:review, video: video, user: User.all.sample) }
 end
+
+10.times { Fabricate(:relationship, follower: tom) }
