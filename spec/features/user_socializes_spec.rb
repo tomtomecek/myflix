@@ -29,15 +29,11 @@ feature "user socializes in myflix" do
       expect_to_not_see(bob.fullname)
     end
   end
-  
+
 end
 
 def click_on_video(video)
   find(:xpath, "//a[@href='/videos/#{video.id}']").click
-end
-
-def expect_to_be_in(path)
-  expect(current_path).to eq(path)
 end
 
 def click_on_a_reviewer(reviewer)
@@ -50,14 +46,6 @@ end
 
 def unfollow_user
   find(:xpath, "//a[@data-method='delete']").click
-end
-
-def expect_to_see(text)
-  expect(page).to have_content text
-end
-
-def expect_to_not_see(text)
-  expect(page).to have_no_content text
 end
 
 def within_followings_table(&block)

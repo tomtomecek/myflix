@@ -6,7 +6,14 @@ class RelationshipsController < ApplicationController
   end
 
   def create
-    @user = User.find(params[:followed_id])
+    begin
+      @user = User.find(params[:followed_id])
+    rescue ActiveRecord::RecordNotFound
+      flash[:danger] = "Invalid action."
+      redirect_to root_url
+      return
+    end
+
     relationship = Relationship.new(follower: current_user, followed: @user)
 
     if relationship.save

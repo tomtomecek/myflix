@@ -26,7 +26,7 @@ describe RelationshipsController do
     before { set_current_user }
     
     context "with valid inputs" do
-      it "redirects to followed user profile" do      
+      it "redirects to followed user profile" do
         post :create, followed_id: bob.id
         should redirect_to bob
       end
@@ -50,16 +50,28 @@ describe RelationshipsController do
     context "with invalid inputs" do
       let(:alice) { Fabricate(:user) }
       let(:bob)   { Fabricate(:user) }
-      before do
-        set_current_user(alice)
-        Fabricate(:relationship, follower: alice, followed: bob)
-        post :create, followed_id: bob.id
+      before { set_current_user(alice) }
+      
+      context "when relationship exists" do
+        before do
+          Fabricate(:relationship, follower: alice, followed: bob)
+          post :create, followed_id: bob.id
+        end
+
+        it "does not create relationship" do
+          expect(Relationship.count).to eq(1)
+        end
+        it { should set_the_flash[:info] }
       end
 
-      it "does not create relationship if already exists" do
-        expect(Relationship.count).to eq(1)
+      context "when relationship does not exist" do
+        before { post :create, followed_id: "no match" }
+        
+        it "does not create relationship" do
+          expect(Relationship.count).to eq(0)
+        end
+        it { should set_the_flash[:danger] }
       end
-      it { should set_the_flash[:info] }
     end
 
     it_behaves_like "require_sign_in" do

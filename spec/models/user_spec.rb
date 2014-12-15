@@ -33,18 +33,18 @@ describe User do
   end
 
   describe "#followers_total" do
-    it "returns 0 if there are no followers" do
+    it "returns 0 for no followers" do
       bob = Fabricate(:user)
       expect(bob.followers_total).to eq(0)
     end
 
-    it "returns 1 if there is 1 follower" do
+    it "returns 1 for 1 follower" do
       bob = Fabricate(:user)
       Fabricate(:relationship, followed: bob)
       expect(bob.followers_total).to eq(1)
     end
 
-    it "returns 10 if there are 10 followers" do
+    it "returns 10 for 10 followers" do
       bob = Fabricate(:user)
       Fabricate.times(10, :relationship, followed: bob)
       expect(bob.followers_total).to eq(10)
