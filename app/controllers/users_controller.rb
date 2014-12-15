@@ -8,6 +8,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      UserMailer.welcome_email(@user).deliver
       flash[:success] = "Welcome to myFlix, you have successfully registered."
       redirect_to sign_in_url
     else
