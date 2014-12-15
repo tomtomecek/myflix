@@ -3,10 +3,12 @@ require 'spec_helper'
 describe User do
   it { should have_many(:reviews).order(created_at: :desc) }
   it { should have_many(:queue_items).order(:position) }
-  it { should have_many(:relationships).with_foreign_key(:follower_id) }
-  it { should have_many(:followings)
-                .through(:relationships)
-                .source(:followed) }
+  it { should have_many(:following_relationships)
+                .class_name("Relationship")
+                .with_foreign_key(:follower_id) }
+  it { should have_many(:leading_relationships)
+                .class_name("Relationship")
+                .with_foreign_key(:leader_id) }
   it { should validate_presence_of(:email) }
   it { should validate_uniqueness_of(:email).case_insensitive }
   it { should validate_presence_of(:password) }
@@ -32,22 +34,19 @@ describe User do
     end
   end
 
-  describe "#followers_total" do
-    it "returns 0 for no followers" do
+  describe "#follows?(another_user)" do
+    it "returns true if current user follows another user" do
+      alice = Fabricate(:user)
       bob = Fabricate(:user)
-      expect(bob.followers_total).to eq(0)
+      Fabricate(:relationship, leader: bob, follower: alice)
+      expect(alice.follows?(bob)).to be true
     end
-
-    it "returns 1 for 1 follower" do
+    
+    it "returns false if current user does not follow another user" do
+      alice = Fabricate(:user)
       bob = Fabricate(:user)
-      Fabricate(:relationship, followed: bob)
-      expect(bob.followers_total).to eq(1)
-    end
-
-    it "returns 10 for 10 followers" do
-      bob = Fabricate(:user)
-      Fabricate.times(10, :relationship, followed: bob)
-      expect(bob.followers_total).to eq(10)
+      Fabricate(:relationship, leader: alice, follower: bob)
+      expect(alice.follows?(bob)).to be false
     end
   end
 

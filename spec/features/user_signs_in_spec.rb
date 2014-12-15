@@ -7,17 +7,21 @@ feature "User signing in" do
   scenario "successful sign in" do
     sign_in(tom)
     
-    expect(page).to have_content "You have logged in"    
+    expect_to_see("You have logged in")
   end
 
   scenario "unsuccessful login" do
     visit sign_in_path
     
-    fill_in "email",    with: tom.email
-    fill_in "password", with: "no match"
-    click_on "Sign in"
+    fill_in_form_and_submit
     
-    expect(page).to have_content "Incorrect email or password"
+    expect_to_see("Incorrect email or password")
   end
 
+end
+
+def fill_in_form_and_submit
+  fill_in "email",    with: "no match"
+  fill_in "password", with: "no match"
+  click_on "Sign in"
 end

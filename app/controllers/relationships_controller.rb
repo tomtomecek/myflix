@@ -2,37 +2,21 @@ class RelationshipsController < ApplicationController
   before_action :require_user
 
   def index
-    @relationships = current_user.relationships
+    @relationships = current_user.following_relationships
   end
 
   def create
-    begin
-      @user = User.find(params[:followed_id])
-    rescue ActiveRecord::RecordNotFound
-      flash[:danger] = "Invalid action."
-      redirect_to root_url
-      return
-    end
+    leader = User.find(params[:leader_id])
+    Relationship.create(follower: current_user, leader: leader) if current_user.can_follow?(leader)
 
-    relationship = Relationship.new(follower: current_user, followed: @user)
-
-    if relationship.save
-      flash[:success] = "You are now following #{@user.fullname}."
-    else
-      flash[:info] = "You can't follow same person twice."
-    end
-
-    redirect_to @user
+    redirect_to people_url
   end
 
   def destroy
-    begin
-      relationship = current_user.relationships.find(params[:id])
-      flash[:info] = "You have unfollowed #{relationship.followed.fullname}"
-      relationship.destroy      
-    rescue ActiveRecord::RecordNotFound
-      flash[:danger] = "Not allowed to do that."
-    end
+    relationship = Relationship.find(params[:id])
+    flash[:info] = "You have unfollowed #{relationship.leader.fullname}"
+    relationship.destroy if current_user == relationship.follower
+    
     redirect_to people_url
   end
 

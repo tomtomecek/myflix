@@ -11,12 +11,11 @@ feature "user socializes in myflix" do
     
     sign_in(alice)
     
-    click_on_video(futurama)
+    click_on_video_on_home_page(futurama)
     expect_to_be_in video_path(futurama)
-    click_on_a_reviewer(bob)
+    click_on_reviewer(bob)
     expect_to_be_in user_path(bob)
     follow_user
-    expect_to_see("You are now following #{bob.fullname}")
 
     click_on "People"
     expect_to_be_in people_path
@@ -32,11 +31,7 @@ feature "user socializes in myflix" do
 
 end
 
-def click_on_video(video)
-  find(:xpath, "//a[@href='/videos/#{video.id}']").click
-end
-
-def click_on_a_reviewer(reviewer)
+def click_on_reviewer(reviewer)
   find(:xpath, "//a[@href='/users/#{reviewer.id}']").click
 end
 

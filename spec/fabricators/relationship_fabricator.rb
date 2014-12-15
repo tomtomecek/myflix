@@ -1,4 +1,4 @@
 Fabricator(:relationship) do
   follower(fabricator: :user)
-  followed(fabricator: :user)
+  leader(fabricator: :user)
 end
