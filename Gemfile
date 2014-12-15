@@ -18,6 +18,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'hirb'
   gem 'quiet_assets'
+  gem 'letter_opener'
 end
 
 group :development, :test do
