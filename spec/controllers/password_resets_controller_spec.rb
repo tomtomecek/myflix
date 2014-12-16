@@ -74,10 +74,18 @@ describe PasswordResetsController do
   describe "PATCH update" do
     context "with valid details" do
       let(:alice) { Fabricate(:user, token: SecureRandom.urlsafe_base64) }
-      before { patch :update, token: alice.token, user: { password: "new-password" } }
+      before do
+        patch :update, token: alice.token, user: { password: "new-password" }
+      end
 
-      it { is_expected.to redirect_to sign_in_url }
-      it { is_expected.to set_the_flash[:success] }
+      it "redirects to sign in url" do
+        expect(response).to redirect_to sign_in_url
+      end
+
+      it "sets the flash succes" do
+        expect(flash[:success]).to be_present
+      end
+
       it "resets password" do
         expect(alice.reload.authenticate("new-password")).to eq(alice)
       end
@@ -91,7 +99,10 @@ describe PasswordResetsController do
       let(:alice) { Fabricate(:user, token: SecureRandom.urlsafe_base64) }
       before { patch :update, token: alice.token, user: { password: "12" } }
 
-      it { is_expected.to render_template :edit }
+      it "renders the :edit tempalte" do
+        expect(response).to render_template :edit
+      end
+
       it "sets the @user" do
         expect(assigns(:user)).to eq(alice)
       end
