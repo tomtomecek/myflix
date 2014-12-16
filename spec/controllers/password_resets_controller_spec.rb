@@ -5,14 +5,14 @@ describe PasswordResetsController do
   describe "POST create" do
     context "with valid email" do
       after { ActionMailer::Base.deliveries.clear }
-      
+
       it "redirects to confirm password reset url" do
         alice = Fabricate(:user, email: "alice@example.com")
         post :create, email: alice.email
         expect(response).to redirect_to confirm_password_reset_url
       end
 
-      it "creates a token" do
+      it "generates unique token" do
         alice = Fabricate(:user, email: "alice@example.com")
         post :create, email: alice.email
         expect(alice.reload.token).not_to be nil
@@ -48,6 +48,61 @@ describe PasswordResetsController do
         alice = Fabricate(:user, email: "alice@example.com")
         post :create, email: "wrong@email.com"
         expect(ActionMailer::Base.deliveries).to be_empty
+      end
+    end
+  end
+
+  describe "GET edit" do
+    context "with valid token" do
+      it "sets the @user" do
+        alice = Fabricate(:user, token: SecureRandom.urlsafe_base64)
+        get :edit, token: alice.token
+        expect(assigns(:user)).to eq(alice)
+      end
+    end
+
+    context "with invalid token" do
+      it "redirects to new password reset url" do
+        expired_token = SecureRandom.urlsafe_base64
+        alice = Fabricate(:user, token: nil)
+        get :edit, token: expired_token
+        expect(response).to redirect_to password_reset_url
+      end
+    end
+  end
+
+  describe "PATCH update" do
+    context "with valid details" do
+      let(:alice) { Fabricate(:user, token: SecureRandom.urlsafe_base64) }
+      before { patch :update, token: alice.token, user: { password: "new-password" } }
+
+      it { is_expected.to redirect_to sign_in_url }
+      it { is_expected.to set_the_flash[:success] }
+      it "resets password" do
+        expect(alice.reload.authenticate("new-password")).to eq(alice)
+      end
+
+      it "sets the token to nil" do
+        expect(alice.reload.token).to be nil
+      end
+    end
+
+    context "with invalid details" do
+      let(:alice) { Fabricate(:user, token: SecureRandom.urlsafe_base64) }
+      before { patch :update, token: alice.token, user: { password: "12" } }
+
+      it { is_expected.to render_template :edit }
+      it "sets the @user" do
+        expect(assigns(:user)).to eq(alice)
+      end
+    end
+
+    context "invalid token" do
+      it "redirects to new password reset url for invalid token" do
+        expired_token = SecureRandom.urlsafe_base64
+        alice = Fabricate(:user, token: nil)
+        patch :update, token: expired_token, password: "new-password"
+        expect(response).to redirect_to password_reset_url
       end
     end
   end
