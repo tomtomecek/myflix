@@ -4,6 +4,10 @@ Myflix::Application.routes.draw do
   post '/sign_in', to: "sessions#create"
   get '/sign_out', to: "sessions#destroy"
 
+  get '/password_reset', to: "password_resets#new"
+  post '/password_reset', to: "password_resets#create"
+  get '/confirm_password_reset', to: "password_resets#confirm"
+
   get 'home', to: "categories#index"
 
   resources :categories, only: [:show]
@@ -13,8 +17,6 @@ Myflix::Application.routes.draw do
     end
     resources :reviews, only: [:create]
   end
-
-  resources :password_resets, only: [:new]
 
   get '/register', to: "users#new"
   resources :users, only: [:create, :show]
