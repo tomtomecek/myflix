@@ -34,7 +34,7 @@ describe PasswordResetsController do
     context "with invalid email" do
       it "renders the new template" do
         alice = Fabricate(:user, email: "alice@example.com")
-        post :create, email: "wrong@email.com"
+        post :create, email: ""
         expect(response).to render_template :new
       end
 
@@ -66,7 +66,7 @@ describe PasswordResetsController do
         expired_token = SecureRandom.urlsafe_base64
         alice = Fabricate(:user, token: nil)
         get :edit, token: expired_token
-        expect(response).to redirect_to password_reset_url
+        expect(response).to redirect_to invalid_token_url
       end
     end
   end
@@ -113,7 +113,7 @@ describe PasswordResetsController do
         expired_token = SecureRandom.urlsafe_base64
         alice = Fabricate(:user, token: nil)
         patch :update, token: expired_token, password: "new-password"
-        expect(response).to redirect_to password_reset_url
+        expect(response).to redirect_to invalid_token_url
       end
     end
   end

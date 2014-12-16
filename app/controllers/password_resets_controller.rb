@@ -32,6 +32,6 @@ private
   end
 
   def require_valid_token    
-    redirect_to password_reset_url unless @user
+    redirect_to invalid_token_url unless @user
   end
 end
