@@ -9,6 +9,7 @@ class PasswordResetsController < ApplicationController
       UserMailer.send_reset_token(user).deliver
       redirect_to confirm_password_reset_url
     else
+      flash.now[:danger] = params[:email].blank? ? "Email can not be blank" : "Invalid email"
       render :new
     end
   end
@@ -16,13 +17,10 @@ class PasswordResetsController < ApplicationController
   def edit; end
 
   def update
-    if @user.update(password: params[:user][:password])
-      @user.set_token_to_nil
-      flash[:success] = "Your password has been reset. You can login in."
-      redirect_to sign_in_url
-    else
-      render :edit
-    end
+    return render :edit unless @user.update(password: params[:user][:password])
+    @user.set_token_to_nil
+    flash[:success] = "Your password has been reset. You can login in."
+    redirect_to sign_in_url
   end
 
 private
@@ -31,7 +29,7 @@ private
     @user = User.find_by(token: params[:token]) if params[:token]
   end
 
-  def require_valid_token    
+  def require_valid_token
     redirect_to invalid_token_url unless @user
   end
 end

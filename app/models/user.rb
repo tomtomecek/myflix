@@ -9,10 +9,10 @@ class User < ActiveRecord::Base
 
   validates_presence_of :email, :password, :fullname
   validates_uniqueness_of :email, case_sensitive: false
-  validates_length_of :password, minimum: 3
+  validates_length_of :password, minimum: 6
   
   def owns?(queue_item)
-    self.queue_items.include?(queue_item)
+    queue_items.include?(queue_item)
   end
 
   def normalizes_queue_items
@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   end
 
   def can_follow?(another_user)
-    !(self.follows?(another_user) || self == another_user)
+    !(follows?(another_user) || self == another_user)
   end
 
   def generate_token
