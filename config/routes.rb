@@ -7,6 +7,7 @@ Myflix::Application.routes.draw do
   get '/password_reset', to: "password_resets#new"
   post '/password_reset', to: "password_resets#create"
   get '/confirm_password_reset', to: "password_resets#confirm"
+  get '/reset_password/:token', to: "password_resets#reset", as: :reset_password
 
   get 'home', to: "categories#index"
 

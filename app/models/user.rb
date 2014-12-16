@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_many :following_relationships, class_name: "Relationship", foreign_key: :follower_id
   has_many :leading_relationships, class_name: "Relationship" , foreign_key: :leader_id
 
-  before_create { |user| user.email = user.email.downcase }
+  before_create { |user| user.email = user.email.downcase }  
 
   validates_presence_of :email, :password, :fullname
   validates_uniqueness_of :email, case_sensitive: false
@@ -30,5 +30,9 @@ class User < ActiveRecord::Base
 
   def can_follow?(another_user)
     !(self.follows?(another_user) || self == another_user)
+  end
+
+  def generate_token
+    update_column(:token, SecureRandom.urlsafe_base64)
   end
 end

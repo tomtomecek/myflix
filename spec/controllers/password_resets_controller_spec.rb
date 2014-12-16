@@ -4,6 +4,8 @@ describe PasswordResetsController do
 
   describe "POST create" do
     context "with valid email" do
+      after { ActionMailer::Base.deliveries.clear }
+      
       it "redirects to confirm password reset url" do
         alice = Fabricate(:user, email: "alice@example.com")
         post :create, email: alice.email
@@ -13,7 +15,7 @@ describe PasswordResetsController do
       it "creates a token" do
         alice = Fabricate(:user, email: "alice@example.com")
         post :create, email: alice.email
-        expect(alice.attribute_present?(:token)).to be true
+        expect(alice.reload.token).not_to be nil
       end
 
       it "sends out the email" do
@@ -25,21 +27,28 @@ describe PasswordResetsController do
       it "sends the email to the requested email address" do
         alice = Fabricate(:user, email: "alice@example.com")
         post :create, email: alice.email
-        expect(ActionMailer::Base.deliveries.last.to).to eq(alice.email)
+        expect(ActionMailer::Base.deliveries.last.to).to eq([alice.email])
       end            
     end
 
     context "with invalid email" do
       it "renders the new template" do
-        post :create, email: "alice@example.com"
+        alice = Fabricate(:user, email: "alice@example.com")
+        post :create, email: "wrong@email.com"
+        expect(response).to render_template :new
       end
-      it "does not send out the email" do
-        post :create, email: "alice@example.com"
-      end
+
       it "does not create a token" do
-        post :create, email: "alice@example.com"
+        alice = Fabricate(:user, email: "alice@example.com")
+        post :create, email: "wrong@email.com"
+        expect(alice.reload.token).to be nil
+      end
+
+      it "does not send out the email" do
+        alice = Fabricate(:user, email: "alice@example.com")
+        post :create, email: "wrong@email.com"
+        expect(ActionMailer::Base.deliveries).to be_empty
       end
     end
-  end  
-
+  end
 end
