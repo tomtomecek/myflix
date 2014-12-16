@@ -10,6 +10,8 @@ describe UsersController do
   end
 
   describe "POST create" do
+    after { ActionMailer::Base.deliveries.clear }
+    
     context "valid input" do    
       it "creates the user" do
         post :create, user: Fabricate.attributes_for(:user)
@@ -35,8 +37,7 @@ describe UsersController do
 
         it "has the right content" do
           post :create, user: Fabricate.attributes_for(:user, email: "alice@example.com")
-          message = ActionMailer::Base.deliveries.last
-          require 'pry'; binding.pry
+          message = ActionMailer::Base.deliveries.last          
           expect(message.body.encoded).to include("Welcome")
         end
       end
@@ -53,7 +54,10 @@ describe UsersController do
         expect(assigns(:user).errors.any?).to be true
       end
 
-      it { should render_template :new }
+      it "does not send the email" do
+        expect(ActionMailer::Base.deliveries).to be_empty
+      end
+      it { is_expected.to render_template :new }
     end
   end
 
