@@ -12,6 +12,7 @@ describe User do
   it { should validate_presence_of(:email) }
   it { should validate_uniqueness_of(:email).case_insensitive }
   it { should validate_presence_of(:password) }
+  it { should ensure_length_of(:password).is_at_least(6) }
   it { should validate_presence_of(:fullname) }
 
   it "creates user with downcased email" do
@@ -50,4 +51,12 @@ describe User do
     end
   end
 
+  describe "#set_token_to_nil" do
+    it "sets token to nil" do
+      alice = Fabricate(:user, token: SecureRandom.urlsafe_base64)
+      alice.set_token_to_nil
+      expect(alice.token).to be nil
+    end    
+  end
+ 
 end
