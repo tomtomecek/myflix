@@ -6,6 +6,7 @@
       %li= link_to "Videos", home_path
       %li= link_to "My Queue", my_queue_path
       %li= link_to "People", people_path
+      %li= link_to "Invite Friend", new_invitation_path
     = form_tag search_videos_path, method: "get", class: "col-md-5 navbar-form" do
       .form-group
         = text_field_tag :query, params[:query] || '', class: "form-control", placeholder: "Search for videos here"
