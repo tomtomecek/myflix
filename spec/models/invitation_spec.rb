@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Invitation do
   it { is_expected.to belong_to(:sender).class_name("User") }
-  # it { should validate_presence_of(:email) }
+  it { is_expected.to validate_presence_of(:recipient_name) }
+  it { is_expected.to validate_presence_of(:message) }
   
   it "allows email format" do
     should allow_value('user@example.com', 'TEST.A@abc.in',

@@ -23,7 +23,7 @@ describe InvitationsController do
       let(:action) { post :create, invitation: Fabricate.attributes_for(:invitation) }
     end
 
-    context "with valid email" do
+    context "with valid inputs" do
       before do
         post :create, invitation: { 
           recipient_name: "Kelly",
@@ -52,27 +52,58 @@ describe InvitationsController do
       end
     end
 
-    context "with invalid email" do
-      before do
+    context "with invalid inputs" do
+      it "renders the :new template" do
         post :create, invitation: { 
           recipient_name: "Kelly",
           recipient_email: "kelly@example",
-          message: "Please join this really cool site!" }
-      end
-      
-      it "renders the :new template" do
+          message: "Please join this really cool site!"
+        }
         expect(response).to render_template :new
       end
 
-      it "does not create the invitation" do
+      it "does not create the invitation with blank name" do
+        post :create, invitation: { 
+          recipient_name: "",
+          recipient_email: "kelly@example.com",
+          message: "Please join this really cool site!"
+        }
         expect(Invitation.count).to eq(0)
       end
 
-      it "does not send out the email" do        
+      it "does not create the invitation with wrong email" do
+        post :create, invitation: { 
+          recipient_name: "Kelly",
+          recipient_email: "kelly@example",
+          message: "Please join this really cool site!"
+        }
+        expect(Invitation.count).to eq(0)
+      end
+
+      it "does not create the invitation with blank message" do
+        post :create, invitation: { 
+          recipient_name: "Kelly",
+          recipient_email: "kelly@example.com",
+          message: ""
+        }
+        expect(Invitation.count).to eq(0)
+      end
+
+      it "does not send out the email" do
+        post :create, invitation: { 
+          recipient_name: "",
+          recipient_email: "kelly@example.com",
+          message: "Please join this really cool site!"
+        }
         expect(ActionMailer::Base.deliveries).to be_empty
       end
 
       it "sets the @invitation" do
+        post :create, invitation: { 
+          recipient_name: "",
+          recipient_email: "kelly@example.com",
+          message: "Please join this really cool site!"
+        }
         expect(assigns(:invitation)).to be_instance_of(Invitation)
       end
     end
