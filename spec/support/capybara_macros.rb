@@ -3,7 +3,12 @@ def sign_in(a_user=nil)
   visit sign_in_path
   fill_in "email",    with: user.email
   fill_in "password", with: user.password
-  click_on "Sign in"
+  click_button "Sign in"
+end
+
+def sign_out(a_user=nil)
+  visit home_path
+  click_on "Sign Out"
 end
 
 def expect_to_see(text)
@@ -17,7 +22,6 @@ end
 def expect_to_be_in(path)
   expect(current_path).to eq(path)
 end
-
 
 def click_on_video_on_home_page(video)
   find(:xpath, "//a[@href='/videos/#{video.id}']").click

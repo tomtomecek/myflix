@@ -13,7 +13,7 @@ Myflix::Application.routes.draw do
 
   get 'home', to: "categories#index"
 
-  resources :invitations, only: [:new]
+  resources :invitations, only: [:new, :create]
 
   resources :categories, only: [:show]
   resources :videos, only: [:show] do

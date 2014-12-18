@@ -7,7 +7,8 @@
         %fieldset
           = f.alert_message "Please fix the errors below.", error_summary: false
           .form-group
-            = f.email_field :email, label: "Email Address"
+            = hidden_field_tag :invitation_token, params[:invitation_token]
+            = f.email_field :email, value: display_invited_email_or_nothing, label: "Email Address"
           .form-group
             = f.password_field :password
           .form-group
