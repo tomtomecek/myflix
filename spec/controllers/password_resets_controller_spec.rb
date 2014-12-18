@@ -3,16 +3,17 @@ require 'spec_helper'
 describe PasswordResetsController do
 
   describe "POST create" do
+    after { ActionMailer::Base.deliveries.clear }
+    
     context "with valid email" do
       let(:alice) { Fabricate(:user, email: "alice@example.com") }
       before { post :create, email: alice.email }
-      after { ActionMailer::Base.deliveries.clear }
 
       it "redirects to confirm password reset url" do
         expect(response).to redirect_to confirm_password_reset_url
       end
 
-      it "generates unique token" do
+      it "generates unique token" do   
         expect(alice.reload.token).not_to be nil
       end
 

@@ -24,7 +24,7 @@ class PasswordResetsController < ApplicationController
   end
 
 private
-  
+
   def set_user
     @user = User.find_by(token: params[:token]) if params[:token]
   end
