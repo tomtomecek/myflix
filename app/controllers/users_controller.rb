@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-
   def new
     @user = User.new
   end
@@ -30,8 +29,8 @@ private
   def handle_invitations
     invitation = Invitation.find_by(token: params[:invitation_token])
     if invitation
-      Relationship.create(leader: invitation.sender,follower: @user)
-      Relationship.create(leader: @user, follower: invitation.sender)
+      @user.follow(invitation.sender)
+      invitation.sender.follow(@user)
       invitation.update_column(:token, nil)
     end
   end

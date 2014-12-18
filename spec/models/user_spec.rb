@@ -51,6 +51,22 @@ describe User do
     end
   end
 
+  describe "#follow" do
+    it "follows another user" do
+      alice = Fabricate(:user)
+      bob = Fabricate(:user)
+      alice.follow(bob)
+      expect(alice.follows?(bob)).to be true
+    end
+
+    it "does not follow self" do
+      alice = Fabricate(:user)
+      alice.follow(alice)
+      expect(alice.follows?(alice)).to be false
+    end
+  end
+
+
   describe "#set_token_to_nil" do
     it "sets token to nil" do
       alice = Fabricate(:user, token: SecureRandom.urlsafe_base64)
