@@ -10,4 +10,5 @@ class UserMailer < ActionMailer::Base
     @user = user
     mail(to: @user.email, subject: "Password reset - MyFLiX")
   end
+
 end

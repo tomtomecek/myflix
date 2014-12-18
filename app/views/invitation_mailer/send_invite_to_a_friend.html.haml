@@ -1,0 +1,11 @@
+!!! 5
+%html
+  %body
+    %p Dear #{@invitation.recipient_name},
+    %br
+    %p Your friend, #{@invitation.sender.fullname}, has invited you to MyFLiX.
+    %br
+    %p Join him today and click the registration link below:
+    %p= link_to "Register Me @ MyFLiX", register_url(invitation_token: @invitation.token, invitation_email: @invitation.recipient_email)
+    %br
+    %p #{@invitation.sender.fullname} and MyFLiX team

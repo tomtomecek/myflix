@@ -7,4 +7,8 @@ module ApplicationHelper
     end
     arr.reverse
   end
+
+  def display_invited_email_or_nothing
+    params[:invitation_email] ? params[:invitation_email] : ''
+  end
 end
