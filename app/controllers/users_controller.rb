@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
     if @user.save
       UserMailer.welcome_email(@user).deliver
-      handle_invitations(params[:invitation_token]) if params[:invitation_token]
+      handle_invitations if params[:invitation_token]
       flash[:success] = "Welcome to myFlix, you have successfully registered."
       redirect_to sign_in_url
     else
@@ -27,8 +27,8 @@ private
     params.require(:user).permit(:email, :password, :fullname)
   end
 
-  def handle_invitations(token)
-    invitation = Invitation.find_by(token: token)
+  def handle_invitations
+    invitation = Invitation.find_by(token: params[:invitation_token])
     if invitation
       Relationship.create(leader: invitation.sender,follower: @user)
       Relationship.create(leader: @user, follower: invitation.sender)

@@ -85,7 +85,7 @@ describe UsersController do
         end
 
         it "expires invitation token" do
-          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token          
+          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token
           expect(Invitation.first.token).to be nil
         end
       end
@@ -93,10 +93,7 @@ describe UsersController do
       context "with invalid token" do
         let(:pete) { Fabricate(:user) }
         let(:invitation) do
-          Fabricate(:invitation,
-                     sender: pete,
-                     recipient_email: "kelly@example.com",
-                     token: SecureRandom.urlsafe_base64)
+          Fabricate(:invitation, sender: pete, recipient_email: "kelly@example.com", token: SecureRandom.urlsafe_base64)
         end
 
         it "creates the recipient not following invitation sender" do
