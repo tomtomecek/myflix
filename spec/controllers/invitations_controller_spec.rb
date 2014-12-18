@@ -54,7 +54,7 @@ describe InvitationsController do
 
     context "with invalid inputs" do
       it "renders the :new template" do
-        post :create, invitation: { 
+        post :create, invitation: {
           recipient_name: "Kelly",
           recipient_email: "kelly@example",
           message: "Please join this really cool site!"
@@ -63,7 +63,7 @@ describe InvitationsController do
       end
 
       it "does not create the invitation with blank name" do
-        post :create, invitation: { 
+        post :create, invitation: {
           recipient_name: "",
           recipient_email: "kelly@example.com",
           message: "Please join this really cool site!"
@@ -72,7 +72,7 @@ describe InvitationsController do
       end
 
       it "does not create the invitation with wrong email" do
-        post :create, invitation: { 
+        post :create, invitation: {
           recipient_name: "Kelly",
           recipient_email: "kelly@example",
           message: "Please join this really cool site!"
@@ -81,7 +81,7 @@ describe InvitationsController do
       end
 
       it "does not create the invitation with blank message" do
-        post :create, invitation: { 
+        post :create, invitation: {
           recipient_name: "Kelly",
           recipient_email: "kelly@example.com",
           message: ""
@@ -105,6 +105,15 @@ describe InvitationsController do
           message: "Please join this really cool site!"
         }
         expect(assigns(:invitation)).to be_instance_of(Invitation)
+      end
+
+      it "sets the errors on invitation" do
+        post :create, invitation: {
+          recipient_name: "",
+          recipient_email: "kelly@example.com",
+          message: "Please join this really cool site!"
+        }
+        expect(assigns(:invitation).errors.any?).to be true
       end
     end
   end

@@ -6,9 +6,8 @@ def sign_in(a_user=nil)
   click_button "Sign in"
 end
 
-def sign_out(a_user=nil)
-  visit home_path
-  click_on "Sign Out"
+def sign_out
+  visit sign_out_path
 end
 
 def expect_to_see(text)

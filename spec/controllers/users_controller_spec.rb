@@ -13,12 +13,12 @@ describe UsersController do
     after { ActionMailer::Base.deliveries.clear }
     
     context "without invitation token" do
-      context "valid input" do    
+      context "valid input" do
         it "creates the user" do
           post :create, user: Fabricate.attributes_for(:user)
           expect(User.count).to eq(1)
         end
-        
+
         it "redirects to sign_in_url" do
           post :create, user: Fabricate.attributes_for(:user)
           is_expected.to redirect_to sign_in_url
@@ -50,7 +50,7 @@ describe UsersController do
         it "does not create a user if invalid input" do
           expect(User.count).to eq(0)
         end
-        
+
         it "sets errors on @user" do
           expect(assigns(:user).errors.any?).to be true
         end
@@ -75,23 +75,25 @@ describe UsersController do
         it "creates the recipient following invitation sender" do
           post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token
           kelly = User.find_by(email: invitation.recipient_email)
-          expect(pete.leading_relationships.map(&:follower)).to eq([kelly])
+          expect(pete.follows?(kelly)).to be true
         end
 
         it "creates the recipient being followed by the sender" do
           post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token
           kelly = User.find_by(email: invitation.recipient_email)
-          expect(kelly.leading_relationships.map(&:follower)).to eq([pete])
+          expect(kelly.follows?(pete)).to be true
+        end
+
+        it "expires invitation token" do
+          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token
+          expect(Invitation.first.token).to be nil
         end
       end
 
       context "with invalid token" do
         let(:pete) { Fabricate(:user) }
         let(:invitation) do
-          Fabricate(:invitation,
-                     sender: pete,
-                     recipient_email: "kelly@example.com",
-                     token: SecureRandom.urlsafe_base64)
+          Fabricate(:invitation, sender: pete, recipient_email: "kelly@example.com", token: SecureRandom.urlsafe_base64)
         end
 
         it "creates the recipient not following invitation sender" do
