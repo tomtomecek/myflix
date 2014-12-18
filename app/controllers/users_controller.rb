@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
     if @user.save
       UserMailer.welcome_email(@user).deliver
-      handle_invitations if params[:invitation_token]
+      handle_invitation if params[:invitation_token]
       flash[:success] = "Welcome to myFlix, you have successfully registered."
       redirect_to sign_in_url
     else
@@ -26,7 +26,7 @@ private
     params.require(:user).permit(:email, :password, :fullname)
   end
 
-  def handle_invitations
+  def handle_invitation
     invitation = Invitation.find_by(token: params[:invitation_token])
     if invitation
       @user.follow(invitation.sender)
