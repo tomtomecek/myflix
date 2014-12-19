@@ -15,5 +15,5 @@
 /tmp
 
 .DS_Store
-database.yml
 .zeus.sock
+dump.rdb
