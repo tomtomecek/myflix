@@ -3,7 +3,7 @@ class UserMailer < ActionMailer::Base
 
   def welcome_email(user)
     @user = user
-    mail(to: @user.email, subject: "Welcome to MyFLiX")
+    mail(to: admin_or_user(user.email), subject: "Welcome to MyFLiX")
   end
 
   def send_reset_token(user)
