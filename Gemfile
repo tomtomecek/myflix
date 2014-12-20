@@ -14,7 +14,6 @@ gem 'pg'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'
-gem 'unicorn'
 
 group :development do
   gem 'thin'
@@ -41,6 +40,7 @@ group :test do
   gem 'shoulda-matchers', require: false
 end
 
-group :production do
+group :production, :staging do
   gem 'rails_12factor'
+  gem 'unicorn'
 end

@@ -3,6 +3,17 @@ class InvitationMailer < ActionMailer::Base
 
   def send_invite_to_a_friend(invitation)
     @invitation = invitation
-    mail(to: @invitation.recipient_email, subject: "Invitation to MyFLiX")
+    mail(to: admin_or_user(invitation.recipient_email), subject: "Invitation to MyFLiX")
   end
+
+private
+
+  def admin_or_user(email)
+    if Rails.env.staging?
+      ENV['ADMIN_EMAIL']
+    else
+      email
+    end
+  end
+
 end

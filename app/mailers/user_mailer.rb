@@ -8,7 +8,17 @@ class UserMailer < ActionMailer::Base
 
   def send_reset_token(user)
     @user = user
-    mail(to: @user.email, subject: "Password reset - MyFLiX")
+    mail(to: admin_or_user(user.email), subject: "Password reset - MyFLiX")
+  end
+
+private
+
+  def admin_or_user(email)
+    if Rails.env.staging?
+      ENV['ADMIN_EMAIL']
+    else
+      email
+    end
   end
 
 end
