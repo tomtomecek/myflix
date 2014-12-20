@@ -14,7 +14,7 @@ gem 'pg'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'
-gem 'sentry-raven', git: 'https://github.com/getsentry/raven-ruby.git'
+
 
 group :development do
   gem 'thin'
@@ -43,5 +43,6 @@ end
 
 group :production, :staging do
   gem 'rails_12factor'
-  gem 'unicorn'  
+  gem 'unicorn'
+  gem 'sentry-raven', git: 'https://github.com/getsentry/raven-ruby.git'
 end
