@@ -14,7 +14,7 @@ gem 'pg'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'
-
+gem 'paratrooper'
 
 group :development do
   gem 'thin'
