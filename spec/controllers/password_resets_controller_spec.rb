@@ -13,7 +13,7 @@ describe PasswordResetsController do
         expect(response).to redirect_to confirm_password_reset_url
       end
 
-      it "generates unique token" do   
+      it "generates unique token" do
         expect(alice.reload.token).not_to be nil
       end
 
@@ -29,7 +29,7 @@ describe PasswordResetsController do
     context "with invalid email" do
       let(:alice) { Fabricate(:user, email: "alice@example.com") }
       
-      it "renders the new template" do        
+      it "renders the new template" do
         post :create, email: "wrong@email.com"
         expect(response).to render_template :new
       end
@@ -38,14 +38,14 @@ describe PasswordResetsController do
         alice = Fabricate(:user, email: "alice@example.com")
         post :create, email: "wrong@email.com"
         expect(alice.reload.token).to be nil
-      end     
+      end
 
       it "does not send out the email" do
         alice = Fabricate(:user, email: "alice@example.com")
         post :create, email: "wrong@email.com"
         expect(ActionMailer::Base.deliveries).to be_empty
       end
-        
+
       it "sets flash danger" do
         post :create, email: ""
         is_expected.to set_the_flash.now[:danger]

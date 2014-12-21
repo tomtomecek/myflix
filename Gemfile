@@ -11,6 +11,7 @@ gem 'sass-rails'
 gem 'uglifier'
 gem 'jquery-rails'
 gem 'pg'
+gem 'figaro'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'
