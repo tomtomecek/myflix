@@ -24,3 +24,6 @@ dump.rdb
 
 # foreman local set up
 Procfile.dev
+
+# Ignore application configuration
+/config/application.yml
