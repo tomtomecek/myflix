@@ -5,17 +5,17 @@ feature "User invites a friend to MyFLiX" do
     pete = Fabricate(:user)
     sign_in(pete)
 
-    invite_a_friend
-    friend_accepts_the_invitation
+    expect_to_invite_a_friend
+    expect_friend_to_accept_the_invitation
     friend_signs_in
 
-    friend_follows(pete)
-    inviter_follows_friend(pete)
+    expect_friend_follows(pete)
+    expect_inviter_follows_friend(pete)
     clear_emails
   end
 end
 
-def invite_a_friend
+def expect_to_invite_a_friend
   click_link "Invite Friend"
   fill_in "Friend's Name", with: "Kelly"
   fill_in "Friend's Email Address", with: "kelly@example.com"
@@ -25,7 +25,7 @@ def invite_a_friend
   sign_out
 end
 
-def friend_accepts_the_invitation
+def expect_friend_accept_the_invitation
   open_email("kelly@example.com")
   current_email.click_link "Register Me @ MyFLiX"
 
@@ -41,13 +41,13 @@ def friend_signs_in
   click_button "Sign in"
 end
 
-def friend_follows(inviter)
+def expect_friend_follows(inviter)
   click_on "People"
   expect_to_see inviter.fullname
   sign_out
 end
 
-def inviter_follows_friend(inviter)
+def expect_inviter_follows_friend(inviter)
   sign_in(inviter)
   click_on "People"
   expect_to_see inviter.fullname

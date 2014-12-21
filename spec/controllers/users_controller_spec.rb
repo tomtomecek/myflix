@@ -93,7 +93,10 @@ describe UsersController do
       context "with invalid token" do
         let(:pete) { Fabricate(:user) }
         let(:invitation) do
-          Fabricate(:invitation, sender: pete, recipient_email: "kelly@example.com", token: SecureRandom.urlsafe_base64)
+          Fabricate(:invitation, 
+                    sender: pete, 
+                    recipient_email: "kelly@example.com",
+                    token: SecureRandom.urlsafe_base64)
         end
 
         it "creates the recipient not following invitation sender" do

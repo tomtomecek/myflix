@@ -14,6 +14,7 @@
 /log/*.log
 /tmp
 
+# Ignore .DS_Store
 .DS_Store
 
 # Ignore Zeus socket
@@ -27,3 +28,4 @@ Procfile.dev
 
 # Ignore application configuration
 /config/application.yml
+/config/database.yml
