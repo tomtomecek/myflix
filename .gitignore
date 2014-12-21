@@ -15,5 +15,12 @@
 /tmp
 
 .DS_Store
+
+# Ignore Zeus socket
 .zeus.sock
+
+# Ignore Redis dump
 dump.rdb
+
+# foreman local set up
+Procfile.dev
