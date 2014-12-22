@@ -15,7 +15,7 @@ private
 
   def admin_or_user(email)
     if Rails.env.staging?
-      ENV['admin_email']
+      ENV['ADMIN_EMAIL']
     else
       email
     end

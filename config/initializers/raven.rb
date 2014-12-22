@@ -1,5 +1,5 @@
 require 'raven'
 
 Raven.configure do |config|
-  config.dsn = ENV['sentry_dsn']
+  config.dsn = ENV['SENTRY_DSN']
 end
