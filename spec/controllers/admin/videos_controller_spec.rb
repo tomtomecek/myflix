@@ -7,26 +7,19 @@ describe Admin::VideosController do
       let(:action) { get :new }
     end
 
-    context "when user is not an admin" do
-      it "redirects to home page" do
-        alice = Fabricate(:user, admin: false)
-        set_current_user(alice)
+    context "when regular user" do
+      before do
+        set_current_user
         get :new
-        expect(response).to redirect_to home_url
       end
 
-      it "sets the flash danger" do
-        alice = Fabricate(:user, admin: false)
-        set_current_user(alice)
-        get :new
-        expect(flash[:danger]).to be_present
-      end
+      it { is_expected.to redirect_to home_url }
+      it { is_expected.to set_the_flash[:danger] }
     end
 
-    context "when user is an admin" do
+    context "when admin" do
       it "sets the @video" do
-        admin = Fabricate(:user, admin: true)
-        set_current_user(admin)
+        set_current_admin
         get :new
         expect(assigns(:video)).to be_instance_of Video
         expect(assigns(:video)).to be_new_record
