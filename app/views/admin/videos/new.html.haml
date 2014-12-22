@@ -11,10 +11,7 @@
           %br
           %fieldset
             = f.text_field :title, control_col: "col-sm-3"
-            .form-group
-              %label.control-label.col-sm-3 Category
-              .col-sm-6
-                %select.form-control
+            = f.select :category_id, options_for_select(Category.all.map {|category| [category.name, category.id]})
             = f.text_area :description, rows: 8
             = f.file_field :large_cover_url
             = f.file_field :small_cover_url
