@@ -29,6 +29,7 @@ describe Admin::VideosController do
         set_current_user(admin)
         get :new
         expect(assigns(:video)).to be_instance_of Video
+        expect(assigns(:video)).to be_new_record
       end
     end
 
