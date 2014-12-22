@@ -10,7 +10,11 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       flash[:success] = "You have logged in."
-      redirect_to home_url
+      if current_user.admin?
+        redirect_to new_admin_video_url
+      else  
+        redirect_to home_url
+      end
     else
       flash.now[:danger] = "Incorrect email or password. Please try again."
       render :new
