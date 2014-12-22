@@ -25,7 +25,7 @@ def expect_to_invite_a_friend
   sign_out
 end
 
-def expect_friend_accept_the_invitation
+def expect_friend_to_accept_the_invitation
   open_email("kelly@example.com")
   current_email.click_link "Register Me @ MyFLiX"
 
