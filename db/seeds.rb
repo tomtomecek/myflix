@@ -1,4 +1,4 @@
-tom = User.create(email: "tom@example.com", password: "password", fullname: "Tom Tom")
+tom = User.create(email: "tom@example.com", password: "password", fullname: "Tom Tom", admin: true)
 Fabricate.times(10, :user)
 
 tv_shows = Category.create(name: "TV shows")
