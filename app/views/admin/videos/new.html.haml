@@ -15,7 +15,7 @@
             = f.text_area :description, rows: 8
             = f.file_field :large_cover
             = f.file_field :small_cover
-            = f.text_field :video_url
+            = f.text_field :video_url, label: "Video URL"
           %fieldset.actions.form-group
             .col-sm-6.col-md-offset-3
               = f.submit "Add Video", class: "btn btn-default"
