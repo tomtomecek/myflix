@@ -8,7 +8,7 @@ class InvitationsController < AuthenticatedController
     @invitation = Invitation.new(invitation_params)
 
     if @invitation.save
-      InvitationMailer.delay.send_invite_to_a_friend(@invitation)
+      InvitationMailer.delay.send_invite_to_a_friend(@invitation.id)
       flash[:success] = "You have invited your friend #{@invitation.recipient_name} to MyFLiX"
       redirect_to home_url
     else
