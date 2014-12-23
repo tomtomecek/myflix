@@ -4,8 +4,8 @@ class Video < ActiveRecord::Base
   
   validates_presence_of :title, :description
   
-  mount_uploader :small_cover_url, ImageUploader
-  mount_uploader :large_cover_url, ImageUploader
+  mount_uploader :large_cover, LargeCoverUploader
+  mount_uploader :small_cover, SmallCoverUploader
 
   def self.search_by_title(title)
     return [] if title.blank?
