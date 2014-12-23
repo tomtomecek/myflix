@@ -2,17 +2,19 @@
   .container
     .row
       .video_large_cover.col-sm-7.col-sm-offset-1
-        - if @video.category.name == "TV shows"
-          %img(src="/tmp/monk_large.jpg")
+        - if params[:watch]
+          %video(controls width="665" height="375" autoplay)
+            %source{src: @video.video_url, type: "video/mp4"}
+            Your browser does not support the video tag.
         - else
-          %img(src="#{@video.large_cover_url}")
+          = image_tag(@video.large_cover_url, alt: @video.title)
       .video_info.col-sm-3
         %header
           %h3= @video.title
           %span Rating: #{@video.average_rating}/5.0
         %p= @video.description
         .actions
-          %a.btn.btn-primary(href="") Watch Now
+          = link_to "Watch Now", video_path(@video, watch: true), class: "btn btn-primary"
           = link_to "+ My Queue", queue_items_path(video_id: @video.id), method: "post", class: 'btn btn-default' unless current_user.queued_video?(@video)
 
 %section.reviews.container
