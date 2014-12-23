@@ -51,7 +51,7 @@ describe ReviewsController do
       end
     end
     
-    it_behaves_like "require_sign_in" do
+    it_behaves_like "require sign in" do
       let(:action) { post :create, video_id: video.id }
     end    
   end 
