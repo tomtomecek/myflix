@@ -38,7 +38,8 @@ describe Admin::VideosController do
           post :create, video: {
             title: "Futurama",
             description: "Kevins fav tv show",
-            category_id: tv_shows.id
+            category_id: tv_shows.id,
+            video_url: "http://xxx.com"
           }
         end
 
@@ -62,7 +63,8 @@ describe Admin::VideosController do
           post :create, video: {
             title: "",
             description: "",
-            category_id: tv_shows.id
+            category_id: tv_shows.id,
+            video_url: "http://xxx.com"
           }
         end
         

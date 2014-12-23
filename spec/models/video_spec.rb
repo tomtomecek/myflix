@@ -6,10 +6,11 @@ describe Video do
   it { should have_many(:reviews).order('created_at DESC') }
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:description) }
+  it { should validate_presence_of(:video_url) }
 
   describe "#search_by_title" do
     let(:interstellar) { Fabricate(:video, title: "Interstellar", created_at: 1.day.ago) }
-    
+
     it { expect(Video.search_by_title("")).to             eq [] }
     it { expect(Video.search_by_title("no-match")).to     eq [] }
     it { expect(Video.search_by_title("Interstellar")).to eq [interstellar] }
@@ -28,24 +29,16 @@ describe Video do
     it "returns 0.0 if no review" do
       expect(subject).to eq(0.0)
     end
+
     it "returns float rating as review if 1 review" do
       review = Fabricate(:review, video: video)
       expect(subject).to eq(review.rating.to_f)
     end
+
     it "returns average rating from all review ratings" do
       Fabricate(:review, video: video, rating: 2)
       Fabricate(:review, video: video, rating: 3)
       expect(subject).to eq(2.5)
     end
-    
   end
-
 end
-
-
-
-
-
-
-
-
