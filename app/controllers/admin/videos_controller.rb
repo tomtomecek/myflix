@@ -8,8 +8,8 @@ class Admin::VideosController < AdminsController
     @video = Video.new(video_params)
     
     if @video.save
-      flash[:success] = "xxx"
-      redirect_to home_url
+      flash[:success] = "You have succesfully added new video."
+      redirect_to new_admin_video_url
     else
       render :new
     end
