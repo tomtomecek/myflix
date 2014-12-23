@@ -1,5 +1,5 @@
 tom = User.create(email: "tom@example.com", password: "password", fullname: "Tom Tom", admin: true)
-Fabricate.times(10, :user)
+Fabricate.times(4, :user)
 
 tv_shows = Category.create(name: "TV shows")
 movies = Category.create(name: "Movies")
@@ -9,10 +9,11 @@ movies = Category.create(name: "Movies")
   video = Fabricate(:video,
     category: (index < 4 ? movies : tv_shows),
     title: title,
-    small_cover_url: "/tmp/#{title.gsub(' ', '_').downcase}.jpg",
-    large_cover_url: "/tmp/#{title.gsub(' ', '_').downcase}_large.jpg")
+    small_cover: "/tmp/#{title.gsub(' ', '_').downcase}.jpg",
+    large_cover: "/tmp/#{title.gsub(' ', '_').downcase}_large.jpg"
+    video_url: "https://s3.amazonaws.com/tt-myflix/Interstellar+Movie+-+Official+Trailer+3.mp4")
 
   15.times { Fabricate(:review, video: video, user: User.all.sample) }
 end
 
-10.times { Fabricate(:relationship, follower: tom) }
+4.times { Fabricate(:relationship, follower: tom) }
