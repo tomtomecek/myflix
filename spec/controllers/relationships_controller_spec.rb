@@ -16,7 +16,7 @@ describe RelationshipsController do
         .to match_array([following_bob, following_dan])
     end
 
-    it_behaves_like "require_sign_in" do
+    it_behaves_like "require sign in" do
       let(:action) { get :index }
     end
   end
@@ -51,7 +51,7 @@ describe RelationshipsController do
       end  
     end
 
-    it_behaves_like "require_sign_in" do
+    it_behaves_like "require sign in" do
       let(:action) { post :create, leader_id: 1 }
     end
   end
@@ -88,7 +88,7 @@ describe RelationshipsController do
       end
     end
 
-    it_behaves_like "require_sign_in" do
+    it_behaves_like "require sign in" do
       let(:action) { delete :destroy, id: 1 }
     end
   end

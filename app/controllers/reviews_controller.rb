@@ -1,5 +1,4 @@
-class ReviewsController < ApplicationController
-  before_action :require_user
+class ReviewsController < AuthenticatedController
 
   def create
     @video = Video.find(params[:video_id])

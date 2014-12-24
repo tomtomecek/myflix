@@ -1,6 +1,10 @@
-require 'sidekiq/web'
 Myflix::Application.routes.draw do
-  
+  require 'sidekiq/web'
+
+  namespace :admin do
+    resources :videos, only: [:new, :create]
+  end
+
   get '/sign_in', to: "sessions#new"
   post '/sign_in', to: "sessions#create"
   get '/sign_out', to: "sessions#destroy"

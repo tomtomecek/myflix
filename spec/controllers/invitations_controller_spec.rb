@@ -3,7 +3,7 @@ require 'spec_helper'
 describe InvitationsController do
 
   describe "GET new" do
-    it_behaves_like "require_sign_in" do
+    it_behaves_like "require sign in" do
       let(:action) { get :new }
     end
 
@@ -19,7 +19,7 @@ describe InvitationsController do
     before { set_current_user(pete) }
     after { ActionMailer::Base.deliveries.clear }
     
-    it_behaves_like "require_sign_in" do
+    it_behaves_like "require sign in" do
       let(:action) { post :create, invitation: Fabricate.attributes_for(:invitation) }
     end
 

@@ -16,6 +16,6 @@ module Myflix
       g.template_engine :haml
     end
 
-    config.action_mailer.default_url_options = { host: ENV['mailer_host'] }
+    config.action_mailer.default_url_options = { host: ENV['MAILER_HOST'] }
   end
 end

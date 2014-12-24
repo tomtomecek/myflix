@@ -12,7 +12,7 @@ describe QueueItemsController do
       expect(assigns(:queue_items)).to match_array([item1, item2])
     end
   
-    it_behaves_like "require_sign_in" do
+    it_behaves_like "require sign in" do
       let(:action) { get :index }
     end
   end
@@ -56,7 +56,7 @@ describe QueueItemsController do
       end
     end
 
-    it_behaves_like "require_sign_in" do
+    it_behaves_like "require sign in" do
       let(:action) { post :create }
     end
   end
@@ -88,7 +88,7 @@ describe QueueItemsController do
       expect(QueueItem.count).to eq(1)
     end    
 
-    it_behaves_like "require_sign_in" do
+    it_behaves_like "require sign in" do
       let(:action) { delete :destroy, id: 1 }
     end
   end
@@ -170,7 +170,7 @@ describe QueueItemsController do
       end
     end
 
-    it_behaves_like "require_sign_in" do
+    it_behaves_like "require sign in" do
       let(:action) { patch :update_queue }
     end
   end

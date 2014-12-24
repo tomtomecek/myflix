@@ -27,7 +27,7 @@ describe VideosController do
       end
     end
  
-    it_behaves_like "require_sign_in" do
+    it_behaves_like "require sign in" do
       let(:action) { get :show, id: video }
     end
   end
@@ -38,7 +38,7 @@ describe VideosController do
       expect(assigns(:result)).to eq([video])
     end
 
-    it_behaves_like "require_sign_in" do
+    it_behaves_like "require sign in" do
       let(:action) { get :search }
     end
   end

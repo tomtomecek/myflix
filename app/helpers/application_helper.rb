@@ -11,4 +11,8 @@ module ApplicationHelper
   def display_invited_email_or_nothing
     params[:invitation_email] ? params[:invitation_email] : ''
   end
+
+  def categories_select
+    Category.all.map {|category| [category.name, category.id]}
+  end
 end

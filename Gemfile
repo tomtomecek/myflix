@@ -16,6 +16,9 @@ gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'
 gem 'paratrooper'
+gem 'mini_magick'
+gem 'carrierwave'
+gem 'fog'
 
 group :development do
   gem 'thin'
