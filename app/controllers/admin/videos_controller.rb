@@ -1,5 +1,5 @@
 class Admin::VideosController < AdminsController
-  
+
   def new
     @video = Video.new
   end
@@ -18,7 +18,7 @@ class Admin::VideosController < AdminsController
 private
 
   def video_params
-    params.require(:video).permit!
+    params.require(:video).permit(:title, :description, :category_id, :video_url, :large_cover, :small_cover)
   end
 
 end
