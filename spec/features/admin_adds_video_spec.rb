@@ -27,14 +27,14 @@ def fill_in_video_details_select_category_upload_files_and_submit
   fill_in "Title", with: "Interstellar"
   select "Movies", from: "Category"
   fill_in "Description", with: "Awesome movie"
-  attach_file('Large cover', File.join(Rails.root, '/spec/support/interstellar_large.jpg'))
-  attach_file('Small cover', File.join(Rails.root, '/spec/support/interstellar.jpg'))
+  attach_file 'Large cover', 'spec/support/interstellar_large.jpg'
+  attach_file 'Small cover', 'spec/support/interstellar.jpg'
   fill_in "Video URL", with: interstellar_video_url
   click_button "Add Video"
 end
 
 def interstellar_video_url
-  "https://s3.amazonaws.com/tt-myflix/Interstellar+Movie+-+Official+Trailer+3.mp4"
+  "https://www.example.com/my_bucket/video.mp4"
 end
 
 def expect_to_see_small_cover(video)
