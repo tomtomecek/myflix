@@ -19,6 +19,7 @@ gem 'paratrooper'
 gem 'mini_magick'
 gem 'carrierwave'
 gem 'fog'
+gem 'stripe'
 
 group :development do
   gem 'thin'
