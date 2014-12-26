@@ -6,6 +6,7 @@ GIT
       faraday (>= 0.7.6)
 
 GEM
+  remote: https://code.stripe.com/
   remote: https://rubygems.org/
   specs:
     CFPropertyList (2.2.8)
