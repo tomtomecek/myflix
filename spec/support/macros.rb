@@ -16,3 +16,17 @@ def clear_current_user
   session[:user_id] = nil
 end
 alias :clear_current_admin :clear_current_user
+
+def get_stripe_token
+  Stripe.api_key = ENV['STRIPE_API_KEY']
+
+  token = Stripe::Token.create(
+    card: {
+      number: '4242424242424242',
+      exp_month: 12,
+      exp_year: 2015,
+      cvc: '314'
+    },
+  )
+  token.id
+end

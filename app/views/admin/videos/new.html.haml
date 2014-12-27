@@ -11,7 +11,7 @@
           %br
           %fieldset
             = f.text_field :title, control_col: "col-sm-3"
-            = f.select :category_id, options_for_select(categories_select)
+            = f.select :category_id, options_from_collection_for_select(Category.all, :id, :name)
             = f.text_area :description, rows: 8
             = f.file_field :large_cover
             = f.file_field :small_cover

@@ -1,3 +1,4 @@
+source 'https://code.stripe.com'
 source 'https://rubygems.org'
 ruby '2.1.5'
 
@@ -19,6 +20,7 @@ gem 'paratrooper'
 gem 'mini_magick'
 gem 'carrierwave'
 gem 'fog'
+gem 'stripe'
 
 group :development do
   gem 'thin'
