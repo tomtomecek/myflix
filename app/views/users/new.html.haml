@@ -21,17 +21,17 @@
           .form-group
             %label.control-label.col-sm-2 Credit Card Number
             .col-sm-6
-              %input.form-control.card-number(type="text")
+              %input.form-control(type="text" size="20" data-stripe="number")
           .form-group
             %label.control-label.col-sm-2 Security Code
             .col-sm-6
-              %input.form-control.card-cvc(type="text")
+              %input.form-control(type="text" size="4" data-stripe="cvc")
           .form-group
             %label.control-label.col-sm-2 Expiration
             .col-sm-3
-              = select_month(Date.today, {add_month_numbers: true}, name: nil, class: 'form-control card-expiry-month')
+              = select_month(Date.today, {add_month_numbers: true}, data: { stripe: "exp-month" }, name: nil, class: 'form-control')
             .col-sm-2
-              = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, name: nil, class: 'form-control card-expiry-year')
+              = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, data: { stripe: "exp-year" }, name: nil, class: 'form-control')
         %fieldset.actions.control-group.col-sm-offset-2
           .controls
             = f.submit "Sign Up", class: "btn btn-default payment-submit"            
