@@ -2,7 +2,8 @@
   %script(type="text/javascript" src="https://js.stripe.com/v2/")
   :javascript
     Stripe.setPublishableKey('#{ENV["STRIPE_PUBLISHABLE_KEY"]}');
-  = javascript_include_tag "registration"
+
+= javascript_include_tag "registration"
 
 %section.register.container
   .row
