@@ -4,7 +4,7 @@ describe PasswordResetsController do
 
   describe "POST create" do
     after { ActionMailer::Base.deliveries.clear }
-    
+
     context "with valid email" do
       let(:alice) { Fabricate(:user, email: "alice@example.com") }
       before { post :create, email: alice.email }
