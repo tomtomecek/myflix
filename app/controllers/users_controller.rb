@@ -4,7 +4,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    binding.pry
     @user = User.new(user_params)
 
     ActiveRecord::Base.transaction do
@@ -16,7 +15,7 @@ class UsersController < ApplicationController
           amount: 999,
           currency: "usd",
           card: token,
-          description: "sign in payment for #{@user.email}}"
+          description: "sign in payment for #{@user.email}"
         )
         UserMailer.delay.welcome_email(@user.id)
         handle_invitation if params[:invitation_token]
