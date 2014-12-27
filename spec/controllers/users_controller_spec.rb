@@ -15,29 +15,29 @@ describe UsersController do
     context "without invitation token" do
       context "valid input" do
         it "creates the user" do
-          post :create, user: Fabricate.attributes_for(:user)
+          post :create, user: Fabricate.attributes_for(:user), stripeToken: get_stripe_token
           expect(User.count).to eq(1)
         end
 
         it "redirects to sign_in_url" do
-          post :create, user: Fabricate.attributes_for(:user)
+          post :create, user: Fabricate.attributes_for(:user), stripeToken: get_stripe_token
           is_expected.to redirect_to sign_in_url
         end
 
         context "email sending" do
           it "sends out the email" do
-            post :create, user: Fabricate.attributes_for(:user)
+            post :create, user: Fabricate.attributes_for(:user), stripeToken: get_stripe_token
             expect(ActionMailer::Base.deliveries).not_to be_empty
           end
           
           it "sends to the right recipient" do
-            post :create, user: Fabricate.attributes_for(:user, email: "alice@example.com")
+            post :create, user: Fabricate.attributes_for(:user, email: "alice@example.com"), stripeToken: get_stripe_token
             message = ActionMailer::Base.deliveries.last
             expect(message.to).to eq(["alice@example.com"])
           end
 
           it "has the right content" do
-            post :create, user: Fabricate.attributes_for(:user, email: "alice@example.com")
+            post :create, user: Fabricate.attributes_for(:user, email: "alice@example.com"), stripeToken: get_stripe_token
             message = ActionMailer::Base.deliveries.last          
             expect(message.body.encoded).to include("Welcome")
           end
@@ -66,26 +66,23 @@ describe UsersController do
       context "with valid token" do
         let(:pete) { Fabricate(:user) }
         let(:invitation) do
-          Fabricate(:invitation,
-                     sender: pete,
-                     recipient_email: "kelly@example.com",
-                     token: SecureRandom.urlsafe_base64)
+          Fabricate(:invitation, sender: pete, recipient_email: "kelly@example.com", token: SecureRandom.urlsafe_base64)
         end
 
         it "creates the recipient following invitation sender" do
-          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token
+          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token, stripeToken: get_stripe_token
           kelly = User.find_by(email: invitation.recipient_email)
           expect(pete.follows?(kelly)).to be true
         end
 
         it "creates the recipient being followed by the sender" do
-          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token
+          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token, stripeToken: get_stripe_token
           kelly = User.find_by(email: invitation.recipient_email)
           expect(kelly.follows?(pete)).to be true
         end
 
         it "expires invitation token" do
-          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token
+          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token, stripeToken: get_stripe_token
           expect(Invitation.first.token).to be nil
         end
       end
@@ -93,20 +90,17 @@ describe UsersController do
       context "with invalid token" do
         let(:pete) { Fabricate(:user) }
         let(:invitation) do
-          Fabricate(:invitation, 
-                    sender: pete, 
-                    recipient_email: "kelly@example.com",
-                    token: SecureRandom.urlsafe_base64)
+          Fabricate(:invitation, sender: pete, recipient_email: "kelly@example.com", token: SecureRandom.urlsafe_base64)
         end
 
         it "creates the recipient not following invitation sender" do
-          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: "no match"
+          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: "no match", stripeToken: get_stripe_token
           kelly = User.find_by(email: invitation.recipient_email)
           expect(pete.leading_relationships.map(&:follower)).to eq([])
         end
 
         it "creates the recipient not being followed by the sender" do
-          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: "no match"
+          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: "no match", stripeToken: get_stripe_token
           kelly = User.find_by(email: invitation.recipient_email)
           expect(kelly.leading_relationships.map(&:follower)).to eq([])
         end
