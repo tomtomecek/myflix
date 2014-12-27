@@ -15,7 +15,7 @@ class UsersController < ApplicationController
           amount: 999,
           currency: "usd",
           card: token,
-          description: "sign in payment for #{@user.email}"
+          description: "sign up payment for #{@user.email}"
         )
         UserMailer.delay.welcome_email(@user.id)
         handle_invitation if params[:invitation_token]
