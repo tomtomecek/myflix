@@ -52,5 +52,5 @@ end
 group :production, :staging do
   gem 'rails_12factor'
   gem 'unicorn'
-  gem 'sentry-raven', git: 'https://github.com/getsentry/raven-ruby.git'
+  gem 'sentry-raven'
 end
