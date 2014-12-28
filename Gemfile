@@ -45,6 +45,8 @@ group :test do
   gem 'launchy'
   gem 'database_cleaner', '1.2.0'
   gem 'shoulda-matchers', require: false
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :production, :staging do
