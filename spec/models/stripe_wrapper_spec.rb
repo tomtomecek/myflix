@@ -4,7 +4,7 @@ describe StripeWrapper::Charge do
   before { StripeWrapper.set_api_key }
 
   context "with valid card" do
-    it "processes the payment" do
+    it "processes the payment", :vcr do
       card_number = "4242424242424242"
       token = Stripe::Token.create(
         card: {
@@ -35,7 +35,7 @@ describe StripeWrapper::Charge do
       ).id
     end
 
-    it "does not process the payment" do
+    it "does not process the payment", :vcr do
       response = StripeWrapper::Charge.create(
         amount: "999",
         card: token
@@ -43,7 +43,7 @@ describe StripeWrapper::Charge do
       expect(response).not_to be_successfull
     end
 
-    it "throws an error" do
+    it "throws an error", :vcr do
       response = StripeWrapper::Charge.create(
         amount: "999",
         card: token

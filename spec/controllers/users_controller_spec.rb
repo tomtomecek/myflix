@@ -12,14 +12,14 @@ describe UsersController do
   describe "POST create" do
     after { ActionMailer::Base.deliveries.clear }
     
-    context "without invitation token" do
+    context "without invitation token", :vcr do
       context "valid input" do
         it "creates the user" do
           post :create, user: Fabricate.attributes_for(:user), stripeToken: get_stripe_token
           expect(User.count).to eq(1)
         end
 
-        it "redirects to sign_in_url" do
+        it "redirects to sign_in_url"do
           post :create, user: Fabricate.attributes_for(:user), stripeToken: get_stripe_token
           is_expected.to redirect_to sign_in_url
         end
@@ -62,7 +62,7 @@ describe UsersController do
       end
     end
 
-    context "with invitation token" do
+    context "with invitation token", :vcr do
       context "with valid token" do
         let(:pete) { Fabricate(:user) }
         let(:invitation) do
@@ -87,7 +87,7 @@ describe UsersController do
         end
       end
 
-      context "with invalid token" do
+      context "with invalid token", :vcr do
         let(:pete) { Fabricate(:user) }
         let(:invitation) do
           Fabricate(:invitation, sender: pete, recipient_email: "kelly@example.com", token: SecureRandom.urlsafe_base64)
