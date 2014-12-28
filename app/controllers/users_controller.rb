@@ -9,23 +9,24 @@ class UsersController < ApplicationController
     ActiveRecord::Base.transaction do
       begin
         @user.save!
-        Stripe.api_key = ENV["STRIPE_API_KEY"]
+
         token = params[:stripeToken]
-        charge = Stripe::Charge.create(
+        charge = StripeWrapper::Charge.create(
           amount: 999,
-          currency: "usd",
           card: token,
           description: "sign up payment for #{@user.email}"
         )
-        UserMailer.delay.welcome_email(@user.id)
-        handle_invitation if params[:invitation_token]
-        flash[:success] = "Welcome to myFlix, you have successfully registered."
-        redirect_to sign_in_url
+        if charge.successfull?
+          UserMailer.delay.welcome_email(@user.id)
+          handle_invitation if params[:invitation_token]
+          flash[:success] = "Welcome to myFlix, you have successfully registered."
+          redirect_to sign_in_url
+        else
+          flash[:danger] = charge.error_message
+          redirect_to register_url
+        end
       rescue ActiveRecord::RecordInvalid
         render :new
-      rescue Stripe::CardError => e
-        flash[:danger] = e.message
-        redirect_to register_url
       end
     end
   end
