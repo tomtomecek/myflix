@@ -16,7 +16,7 @@ describe StripeWrapper do
           }
         ).id
         response = StripeWrapper::Charge.create(
-          amount: "999",
+          amount: 999,
           card: token
         )
         expect(response).to be_successfull
@@ -38,7 +38,7 @@ describe StripeWrapper do
 
       it "does not process the payment", :vcr do
         response = StripeWrapper::Charge.create(
-          amount: "999",
+          amount: 999,
           card: token
         )
         expect(response).not_to be_successfull
@@ -46,7 +46,7 @@ describe StripeWrapper do
 
       it "throws an error", :vcr do
         response = StripeWrapper::Charge.create(
-          amount: "999",
+          amount: 999,
           card: token
         )
         expect(response.error_message).to eq("Your card was declined.")
