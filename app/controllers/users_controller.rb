@@ -10,10 +10,9 @@ class UsersController < ApplicationController
       begin
         @user.save!
 
-        token = params[:stripeToken]
         charge = StripeWrapper::Charge.create(
           amount: 999,
-          card: token,
+          card: params[:stripeToken],
           description: "sign up payment for #{@user.email}"
         )
         if charge.successfull?
