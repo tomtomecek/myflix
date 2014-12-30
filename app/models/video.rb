@@ -3,7 +3,7 @@ class Video < ActiveRecord::Base
   has_many :reviews, -> { order('created_at DESC') }
   
   validates_presence_of :title, :description, :video_url
-  
+
   mount_uploader :large_cover, LargeCoverUploader
   mount_uploader :small_cover, SmallCoverUploader
 
@@ -12,11 +12,7 @@ class Video < ActiveRecord::Base
     where("title LIKE ?", "%#{title}%")
   end
 
-  def average_rating
-    if reviews.any?
-      reviews.average(:rating).to_f.round(1)
-    else
-      0.0
-    end
+  def rating
+    reviews.average(:rating).to_f.round(1) if reviews.any?
   end
 end

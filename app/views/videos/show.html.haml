@@ -11,7 +11,7 @@
       .video_info.col-sm-3
         %header
           %h3= @video.title
-          %span Rating: #{@video.average_rating}/5.0
+          %span Rating: #{@video.dec_rating}
         %p= @video.description
         .actions
           = link_to "Watch Now", video_path(@video, watch: true), class: "btn btn-primary"
