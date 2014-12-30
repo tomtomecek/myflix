@@ -28,8 +28,4 @@ module StripeWrapper
       charge.message
     end
   end
-
-  def self.set_api_key
-    Stripe.api_key = ENV['STRIPE_API_KEY']
-  end
 end
