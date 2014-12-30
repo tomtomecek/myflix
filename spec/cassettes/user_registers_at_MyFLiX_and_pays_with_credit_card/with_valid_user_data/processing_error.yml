@@ -1,0 +1,66 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/charges
+    body:
+      encoding: US-ASCII
+      string: amount=999&currency=usd&card=tok_15FRUIAqLMYq45GOV1ecOr0W&description=sign%20up%20payment%20for%20alice%40example.com
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.16.1
+      Authorization:
+      - Bearer sk_test_n4QZH7Y0rhBg0pxsSRPDG0ad
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.16.1","lang":"ruby","lang_version":"2.1.5 p273 (2014-11-13)","platform":"x86_64-darwin13.0","publisher":"stripe","uname":"Darwin
+        Tomass-MacBook-Pro.local 13.4.0 Darwin Kernel Version 13.4.0: Sun Aug 17 19:50:11
+        PDT 2014; root:xnu-2422.115.4~1/RELEASE_X86_64 x86_64"}'
+      Content-Length:
+      - '117'
+  response:
+    status:
+      code: 402
+      message: Payment Required
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 30 Dec 2014 15:00:48 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '214'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_EedvvK8yWKdI2B2z
+      Stripe-Version:
+      - '2014-12-22'
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "error": {
+            "message": "An error occurred while processing your card. Try again in a little bit.",
+            "type": "card_error",
+            "code": "processing_error",
+            "charge": "ch_15FRUKAqLMYq45GOELG7DlBp"
+          }
+        }
+    http_version: 
+  recorded_at: Tue, 30 Dec 2014 15:00:48 GMT
+recorded_with: VCR 2.9.3
