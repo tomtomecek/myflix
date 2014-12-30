@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe UsersController do
-
   describe "GET new" do
     it "sets the @user" do
       get :new
@@ -11,34 +10,40 @@ describe UsersController do
 
   describe "POST create" do
     after { ActionMailer::Base.deliveries.clear }
-    
-    context "without invitation token", :vcr do
+
+    context "without invitation token" do
       context "valid input" do
-        it "creates the user" do
-          post :create, user: Fabricate.attributes_for(:user), stripeToken: get_stripe_token
+        before do
+          charge = double('charge')
+          charge.stub(:successfull?).and_return(true)
+          StripeWrapper::Charge.stub(:create).and_return(charge)
+        end
+
+        it "creates the user" do          
+          post :create, user: Fabricate.attributes_for(:user)
           expect(User.count).to eq(1)
         end
 
         it "redirects to sign_in_url"do
-          post :create, user: Fabricate.attributes_for(:user), stripeToken: get_stripe_token
+          post :create, user: Fabricate.attributes_for(:user)
           is_expected.to redirect_to sign_in_url
         end
 
         context "email sending" do
           it "sends out the email" do
-            post :create, user: Fabricate.attributes_for(:user), stripeToken: get_stripe_token
+            post :create, user: Fabricate.attributes_for(:user)
             expect(ActionMailer::Base.deliveries).not_to be_empty
           end
-          
+
           it "sends to the right recipient" do
-            post :create, user: Fabricate.attributes_for(:user, email: "alice@example.com"), stripeToken: get_stripe_token
+            post :create, user: Fabricate.attributes_for(:user, email: "alice@example.com")
             message = ActionMailer::Base.deliveries.last
             expect(message.to).to eq(["alice@example.com"])
           end
 
           it "has the right content" do
-            post :create, user: Fabricate.attributes_for(:user, email: "alice@example.com"), stripeToken: get_stripe_token
-            message = ActionMailer::Base.deliveries.last          
+            post :create, user: Fabricate.attributes_for(:user, email: "alice@example.com")
+            message = ActionMailer::Base.deliveries.last
             expect(message.body.encoded).to include("Welcome")
           end
         end
@@ -62,45 +67,57 @@ describe UsersController do
       end
     end
 
-    context "with invitation token", :vcr do
+    context "with invitation token" do
       context "with valid token" do
         let(:pete) { Fabricate(:user) }
         let(:invitation) do
           Fabricate(:invitation, sender: pete, recipient_email: "kelly@example.com", token: SecureRandom.urlsafe_base64)
         end
 
+        before do
+          charge = double("charge")
+          charge.stub(:successfull?).and_return(:true)
+          StripeWrapper::Charge.stub(:create).and_return(charge)
+        end
+
         it "creates the recipient following invitation sender" do
-          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token, stripeToken: get_stripe_token
+          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token
           kelly = User.find_by(email: invitation.recipient_email)
           expect(pete.follows?(kelly)).to be true
         end
 
         it "creates the recipient being followed by the sender" do
-          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token, stripeToken: get_stripe_token
+          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token
           kelly = User.find_by(email: invitation.recipient_email)
           expect(kelly.follows?(pete)).to be true
         end
 
         it "expires invitation token" do
-          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token, stripeToken: get_stripe_token
+          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token
           expect(Invitation.first.token).to be nil
         end
       end
 
-      context "with invalid token", :vcr do
+      context "with invalid token" do
         let(:pete) { Fabricate(:user) }
         let(:invitation) do
           Fabricate(:invitation, sender: pete, recipient_email: "kelly@example.com", token: SecureRandom.urlsafe_base64)
         end
 
+        before do
+          charge = double("charge")
+          charge.stub(:successfull?).and_return(:false)
+          StripeWrapper::Charge.stub(:create).and_return(charge)
+        end
+
         it "creates the recipient not following invitation sender" do
-          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: "no match", stripeToken: get_stripe_token
+          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: "no match"
           kelly = User.find_by(email: invitation.recipient_email)
           expect(pete.leading_relationships.map(&:follower)).to eq([])
         end
 
         it "creates the recipient not being followed by the sender" do
-          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: "no match", stripeToken: get_stripe_token
+          post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: "no match"
           kelly = User.find_by(email: invitation.recipient_email)
           expect(kelly.leading_relationships.map(&:follower)).to eq([])
         end
