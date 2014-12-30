@@ -12,8 +12,7 @@ class UsersController < ApplicationController
         card: params[:stripeToken],
         description: "sign up payment for #{@user.email}"
       )
-      if charge.successfull?
-        @user.save
+      if charge.successfull? && @user.save
         UserMailer.delay.welcome_email(@user.id)
         handle_invitation if params[:invitation_token]
         flash[:success] = "Welcome to myFlix! You have successfully registered."
