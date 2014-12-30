@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature "User invites a friend to MyFLiX" do
-  scenario "User invites a friend to MyFLiX" do
+  scenario "User invites a friend to MyFLiX", { js: true, vcr: true } do
     pete = Fabricate(:user)
     sign_in(pete)
 
@@ -32,6 +32,10 @@ def expect_friend_to_accept_the_invitation
   expect(find(:xpath, "//input[@type='email']").value).to eq("kelly@example.com")
   fill_in "Password", with: "password"
   fill_in "Full Name", with: "Kelly Doe"
+  fill_in "Credit Card Number", with: "4242424242424242"
+  fill_in "Security Code", with: "123"
+  select "3 - March", from: "date_month"
+  select "2017", from: "date_year"
   click_button "Sign Up"
 end
 

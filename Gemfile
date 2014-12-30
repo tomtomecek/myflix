@@ -42,13 +42,17 @@ end
 group :test do
   gem 'capybara'
   gem 'capybara-email'
+  gem 'capybara-webkit'
   gem 'launchy'
   gem 'database_cleaner', '1.2.0'
   gem 'shoulda-matchers', require: false
+  gem 'vcr'
+  gem 'webmock'
+  gem 'selenium-webdriver'
 end
 
 group :production, :staging do
   gem 'rails_12factor'
   gem 'unicorn'
-  gem 'sentry-raven', git: 'https://github.com/getsentry/raven-ruby.git'
+  gem 'sentry-raven'
 end

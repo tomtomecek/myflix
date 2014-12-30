@@ -1,23 +1,16 @@
 require 'spec_helper'
 
 feature "User signing in" do
-  
-  given(:tom) { Fabricate(:user) }
-
   scenario "successful sign in" do
-    sign_in(tom)
-    
+    sign_in
     expect_to_see("You have logged in")
   end
 
   scenario "unsuccessful login" do
     visit sign_in_path
-    
     fill_in_form_and_submit
-    
     expect_to_see("Incorrect email or password")
   end
-
 end
 
 def fill_in_form_and_submit
