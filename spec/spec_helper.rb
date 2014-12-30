@@ -9,6 +9,8 @@ require 'vcr'
 require 'sidekiq/testing'
 Sidekiq::Testing.inline!
 
+Capybara.javascript_driver = :webkit
+
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/cassettes'
   c.hook_into :webmock
