@@ -47,6 +47,7 @@ group :test do
   gem 'shoulda-matchers', require: false
   gem 'vcr'
   gem 'webmock'
+  gem 'selenium-webdriver'
 end
 
 group :production, :staging do
