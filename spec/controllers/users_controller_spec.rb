@@ -19,7 +19,7 @@ describe UsersController do
           StripeWrapper::Charge.stub(:create).and_return(charge)
         end
 
-        it "creates the user" do          
+        it "creates the user" do
           post :create, user: Fabricate.attributes_for(:user)
           expect(User.count).to eq(1)
         end
