@@ -2,11 +2,10 @@ require 'spec_helper'
 
 describe StripeWrapper do
   describe StripeWrapper::Charge do 
-
     describe ".create", :vcr do
       context "when valid card" do
         let(:token) { set_stripe_token_for_card("4242424242424242") }
-        it "makes a successfull charge" do          
+        it "makes a successfull charge" do
           response = StripeWrapper::Charge.create(amount: 999, card: token)
           expect(response).to be_successfull
         end
@@ -25,7 +24,6 @@ describe StripeWrapper do
         end
       end
     end
-
   end
 end
 
