@@ -7,7 +7,8 @@ addons:
   postgresql: "9.3"
 before_script:
   - psql -c 'create database myflix_test;' -U postgres
-
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 script: bundle exec rspec spec
 env:
   SECRET_KEY_BASE=02662b79a435bdddb917d8f1458d3377aab453c755331419e3f55f0a531d7f53c15124c658f15ccb2d87b711db7c9d45d92956680412cc67accb4f84dbcef6ee
