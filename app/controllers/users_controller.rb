@@ -6,19 +6,15 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     
-    registartion = Registration.new(
-      @user, 
-      stripe_token: params[:stripeToken], 
-      invitation: params[:invitation_token]
-    )
+    registration = UserRegistration.new(@user, params[:stripeToken], params[:invitation_token]).register
 
-    if registartion.successfull?
+    if registration.successfull?
       flash[:success] = "Welcome to myFlix! You have successfully registered."
       redirect_to sign_in_url
     else
-      flash.now[:danger] = registartion.charging_error_message
+      flash.now[:danger] = registration.charging_error_message
       render :new
-    end    
+    end
   end
 
   def show
@@ -29,7 +25,5 @@ private
 
   def user_params
     params.require(:user).permit(:email, :password, :fullname)
-  end
-
-  
+  end  
 end
