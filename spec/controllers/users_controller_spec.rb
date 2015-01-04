@@ -12,7 +12,8 @@ describe UsersController do
     context "registers successfully" do
       let(:registration) { double("registration", successfull?: true) }
       before do
-        UserRegistration.any_instance.should_receive(:register).and_return(registration)
+        UserRegistration
+          .any_instance.should_receive(:register).and_return(registration)
         post :create, user: Fabricate.attributes_for(:user), stripeToken: '123123'
       end
 
@@ -21,7 +22,7 @@ describe UsersController do
     end
 
     context "registration fails" do
-      let(:registration) { double("registration", successfull?: false, charging_error_message: "Your card was declined") }
+      let(:registration) { double("registration", successfull?: false, error_message: "Your card was declined") }
       before do
         UserRegistration.any_instance.should_receive(:register).and_return(registration)
         post :create, user: Fabricate.attributes_for(:user), stripeToken: '123123'

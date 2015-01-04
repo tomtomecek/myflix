@@ -4,16 +4,23 @@ describe UserRegistration do
 
   describe "#register" do
     context "with valid person data and valid card" do
-      let(:charge) { double(:charge, successfull?: true) }
       before do
-        StripeWrapper::Charge.should_receive(:create).and_return(charge)
+        StripeWrapper::Customer
+          .should_receive(:create)
+          .and_return(success_subscription)
       end
       after { ActionMailer::Base.deliveries.clear }
 
       it "create the user" do
         user = Fabricate.build(:user)
-        UserRegistration.new(user, "stripe_token", nil).register
+        UserRegistration.new(user, "stripe_token").register
         expect(User.count).to eq(1)
+      end
+
+      it "creates a subscription" do
+        user = Fabricate.build(:user)
+        UserRegistration.new(user, "stripe_token").register
+        expect(user.subscriptions.count).to eq(1)
       end
 
       context "with invitation token" do
@@ -26,7 +33,9 @@ describe UserRegistration do
               token: SecureRandom.urlsafe_base64
             )
           end
-          let(:kelly) { Fabricate.build(:user, email: invitation.recipient_email) }
+          let(:kelly) do
+            Fabricate.build(:user, email: invitation.recipient_email)
+          end
 
           before do
             UserRegistration.new(kelly, "stripe_token", invitation.token).register
@@ -54,7 +63,9 @@ describe UserRegistration do
               token: SecureRandom.urlsafe_base64
             )
           end
-          let(:kelly) { Fabricate.build(:user, email: invitation.recipient_email) }
+          let(:kelly) do
+            Fabricate.build(:user, email: invitation.recipient_email)
+          end
 
           before do
             UserRegistration.new(kelly, "stripe_token", "no match").register
@@ -71,81 +82,93 @@ describe UserRegistration do
       end
 
       context "email sending" do
-        it "sends out the email" do
-          user = Fabricate.build(:user, email: "alice@example.com")
-          UserRegistration.new(user, "stripe_token", nil).register
-          expect(ActionMailer::Base.deliveries).not_to be_empty
+        let(:user) { Fabricate.build(:user, email: "alice@example.com") }
+        before { UserRegistration.new(user, "stripe_token").register }
+        subject { ActionMailer::Base.deliveries }
+        
+        it "sends out the email" do          
+          expect(subject).not_to be_empty
         end
 
         it "sends to the right recipient" do
-          user = Fabricate.build(:user, email: "alice@example.com")
-          UserRegistration.new(user, "stripe_token", nil).register
-          message = ActionMailer::Base.deliveries.last
-          expect(message.to).to eq(["alice@example.com"])
+          expect(subject.last.to).to eq(["alice@example.com"])
         end
 
         it "has the right content" do
-          user = Fabricate.build(:user, email: "alice@example.com")
-          UserRegistration.new(user, "stripe_token", nil).register
-          message = ActionMailer::Base.deliveries.last
-          expect(message.body.encoded).to include("Welcome")
+          expect(subject.last.body.encoded).to include("Welcome")
         end
       end
     end
 
     context "with valid person data and declined card" do
-      let(:charge) do
-        double(:charge, successfull?: false, error_message: "Your card was declined.")
+      let(:user) { user = Fabricate.build(:user) }
+      before do
+        StripeWrapper::Customer
+          .should_receive(:create)
+          .and_return(fail_subscription)
+        UserRegistration.new(user, "stripe_token").register
       end
 
-      before do
-        StripeWrapper::Charge.should_receive(:create).and_return(charge)        
-      end
-      
-      it "does not create a new user record" do        
-        user = Fabricate.build(:user, email: "alice@example.com")
-        UserRegistration.new(user, "stripe_token", nil).register
+      it "does not create a new user record" do
         expect(User.count).to eq(0)
+      end
+
+      it "does not create a new subscription" do
+        expect(user.subscriptions.count).to eq(0)
       end
     end
 
     context "with invalid person data" do
+      let(:user) { User.new(email: "no match") }
+
       it "does not create a user" do
-        user = Fabricate.build(:user, email: "")
-        UserRegistration.new(user, "stripe_token", nil).register
+        UserRegistration.new(user, "stripe_token").register
         expect(User.count).to eq(0)
       end
 
-      it "does not charge card" do
-        StripeWrapper::Charge.should_not_receive(:create)
-        user = Fabricate.build(:user, email: "")
-        UserRegistration.new(user, "stripe_token", nil).register
+      it "does not charge the card" do
+        StripeWrapper::Customer.should_not_receive(:create)
+        UserRegistration.new(user, "stripe_token").register
+      end
+
+      it "does not create a subscription" do
+        StripeWrapper::Customer.should_not_receive(:create)
+        UserRegistration.new(user, "stripe_token").register
+        expect(user.subscriptions.count).to eq(0)
       end
 
       it "does not send the email" do
-        user = Fabricate.build(:user, email: "")
-        UserRegistration.new(user, "stripe_token", nil).register
+        UserRegistration.new(user, "stripe_token").register
         expect(ActionMailer::Base.deliveries).to be_empty
       end
     end
   end
 
   describe "#successfull?" do
+    let (:user) { Fabricate.build(:user) }
+    subject { UserRegistration.new(user, "stripe_token").register }
+
     it "returns true if registration was successfull." do
-      charge = double("charge", successfull?: true)
-      StripeWrapper::Charge.should_receive(:create).and_return(charge)
-      user = Fabricate.build(:user)
-      reg = UserRegistration.new(user, "stripe_token", nil).register
-      expect(reg).to be_successfull
+      StripeWrapper::Customer
+        .should_receive(:create).and_return(success_subscription)
+      expect(subject).to be_successfull
       ActionMailer::Base.deliveries.clear
     end
 
     it "returns false if registration failed." do
-      charge = double("charge", successfull?: false, error_message: "an error message")
-      StripeWrapper::Charge.should_receive(:create).and_return(charge)
-      user = Fabricate.build(:user)
-      reg = UserRegistration.new(user, "stripe_token", nil).register
-      expect(reg).not_to be_successfull
+      StripeWrapper::Customer
+        .should_receive(:create).and_return(fail_subscription)
+      expect(subject).not_to be_successfull
     end
   end
+end
+
+def success_subscription
+  subscriptions = double(:subscriptions, first: double(:first, id: "sub_456"))
+  customer = double(:customer, id: "cus_123", subscriptions: subscriptions)
+  double(:subscription, successfull?: true, customer: customer)
+end
+
+def fail_subscription
+  double(:subscription, successfull?: false, error_message: "an error message")
 end

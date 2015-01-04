@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.stripe.com/v1/charges
+    uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: amount=999&currency=usd&card=tok_15FRSdAqLMYq45GOR01mZK6Q&description=sign%20up%20payment%20for%20alice%40example.com
+      string: card=tok_15HFYUAqLMYq45GOcO9iLZch&plan=myflix_standard&email=alice%40example.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -22,7 +22,7 @@ http_interactions:
         Tomass-MacBook-Pro.local 13.4.0 Darwin Kernel Version 13.4.0: Sun Aug 17 19:50:11
         PDT 2014; root:xnu-2422.115.4~1/RELEASE_X86_64 x86_64"}'
       Content-Length:
-      - '117'
+      - '80'
   response:
     status:
       code: 402
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Tue, 30 Dec 2014 14:59:05 GMT
+      - Sun, 04 Jan 2015 14:40:35 GMT
       Content-Type:
       - application/json;charset=utf-8
       Content-Length:
-      - '186'
+      - '141'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -47,7 +47,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_YcLY0g5q8tik6F4C
+      - req_yrxAXLrazftMmOwR
       Stripe-Version:
       - '2014-12-22'
     body:
@@ -58,10 +58,9 @@ http_interactions:
             "message": "Your card has expired.",
             "type": "card_error",
             "param": "exp_month",
-            "code": "expired_card",
-            "charge": "ch_15FRSfAqLMYq45GOqYAuHgPx"
+            "code": "expired_card"
           }
         }
     http_version: 
-  recorded_at: Tue, 30 Dec 2014 14:59:06 GMT
+  recorded_at: Sun, 04 Jan 2015 14:40:35 GMT
 recorded_with: VCR 2.9.3
