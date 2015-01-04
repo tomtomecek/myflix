@@ -21,6 +21,7 @@ gem 'mini_magick'
 gem 'carrierwave'
 gem 'fog'
 gem 'stripe'
+gem 'stripe_event'
 gem 'draper', '~> 1.3'
 
 group :development do
