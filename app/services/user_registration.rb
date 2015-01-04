@@ -3,8 +3,8 @@ class UserRegistration
   attr_accessor :charge_error, :status
   attr_reader :user, :stripe_token, :invitation_token
   def initialize(user, stripe_token, invitation_token)
-    @user = user
-    @stripe_token = stripe_token
+    @user             = user
+    @stripe_token     = stripe_token
     @invitation_token = invitation_token
   end
 
