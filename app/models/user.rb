@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
                                      foreign_key: :follower_id
   has_many :leading_relationships, class_name: "Relationship",
                                      foreign_key: :leader_id
+  has_many :subscriptions
 
   before_create { |user| user.email = user.email.downcase }
 

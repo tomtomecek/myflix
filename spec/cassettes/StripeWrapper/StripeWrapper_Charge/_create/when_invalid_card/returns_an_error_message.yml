@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/tokens
     body:
       encoding: US-ASCII
-      string: card[number]=4000000000000002&card[cvc]=123&card[exp_month]=3&card[exp_year]=2018
+      string: card[number]=4000000000000002&card[cvc]=123&card[exp_month]=3&card[exp_year]=2017
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -31,7 +31,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Tue, 30 Dec 2014 10:36:32 GMT
+      - Sun, 04 Jan 2015 14:40:20 GMT
       Content-Type:
       - application/json;charset=utf-8
       Content-Length:
@@ -47,7 +47,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_1JInClgxIhZfBBjO
+      - req_uSNV1nkQoqyobOXl
       Stripe-Version:
       - '2014-12-22'
       Strict-Transport-Security:
@@ -56,20 +56,20 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "tok_15FNMaAqLMYq45GO9VIJqciv",
+          "id": "tok_15HFYGAqLMYq45GOXCQQy1YC",
           "livemode": false,
-          "created": 1419935792,
+          "created": 1420382420,
           "used": false,
           "object": "token",
           "type": "card",
           "card": {
-            "id": "card_15FNMaAqLMYq45GOQNsRXIOS",
+            "id": "card_15HFYGAqLMYq45GOUKR8asyO",
             "object": "card",
             "last4": "0002",
             "brand": "Visa",
             "funding": "credit",
             "exp_month": 3,
-            "exp_year": 2018,
+            "exp_year": 2017,
             "fingerprint": "2mMjYtlqYawHVlFY",
             "country": "US",
             "name": null,
@@ -86,13 +86,13 @@ http_interactions:
           }
         }
     http_version: 
-  recorded_at: Tue, 30 Dec 2014 10:36:33 GMT
+  recorded_at: Sun, 04 Jan 2015 14:40:20 GMT
 - request:
     method: post
     uri: https://api.stripe.com/v1/charges
     body:
       encoding: US-ASCII
-      string: amount=999&currency=usd&card=tok_15FNMaAqLMYq45GO9VIJqciv
+      string: amount=999&currency=usd&card=tok_15HFYGAqLMYq45GOXCQQy1YC
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -118,7 +118,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Tue, 30 Dec 2014 10:36:33 GMT
+      - Sun, 04 Jan 2015 14:40:21 GMT
       Content-Type:
       - application/json;charset=utf-8
       Content-Length:
@@ -134,7 +134,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_YgX4T6tIgUX3eZww
+      - req_F0HYTTWcaZM7Rt1H
       Stripe-Version:
       - '2014-12-22'
     body:
@@ -145,9 +145,9 @@ http_interactions:
             "message": "Your card was declined.",
             "type": "card_error",
             "code": "card_declined",
-            "charge": "ch_15FNMbAqLMYq45GOGjYaeV2o"
+            "charge": "ch_15HFYGAqLMYq45GOyDPcHnhG"
           }
         }
     http_version: 
-  recorded_at: Tue, 30 Dec 2014 10:36:34 GMT
+  recorded_at: Sun, 04 Jan 2015 14:40:21 GMT
 recorded_with: VCR 2.9.3
