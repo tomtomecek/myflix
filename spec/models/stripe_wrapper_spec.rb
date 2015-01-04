@@ -31,7 +31,7 @@ describe StripeWrapper do
       context "when valid card" do
         let(:token) { set_stripe_token_for_card("4242424242424242") }
 
-        it "makes a successfull customer and subscription creation" do
+        it "creates a customer" do
           alice = Fabricate.build(:user, email: "alice@example.com")
           response = StripeWrapper::Customer.create(
             card: token,
@@ -45,7 +45,7 @@ describe StripeWrapper do
         let(:token) { set_stripe_token_for_card("4000000000000002") }
         let(:alice) { Fabricate.build(:user, email: "alice@example.com") }
         
-        it "does not make a customer and subscription" do
+        it "does not create a customer" do
           response = StripeWrapper::Customer.create(
             card: token,
             email: alice.email
