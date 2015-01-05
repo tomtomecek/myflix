@@ -27,9 +27,9 @@ describe UserRegistration do
         context "valid token" do
           let(:pete) { Fabricate(:user) }
           let(:invitation) do
-            Fabricate(:invitation, 
+            Fabricate(:invitation,
               sender: pete, 
-              recipient_email: "kelly@example.com", 
+              recipient_email: "kelly@example.com",
               token: SecureRandom.urlsafe_base64
             )
           end
@@ -57,9 +57,9 @@ describe UserRegistration do
         context "with invalid token" do
           let(:pete) { Fabricate(:user) }
           let(:invitation) do
-            Fabricate(:invitation, 
+            Fabricate(:invitation,
               sender: pete, 
-              recipient_email: "kelly@example.com", 
+              recipient_email: "kelly@example.com",
               token: SecureRandom.urlsafe_base64
             )
           end
@@ -85,8 +85,8 @@ describe UserRegistration do
         let(:user) { Fabricate.build(:user, email: "alice@example.com") }
         before { UserRegistration.new(user, "stripe_token").register }
         subject { ActionMailer::Base.deliveries }
-        
-        it "sends out the email" do          
+
+        it "sends out the email" do
           expect(subject).not_to be_empty
         end
 
