@@ -5,9 +5,9 @@
         %section.payment_history
           %ul.nav.nav-tabs
             %li.active
-              %a(href="") Recent Payments
+              = link_to "Recent Payments", admin_payments_path              
             %li
-              %a(href="/ui/admin_add_video") Add a New Video
+              = link_to "Add a New Video", new_admin_video_path
           %table.table
             %thead
               %tr
@@ -16,9 +16,9 @@
                 %th Amount
                 %th Reference ID
             %tbody
-              - 8.times do
+              = @payments.each do |payment|
                 %tr
-                  %td Jane Doe
-                  %td jane@example.com
-                  %td $9.99
-                  %td csdgw321s-ad3
+                  %td= payment.user.fullname
+                  %td= payment.user.email
+                  %td= number_to_currency(payment.amount / 100.0)
+                  %td= payment.charge_id
