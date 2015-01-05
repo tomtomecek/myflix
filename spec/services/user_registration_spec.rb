@@ -3,13 +3,14 @@ require 'spec_helper'
 describe UserRegistration do
 
   describe "#register" do
+    after { ActionMailer::Base.deliveries.clear }
+    
     context "with valid person data and valid card" do
       before do
         StripeWrapper::Customer
           .should_receive(:create)
           .and_return(success_subscription)
-      end
-      after { ActionMailer::Base.deliveries.clear }
+      end     
 
       it "create the user" do
         user = Fabricate.build(:user)
