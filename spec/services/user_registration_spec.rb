@@ -4,13 +4,13 @@ describe UserRegistration do
 
   describe "#register" do
     after { ActionMailer::Base.deliveries.clear }
-    
+
     context "with valid person data and valid card" do
       before do
         StripeWrapper::Customer
           .should_receive(:create)
           .and_return(success_subscription)
-      end     
+      end
 
       it "create the user" do
         user = Fabricate.build(:user)
@@ -18,10 +18,16 @@ describe UserRegistration do
         expect(User.count).to eq(1)
       end
 
-      it "creates a subscription" do
+      it "creates a subscription under user" do
         user = Fabricate.build(:user)
         UserRegistration.new(user, "stripe_token").register
         expect(user.subscriptions.count).to eq(1)
+      end
+
+      it "creates a subscription with customer_id" do
+        user = Fabricate.build(:user)
+        UserRegistration.new(user, "stripe_token").register
+        expect(Subscription.first.customer_id).to eq("cus_123")
       end
 
       context "with invitation token" do
