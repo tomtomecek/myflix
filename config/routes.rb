@@ -3,6 +3,7 @@ Myflix::Application.routes.draw do
 
   namespace :admin do
     resources :videos, only: [:new, :create]
+    resources :payments, only: [:index]
   end
 
   get '/sign_in', to: "sessions#new"
@@ -43,5 +44,6 @@ Myflix::Application.routes.draw do
 
   get 'ui(/:action)', controller: 'ui'
   root 'static_pages#front'
+  mount StripeEvent::Engine, at: '/stripe_events'
   mount Sidekiq::Web, at: '/sidekiq'
 end

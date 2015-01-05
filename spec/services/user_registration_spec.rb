@@ -3,13 +3,14 @@ require 'spec_helper'
 describe UserRegistration do
 
   describe "#register" do
+    after { ActionMailer::Base.deliveries.clear }
+
     context "with valid person data and valid card" do
       before do
         StripeWrapper::Customer
           .should_receive(:create)
           .and_return(success_subscription)
       end
-      after { ActionMailer::Base.deliveries.clear }
 
       it "create the user" do
         user = Fabricate.build(:user)
@@ -17,19 +18,25 @@ describe UserRegistration do
         expect(User.count).to eq(1)
       end
 
-      it "creates a subscription" do
+      it "creates a subscription under user" do
         user = Fabricate.build(:user)
         UserRegistration.new(user, "stripe_token").register
         expect(user.subscriptions.count).to eq(1)
+      end
+
+      it "creates a subscription with customer_id" do
+        user = Fabricate.build(:user)
+        UserRegistration.new(user, "stripe_token").register
+        expect(Subscription.first.customer_id).to eq("cus_123")
       end
 
       context "with invitation token" do
         context "valid token" do
           let(:pete) { Fabricate(:user) }
           let(:invitation) do
-            Fabricate(:invitation, 
+            Fabricate(:invitation,
               sender: pete, 
-              recipient_email: "kelly@example.com", 
+              recipient_email: "kelly@example.com",
               token: SecureRandom.urlsafe_base64
             )
           end
@@ -57,9 +64,9 @@ describe UserRegistration do
         context "with invalid token" do
           let(:pete) { Fabricate(:user) }
           let(:invitation) do
-            Fabricate(:invitation, 
+            Fabricate(:invitation,
               sender: pete, 
-              recipient_email: "kelly@example.com", 
+              recipient_email: "kelly@example.com",
               token: SecureRandom.urlsafe_base64
             )
           end
@@ -85,8 +92,8 @@ describe UserRegistration do
         let(:user) { Fabricate.build(:user, email: "alice@example.com") }
         before { UserRegistration.new(user, "stripe_token").register }
         subject { ActionMailer::Base.deliveries }
-        
-        it "sends out the email" do          
+
+        it "sends out the email" do
           expect(subject).not_to be_empty
         end
 
