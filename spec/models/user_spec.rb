@@ -42,7 +42,7 @@ describe User do
       Fabricate(:relationship, leader: bob, follower: alice)
       expect(alice.follows?(bob)).to be true
     end
-    
+
     it "returns false if current user does not follow another user" do
       alice = Fabricate(:user)
       bob = Fabricate(:user)
@@ -66,13 +66,19 @@ describe User do
     end
   end
 
-
   describe "#set_token_to_nil" do
     it "sets token to nil" do
       alice = Fabricate(:user, token: SecureRandom.urlsafe_base64)
       alice.set_token_to_nil
       expect(alice.token).to be nil
-    end    
+    end
   end
- 
+
+  describe "#deactivate!" do
+    it "deactivates user" do
+      alice = Fabricate(:user, activated: true)
+      alice.deactivate!
+      expect(alice.activated?).to be false
+    end    
+  end 
 end

@@ -46,6 +46,16 @@ describe SessionsController do
 
     context "with invalid credentials" do
       before { post :create, email: "", password: "no match" }
+
+      it { expect(session[:user_id]).to be nil }
+      it { expect(response).to render_template :new }
+      it { expect(flash[:danger]).to be_present }
+    end
+
+    context "with deactivated account" do
+      let(:alice) { Fabricate(:user, activated: false) }
+      before { post :create, email: alice.email, password: alice.password }
+
       it { expect(session[:user_id]).to be nil }
       it { expect(response).to render_template :new }
       it { expect(flash[:danger]).to be_present }
@@ -54,6 +64,7 @@ describe SessionsController do
 
   describe "DELETE destroy" do
     before { set_current_user; get :destroy }
+    
     it { expect(session[:user_id]).to be nil }
     it { expect(response).to redirect_to root_url }
     it { expect(flash[:success]).to be_present }

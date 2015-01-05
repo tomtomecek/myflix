@@ -10,4 +10,10 @@ StripeEvent.configure do |events|
       amount: charge.amount
     )
   end
+
+  events.subscribe 'charge.failed' do |event|
+    charge = event.data.object
+    user = Subscription.find_by(customer_id: charge.customer).user
+    user.deactivate!
+  end
 end

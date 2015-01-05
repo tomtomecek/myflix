@@ -45,4 +45,8 @@ class User < ActiveRecord::Base
   def set_token_to_nil
     update_column(:token, nil)
   end
+
+  def deactivate!
+    update_column(:activated, false)
+  end
 end
