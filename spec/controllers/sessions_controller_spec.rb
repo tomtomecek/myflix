@@ -49,7 +49,7 @@ describe SessionsController do
 
       it { expect(session[:user_id]).to be nil }
       it { expect(response).to render_template :new }
-      it { expect(flash[:danger]).to be_present }
+      it { expect(flash[:danger]).to match /Incorrect email or password/ }
     end
 
     context "with deactivated account" do
@@ -58,13 +58,13 @@ describe SessionsController do
 
       it { expect(session[:user_id]).to be nil }
       it { expect(response).to render_template :new }
-      it { expect(flash[:danger]).to be_present }
+      it { expect(flash[:danger]).to eq("Your account is deactivated.") }
     end
   end
 
   describe "DELETE destroy" do
     before { set_current_user; get :destroy }
-    
+
     it { expect(session[:user_id]).to be nil }
     it { expect(response).to redirect_to root_url }
     it { expect(flash[:success]).to be_present }
