@@ -99,7 +99,7 @@ describe QueueItemsController do
       let(:queue_item2) { Fabricate(:queue_item, user: current_user, position: 2) }
 
       it "redirects to my_queue_url" do
-        patch :update_queue, queue_items: [{id: queue_item1.id, position: 1}, {id:queue_item2.id, position: 2}]
+        patch :update_queue, queue_items: [{id: queue_item1.id, position: 1}, {id: queue_item2.id, position: 2}]
         expect(response).to redirect_to my_queue_url
       end
 

@@ -35,10 +35,10 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-   DatabaseCleaner.start
+    DatabaseCleaner.start
   end
 
   config.after(:each) do
-   DatabaseCleaner.clean
+    DatabaseCleaner.clean
   end
 end

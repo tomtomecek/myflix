@@ -11,7 +11,7 @@ class QueueItem < ActiveRecord::Base
   def rating
     review.rating if review
   end
-   
+
   def rating=(new_rating)
     if review
       review.update_column(:rating, new_rating)
