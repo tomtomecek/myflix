@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 feature "admin adds video" do
+  given(:admin) { Fabricate(:admin) }
+  given(:video) { Video.first }
   background { Fabricate(:category, name: "Movies") }
-  
+
   scenario "admin adds video and user checks the same video" do
-    admin = Fabricate(:admin)
     sign_in(admin)
     expect_to_see "Add a New Video"
-    
+
     fill_in_video_details_select_category_upload_files_and_submit
-    video = Video.first
     sign_out
 
     sign_in
