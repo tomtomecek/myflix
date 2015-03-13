@@ -1,5 +1,4 @@
 GEM
-  remote: https://code.stripe.com/
   remote: https://rubygems.org/
   specs:
     CFPropertyList (2.2.8)
