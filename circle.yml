@@ -2,18 +2,22 @@ machine:
   ruby:
     version: 2.1.5
 deployment:
-  staging:
-    branch: staging
-    commadns:
-      - heroku maintenance:on --app tt-staging-myflix
-      - git push git@heroku.com:tt-staging-myflix.git $CIRCLE_SHA1:refs/heads/master
-      - heroku run rake db:migrate --app tt-staging-myflix
-      - heroku maintenance:off --app tt-staging-myflix
   production:
     branch: master
-    commadns:
-      - heroku maintenance:on --app tt-myflix
-      - heroku pgbackups:capture
-      - git push git@heroku.com:tt-myflix.git $CIRCLE_SHA1:refs/heads/master
-      - heroku run rake db:migrate --app tt-myflix
-      - heroku maintenance:off --app tt-myflix
+    heroku:
+      appname: tt-myflix
+      commadns:
+        - heroku maintenance:on --app tt-myflix
+        - heroku pgbackups:capture
+        - git push git@heroku.com:tt-myflix.git $CIRCLE_SHA1:refs/heads/master
+        - heroku run rake db:migrate --app tt-myflix
+        - heroku maintenance:off --app tt-myflix
+  staging:
+    branch: staging
+    heroku:
+      appname: tt-staging-myflix
+      commadns:
+        - heroku maintenance:on --app tt-staging-myflix
+        - git push git@heroku.com:tt-staging-myflix.git $CIRCLE_SHA1:refs/heads/master
+        - heroku run rake db:migrate --app tt-staging-myflix
+        - heroku maintenance:off --app tt-staging-myflix
