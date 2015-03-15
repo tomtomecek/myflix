@@ -4,9 +4,7 @@ machine:
 deployment:
   production:
     branch: master
-    heroku:
-      appname: tt-myflix
-    commadns:
+    commands:
       - heroku maintenance:on --app tt-myflix
       - heroku pgbackups:capture
       - git push git@heroku.com:tt-myflix.git $CIRCLE_SHA1:refs/heads/master
@@ -14,9 +12,7 @@ deployment:
       - heroku maintenance:off --app tt-myflix
   staging:
     branch: staging
-    heroku:
-      appname: tt-staging-myflix
-    commadns:
+    commands:
       - heroku maintenance:on --app tt-staging-myflix
       - git push git@heroku.com:tt-staging-myflix.git $CIRCLE_SHA1:refs/heads/master
       - heroku run rake db:migrate --app tt-staging-myflix
