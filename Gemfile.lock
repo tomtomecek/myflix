@@ -268,7 +268,7 @@ GEM
       rspec-core (~> 2.99.0)
       rspec-expectations (~> 2.99.0)
       rspec-mocks (~> 2.99.0)
-    rubyzip (1.1.6)
+    rubyzip (1.1.7)
     safe_yaml (1.0.4)
     sass (3.2.19)
     sass-rails (4.0.3)
@@ -276,7 +276,7 @@ GEM
       sass (~> 3.2.0)
       sprockets (~> 2.8, <= 2.11.0)
       sprockets-rails (~> 2.0)
-    selenium-webdriver (2.44.0)
+    selenium-webdriver (2.45.0)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
@@ -380,7 +380,7 @@ DEPENDENCIES
   rails_12factor
   rspec-rails (= 2.99)
   sass-rails
-  selenium-webdriver
+  selenium-webdriver (= 2.45.0)
   sentry-raven
   shoulda-matchers
   sidekiq
