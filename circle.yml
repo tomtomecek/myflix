@@ -6,3 +6,7 @@ deployment:
     branch: master
     heroku:
       appname: tt-myflix
+  staging:
+    branch: staging
+    heroku:
+      appname: tt-staging-myflix
