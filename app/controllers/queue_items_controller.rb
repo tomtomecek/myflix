@@ -46,7 +46,7 @@ class QueueItemsController < AuthenticatedController
   def update_positions
     ActiveRecord::Base.transaction do
       params[:queue_items].each do |qi_data|
-        queue_item = QueueItem.find(qi_data[:id])          
+        queue_item = QueueItem.find(qi_data[:id])
         queue_item.update!(position: qi_data[:position], rating: qi_data[:rating]) if queue_item.user == current_user
       end
     end
