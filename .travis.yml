@@ -1,8 +1,10 @@
 language: ruby
 rvm:
-  - 2.1.5
+  - 2.1.6
 sudo: false
 cache: bundler
+services:
+  - elasticsearch
 addons:
   postgresql: "9.3"
 before_script:
