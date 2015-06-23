@@ -12,7 +12,7 @@
         %header
           %h3= @video.title
           %span Rating: 
-          = @video.rating
+          = @video.average_rating
         %p= @video.description
         .actions
           = link_to "Watch Now", video_path(@video, watch: true), class: "btn btn-primary"
