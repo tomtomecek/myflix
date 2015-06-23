@@ -1,5 +1,14 @@
+GIT
+  remote: git://github.com/elasticsearch/elasticsearch-rails.git
+  revision: 738c63efacc167b6e8faae3b01a1a0135cfc8bbb
+  specs:
+    elasticsearch-model (0.1.7)
+      activesupport (> 3)
+      elasticsearch (> 0.4)
+      hashie
+    elasticsearch-rails (0.1.7)
+
 GEM
-  remote: https://code.stripe.com/
   remote: https://rubygems.org/
   specs:
     CFPropertyList (2.2.8)
@@ -82,6 +91,14 @@ GEM
       activemodel (>= 3.0)
       activesupport (>= 3.0)
       request_store (~> 1.0)
+    elasticsearch (1.0.12)
+      elasticsearch-api (= 1.0.12)
+      elasticsearch-transport (= 1.0.12)
+    elasticsearch-api (1.0.12)
+      multi_json
+    elasticsearch-transport (1.0.12)
+      faraday
+      multi_json
     erubis (2.7.0)
     eventmachine (1.0.0)
     excon (0.42.1)
@@ -169,6 +186,7 @@ GEM
       activesupport (>= 4.0.1)
       haml (>= 3.1, < 5.0)
       railties (>= 4.0.1)
+    hashie (3.4.2)
     heroku-api (0.3.22)
       excon (~> 0.38)
       multi_json (~> 1.8)
@@ -361,6 +379,8 @@ DEPENDENCIES
   coffee-rails
   database_cleaner (= 1.2.0)
   draper (~> 1.3)
+  elasticsearch-model!
+  elasticsearch-rails!
   fabrication
   faker
   figaro
@@ -386,7 +406,7 @@ DEPENDENCIES
   sidekiq
   sinatra
   slim
-  stripe
+  stripe (= 1.16.1)
   stripe_event
   thin
   uglifier

@@ -6,4 +6,8 @@ module ApplicationHelper
   def display_invited_email_or_nothing
     params[:invitation_email] ? params[:invitation_email] : ''
   end
+
+  def average_ratings
+    (10..50).map { |num| num / 10.0 }
+  end
 end
