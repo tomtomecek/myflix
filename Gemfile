@@ -1,6 +1,5 @@
-source 'https://code.stripe.com'
 source 'https://rubygems.org'
-ruby '2.1.5'
+ruby '2.1.6'
 
 gem 'rails',          '4.1.1'
 gem 'bootstrap-sass'
@@ -20,9 +19,11 @@ gem 'paratrooper'
 gem 'mini_magick'
 gem 'carrierwave'
 gem 'fog'
-gem 'stripe'
+gem 'stripe', '1.16.1'
 gem 'stripe_event'
 gem 'draper', '~> 1.3'
+gem 'elasticsearch-model', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
+gem 'elasticsearch-rails', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
 
 group :development do
   gem 'thin'

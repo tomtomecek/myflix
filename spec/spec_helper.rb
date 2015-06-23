@@ -30,6 +30,10 @@ RSpec.configure do |config|
   config.order = "random"
   config.infer_spec_type_from_file_location!
 
+  config.before(:each, elasticsearch: true) do
+    Video.__elasticsearch__.delete_index! if Video.__elasticsearch__.index_exists?
+  end
+
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
   end
