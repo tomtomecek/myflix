@@ -39,7 +39,8 @@
               %h3= video.title
             %p.video_description= video.description
             %hr
-            .details
-              %span.average_rating Average rating: #{video.average_rating}
-              %span.reviews_count= pluralize(video.reviews_count, "review")
+            - if params[:reviews]
+              .details
+                %span.average_rating Average rating: #{video.average_rating}
+                %span.reviews_count= pluralize(video.reviews_count, "review")
             %footer.video_review= video.first_review
