@@ -11,6 +11,7 @@ deployment:
       - heroku pg:backups capture --app tt-myflix
       - git push -f git@heroku.com:tt-myflix.git $CIRCLE_SHA1:refs/heads/master
       - heroku run rake db:migrate --app tt-myflix
+      - heroku run rake elasticsearch:index --app tt-myflix
       - heroku maintenance:off --app tt-myflix
   staging:
     branch: staging
@@ -18,4 +19,5 @@ deployment:
       - heroku maintenance:on --app tt-staging-myflix
       - git push -f git@heroku.com:tt-staging-myflix.git $CIRCLE_SHA1:refs/heads/master
       - heroku run rake db:migrate --app tt-staging-myflix
+      - heroku run rake elasticsearch:index --app tt-staging-myflix
       - heroku maintenance:off --app tt-staging-myflix
