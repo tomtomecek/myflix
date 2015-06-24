@@ -16,6 +16,6 @@ deployment:
     branch: staging
     commands:
       - heroku maintenance:on --app tt-staging-myflix
-      - git push git@heroku.com:tt-staging-myflix.git $CIRCLE_SHA1:refs/heads/master
+      - git push -f git@heroku.com:tt-staging-myflix.git $CIRCLE_SHA1:refs/heads/master
       - heroku run rake db:migrate --app tt-staging-myflix
       - heroku maintenance:off --app tt-staging-myflix
