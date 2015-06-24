@@ -9,7 +9,7 @@ deployment:
     commands:
       - heroku maintenance:on --app tt-myflix
       - heroku pg:backups capture --app tt-myflix
-      - git push git@heroku.com:tt-myflix.git $CIRCLE_SHA1:refs/heads/master
+      - git push -f git@heroku.com:tt-myflix.git $CIRCLE_SHA1:refs/heads/master
       - heroku run rake db:migrate --app tt-myflix
       - heroku maintenance:off --app tt-myflix
   staging:
