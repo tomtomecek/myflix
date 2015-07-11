@@ -37,6 +37,7 @@ def expect_friend_to_accept_the_invitation
   select "3 - March", from: "date_month"
   select "2017", from: "date_year"
   click_button "Sign Up"
+  sleep 1
 end
 
 def friend_signs_in

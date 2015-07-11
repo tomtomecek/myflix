@@ -1,13 +1,3 @@
-GIT
-  remote: git://github.com/elasticsearch/elasticsearch-rails.git
-  revision: 738c63efacc167b6e8faae3b01a1a0135cfc8bbb
-  specs:
-    elasticsearch-model (0.1.7)
-      activesupport (> 3)
-      elasticsearch (> 0.4)
-      hashie
-    elasticsearch-rails (0.1.7)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -71,6 +61,7 @@ GEM
       timers (~> 4.0.0)
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
+    cliver (0.3.2)
     coderay (1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -83,7 +74,7 @@ GEM
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     daemons (1.1.9)
-    database_cleaner (1.2.0)
+    database_cleaner (1.4.1)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
     draper (1.4.0)
@@ -96,6 +87,11 @@ GEM
       elasticsearch-transport (= 1.0.12)
     elasticsearch-api (1.0.12)
       multi_json
+    elasticsearch-model (0.1.7)
+      activesupport (> 3)
+      elasticsearch (> 0.4)
+      hashie
+    elasticsearch-rails (0.1.7)
     elasticsearch-transport (1.0.12)
       faraday
       multi_json
@@ -227,6 +223,11 @@ GEM
       netrc (~> 0.7)
       rendezvous (~> 0.0.1)
     pg (0.17.0)
+    poltergeist (1.6.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      multi_json (~> 1.0)
+      websocket-driver (>= 0.2.0)
     polyglot (0.3.5)
     pry (0.9.12.3)
       coderay (~> 1.0)
@@ -360,6 +361,9 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
     websocket (1.2.1)
+    websocket-driver (0.6.0)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.2)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -377,10 +381,10 @@ DEPENDENCIES
   capybara-webkit
   carrierwave
   coffee-rails
-  database_cleaner (= 1.2.0)
+  database_cleaner (= 1.4.1)
   draper (~> 1.3)
-  elasticsearch-model!
-  elasticsearch-rails!
+  elasticsearch-model
+  elasticsearch-rails
   fabrication
   faker
   figaro
@@ -393,6 +397,7 @@ DEPENDENCIES
   mini_magick
   paratrooper
   pg
+  poltergeist
   pry
   pry-nav
   quiet_assets

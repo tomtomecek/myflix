@@ -4,7 +4,7 @@
       %h1 Advanced Search
     .form-group
       .col-sm-6
-        %input.form-control(type="text" placeholder="Search videos by title, description")
+        %input.form-control(type="search" placeholder="Search videos by title, description")
     .form-group
       .col-sm-6
         .checkbox
@@ -16,18 +16,14 @@
       .col-sm-2
         %select.form-control(id="rating_from")
           %option -
-          - (1..4).each do |number|
-            - (0..9).each do |tenth|
-              %option{value: "#{number}.#{tenth}"} #{number}.#{tenth}
-          %option(value="5.0") 5.0
+          - (10..50).map { |num| num / 10.0 }.each do |number|
+            %option{ value: number }= number
       %label.col-sm-1.control-label(for="rating_to") To:
       .col-sm-2
         %select.form-control(id="rating_to")
           %option -
-          - (1..4).each do |number|
-            - (0..9).each do |tenth|
-              %option{value: "#{number}.#{tenth}"} #{number}.#{tenth}
-          %option(value="5.0") 5.0
+          - (10..50).map { |num| num / 10.0 }.each do |number|
+            %option{ value: number }= number
     .form-group
       .col-sm-6
         = button_tag(type: "submit", class: "btn btn-primary") do
@@ -68,6 +64,4 @@
           %em.label.label-highlight Laoreet
           vulputate sit wisi, a aliquam, est vivamus malesuada condimentum nostra volutpat, odio et sed eros aliquam, pulvinar est in nulla hendrerit. Vestibulum volutpat orci varius, euismod quis nunc mattis malesuada, quis nulla tortor lacinia id vestibulum, mattis venenatis sed integer.
         %hr
-        .details
-          %span.average_rating Average rating: N/A
         %footer.video_review There are currently no reviews.

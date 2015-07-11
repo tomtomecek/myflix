@@ -52,14 +52,10 @@ def search_for(query, options = {})
   within(".advanced_search") do
     fill_in "query", with: query
 
-    if options[:include_reviews]
-      check "Include Reviews"
-    end
+    check "Include Reviews" if options[:include_reviews]
 
-    if options[:rating_from] || options[:rating_to]
-      select options[:rating_from], from: "rating_from" if options[:rating_from]
-      select options[:rating_to], from: "rating_to" if options[:rating_to]
-    end
+    select options[:rating_from], from: "rating_from" if options[:rating_from]
+    select options[:rating_to], from: "rating_to" if options[:rating_to]
 
     click_button "Search"
   end

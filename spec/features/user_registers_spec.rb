@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "user registers at MyFLiX and pays with credit card", js: true, vcr: true, driver: :selenium do
+feature "user registers at MyFLiX and pays with credit card", :js, :vcr do
 
   background { visit register_path }
 
