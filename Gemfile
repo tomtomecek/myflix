@@ -22,8 +22,8 @@ gem 'fog'
 gem 'stripe', '1.16.1'
 gem 'stripe_event'
 gem 'draper', '~> 1.3'
-gem 'elasticsearch-model', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
-gem 'elasticsearch-rails', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
 
 group :development do
   gem 'thin'
@@ -47,11 +47,12 @@ group :test do
   gem 'capybara-email'
   gem 'capybara-webkit'
   gem 'launchy'
-  gem 'database_cleaner', '1.2.0'
+  gem 'database_cleaner', '1.4.1'
   gem 'shoulda-matchers', require: false
   gem 'vcr'
   gem 'webmock'
   gem 'selenium-webdriver', '2.45.0'
+  gem 'poltergeist'
 end
 
 group :production, :staging do

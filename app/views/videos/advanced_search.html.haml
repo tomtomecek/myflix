@@ -4,7 +4,7 @@
       %h1 Advanced Search
     .form-group
       .col-sm-6
-        = text_field_tag :query, params[:query], placeholder: "Search videos by title, description", class: "form-control"
+        = search_field_tag :query, params[:query], placeholder: "Search videos by title, description", class: "form-control"
     .form-group
       .col-sm-6
         .checkbox
@@ -39,7 +39,7 @@
               %h3= video.title
             %p.video_description= video.description
             %hr
-            - if params[:reviews]
+            - if video.reviews_count > 0
               .details
                 %span.average_rating Average rating: #{video.average_rating}
                 %span.reviews_count= pluralize(video.reviews_count, "review")
