@@ -21,49 +21,49 @@ class Video < ActiveRecord::Base
     reviews.average(:rating).to_f.round(1) if reviews.any?
   end
 
-  # def self.search(query, options = {})
-  #   search_definition =
-  #     if query.present?
-  #       {
-  #         query: {
-  #           multi_match: {
-  #             query: query,
-  #             fields: ["title^100", "description^50"],
-  #             operator: "and"
-  #           }
-  #         },
-  #         highlight: {
-  #           pre_tags: ["<em class='label label-highlight'>"],
-  #           post_tags: ["</em>"],
-  #           fields: {
-  #             title: { number_of_fragments: 0 },
-  #             description: { number_of_fragments: 0 }
-  #           }
-  #         }
-  #       }
-  #     else
-  #       { query: { match_all: {} } }
-  #     end
+  def self.search(query, options = {})
+    search_definition =
+      if query.present?
+        {
+          query: {
+            multi_match: {
+              query: query,
+              fields: ["title^100", "description^50"],
+              operator: "and"
+            }
+          },
+          highlight: {
+            pre_tags: ["<em class='label label-highlight'>"],
+            post_tags: ["</em>"],
+            fields: {
+              title: { number_of_fragments: 0 },
+              description: { number_of_fragments: 0 }
+            }
+          }
+        }
+      else
+        { query: { match_all: {} } }
+      end
 
-  #   if query.present? && options[:reviews]
-  #     search_definition[:query][:multi_match][:fields] << "reviews.body"
-  #     search_definition[:highlight][:fields].update "reviews.body" => { fragment_size: 235 }
-  #   end
+    if query.present? && options[:reviews]
+      search_definition[:query][:multi_match][:fields] << "reviews.body"
+      search_definition[:highlight][:fields].update "reviews.body" => { fragment_size: 235 }
+    end
 
-  #   if options[:rating_from].present? || options[:rating_to].present?
-  #     search_definition[:filter] = {
-  #       range: {
-  #         average_rating: {
-  #           gte: (options[:rating_from] if options[:rating_from].present?),
-  #           lte: (options[:rating_to] if options[:rating_to].present?)
-  #         }
-  #       }
-  #     }
-  #     search_definition[:sort] = { average_rating: 'desc' }
-  #   end
+    if options[:rating_from].present? || options[:rating_to].present?
+      search_definition[:filter] = {
+        range: {
+          average_rating: {
+            gte: (options[:rating_from] if options[:rating_from].present?),
+            lte: (options[:rating_to] if options[:rating_to].present?)
+          }
+        }
+      }
+      search_definition[:sort] = { average_rating: 'desc' }
+    end
 
-  #   __elasticsearch__.search(search_definition)
-  # end
+    __elasticsearch__.search(search_definition)
+  end
 
   def as_indexed_json(options = {})
     self.as_json(
