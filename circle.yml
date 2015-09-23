@@ -1,8 +1,11 @@
 machine:
   ruby:
-    version: 2.1.6
-  services:
-    - elasticsearch
+    version: 2.1.7
+dependencies:
+  post:
+    - wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.6.0.tar.gz
+    - tar -xvf elasticsearch-1.6.0.tar.gz
+    - elasticsearch-1.6.0/bin/elasticsearch: {background: true}
 deployment:
   production:
     branch: master
