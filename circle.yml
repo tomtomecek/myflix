@@ -1,6 +1,6 @@
 machine:
   ruby:
-    version: 2.1.7
+    version: 2.1.6
 dependencies:
   post:
     - wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.6.0.tar.gz
