@@ -6,7 +6,11 @@ E-commerce application, a clone of NetFlix, with payment processing, account man
 
 ## Home Page and Sign up
 
-The project's home page lives on Heroku - [here](https://tt-myflix.herokuapp.com). If you want to sign up, use credit card number '4242 4242 4242 4242', cvc '123', and any non-expired date.
+The project's home page lives on Heroku - [here](https://tt-myflix.herokuapp.com). If you want to sign up, use following details:
+
+* Credit card number '4242 4242 4242 4242',
+* cvc '123',
+* Any non-expired date
 
 ## Goal and description
 
