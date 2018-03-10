@@ -51,7 +51,7 @@ The goal of this project is to go beyond a beginner Rails project and learn what
 * Stubs and mocks
 * Implement Continuous Integration with TravisCI
 
-#### Building Applications
+### Building Applications
 
 * Seeding data
 * Search
@@ -78,20 +78,18 @@ The goal of this project is to go beyond a beginner Rails project and learn what
 * Handle callback events
 * Beyond MVC
 
-#### Production Application Considerations
+### Production Application Considerations
 
 * Secure sensitive data
 * Deploy with Procfile and Foreman
-* Unicorn
 * Staging and production environments
 * Custom deployment scripts
-* Safe guarding staging environment
-* Email filters for staging environment
-* Production environment monitoring
-* Handle production errors
-* Production data backup and restore
+* Continuous Integration
+* Continuous Delivery
+* Production error monitoring
+* Production service integration
 
-#### Workflows
+### Workflows
 
 * Build workflows that involve multiple sub-systems
 * Complex registration workflow
