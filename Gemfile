@@ -43,7 +43,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', '2.15.1'
   gem 'capybara-email'
   gem 'launchy'
   gem 'database_cleaner', '1.4.1'
