@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: card=tok_15HFYdAqLMYq45GOJrKesfo5&plan=myflix_standard&email=alice%40example.com
+      string: card=tok_1C5wxKAqLMYq45GOqw0rnlx6&plan=myflix_standard&email=alice%40example.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -18,9 +18,9 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
-      - '{"bindings_version":"1.16.1","lang":"ruby","lang_version":"2.1.5 p273 (2014-11-13)","platform":"x86_64-darwin13.0","publisher":"stripe","uname":"Darwin
-        Tomass-MacBook-Pro.local 13.4.0 Darwin Kernel Version 13.4.0: Sun Aug 17 19:50:11
-        PDT 2014; root:xnu-2422.115.4~1/RELEASE_X86_64 x86_64"}'
+      - '{"bindings_version":"1.16.1","lang":"ruby","lang_version":"2.1.6 p336 (2015-04-13)","platform":"x86_64-darwin16.0","publisher":"stripe","uname":"Darwin
+        Tomass-MacBook-Pro.local 16.7.0 Darwin Kernel Version 16.7.0: Thu Jan 11 22:59:40
+        PST 2018; root:xnu-3789.73.8~1/RELEASE_X86_64 x86_64"}'
       Content-Length:
       - '80'
   response:
@@ -31,9 +31,9 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 04 Jan 2015 14:40:44 GMT
+      - Thu, 15 Mar 2018 14:21:24 GMT
       Content-Type:
-      - application/json;charset=utf-8
+      - application/json
       Content-Length:
       - '153'
       Connection:
@@ -42,14 +42,18 @@ http_interactions:
       - 'true'
       Access-Control-Allow-Methods:
       - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
       Access-Control-Max-Age:
       - '300'
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_VbxTIyyHGGX22eNr
+      - req_HH66nhGzL2g26l
       Stripe-Version:
-      - '2014-12-22'
+      - '2015-02-10'
     body:
       encoding: UTF-8
       string: |
@@ -62,5 +66,5 @@ http_interactions:
           }
         }
     http_version: 
-  recorded_at: Sun, 04 Jan 2015 14:40:45 GMT
+  recorded_at: Thu, 15 Mar 2018 14:21:24 GMT
 recorded_with: VCR 2.9.3
