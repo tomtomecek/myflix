@@ -50,7 +50,7 @@ group :test do
   gem 'shoulda-matchers', require: false
   gem 'vcr'
   gem 'webmock'
-  gem 'selenium-webdriver', '2.45.0'
+  gem 'selenium-webdriver', '3.6.0'
   gem 'poltergeist'
 end
 
