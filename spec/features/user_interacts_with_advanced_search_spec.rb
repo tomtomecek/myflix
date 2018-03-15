@@ -37,54 +37,54 @@ feature "User interacts with advanced search", :elasticsearch do
     validate_search_by_average_ratings
     validate_highlighting(0)
   end
-end
 
-def validate_highlighting(count)
-  expect(page).to have_css ".label-highlight", count: count
-end
-
-def search_for(query, options = {})
-  if query.is_a? Hash
-    options = query
-    query = nil
+  def validate_highlighting(count)
+    expect(page).to have_css ".label-highlight", count: count
   end
 
-  within(".advanced_search") do
-    fill_in "query", with: query
+  def search_for(query, options = {})
+    if query.is_a? Hash
+      options = query
+      query = nil
+    end
 
-    check "Include Reviews" if options[:include_reviews]
+    within(".advanced_search") do
+      fill_in "query", with: query
 
-    select options[:rating_from], from: "rating_from" if options[:rating_from]
-    select options[:rating_to], from: "rating_to" if options[:rating_to]
+      check "Include Reviews" if options[:include_reviews]
 
-    click_button "Search"
+      select options[:rating_from], from: "rating_from" if options[:rating_from]
+      select options[:rating_to], from: "rating_to" if options[:rating_to]
+
+      click_button "Search"
+    end
   end
-end
 
-def validate_search_by_title
-  expect(page).to have_content "2 videos found"
-  expect(page).to have_css("article", count: 2)
-  expect(page).to have_content "Star Wars: Episode I"
-  expect(page).to have_content "Star Wars: Episode II"
-  expect(page).to have_no_content "Star Trek"
-  expect(page).to have_no_content "Bride Wars"
-end
+  def validate_search_by_title
+    expect(page).to have_content "2 videos found"
+    expect(page).to have_css("article", count: 2)
+    expect(page).to have_content "Star Wars: Episode I"
+    expect(page).to have_content "Star Wars: Episode II"
+    expect(page).to have_no_content "Star Trek"
+    expect(page).to have_no_content "Bride Wars"
+  end
 
-def validate_search_by_description
-  expect(page).to have_content "Bride Wars"
-  expect(page).to have_no_content "Star"
-end
+  def validate_search_by_description
+    expect(page).to have_content "Bride Wars"
+    expect(page).to have_no_content "Star"
+  end
 
-def validate_search_by_reviews
-  expect(page).to have_content "Star Wars: Episode I"
-  expect(page).to have_no_content "Star Wars: Episode II"
-  expect(page).to have_no_content "Star Trek"
-  expect(page).to have_no_content "Bride Wars"
-end
+  def validate_search_by_reviews
+    expect(page).to have_content "Star Wars: Episode I"
+    expect(page).to have_no_content "Star Wars: Episode II"
+    expect(page).to have_no_content "Star Trek"
+    expect(page).to have_no_content "Bride Wars"
+  end
 
-def validate_search_by_average_ratings
-  expect(page).to have_content "Star Trek"
-  expect(page).to have_no_content "Star Wars: Episode I"
-  expect(page).to have_no_content "Star Wars: Episode II"
-  expect(page).to have_no_content "Bride Wars"
+  def validate_search_by_average_ratings
+    expect(page).to have_content "Star Trek"
+    expect(page).to have_no_content "Star Wars: Episode I"
+    expect(page).to have_no_content "Star Wars: Episode II"
+    expect(page).to have_no_content "Bride Wars"
+  end
 end
