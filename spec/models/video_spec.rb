@@ -175,7 +175,7 @@ describe Video do
         star_trek = Fabricate(:video, title: "Star Trek")
         refresh_index
 
-        expect(Video.search("Star Wars").records.to_a).to eq [star_wars1, star_wars2]
+        expect(Video.search("Star Wars").records.to_a).to match_array [star_wars1, star_wars2]
       end
     end
   end
