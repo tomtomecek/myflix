@@ -36,7 +36,7 @@ feature "User invites a friend to MyFLiX" do
     select "3 - March", from: "date_month"
     select (Time.now.year + 1), from: "date_year"
     click_button "Sign Up"
-    expect(page).to have_content "You have successfully registered", wait: 3
+    expect(page).to have_content "You have successfully registered"
   end
 
   def friend_signs_in

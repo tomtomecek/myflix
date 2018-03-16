@@ -19,12 +19,12 @@ feature "user registers at MyFLiX and pays with credit card", :js, :vcr do
 
     scenario "expired card" do
       fill_in_credit_card_data_and_submit("4000000000000069")
-      expect_to_see "Your card has expired.", wait: 3
+      expect_to_see "Your card has expired."
     end
 
     scenario "incorrect cvc" do
       fill_in_credit_card_data_and_submit("4000000000000127")
-      expect_to_see "Your card's security code is incorrect.", wait: 3
+      expect_to_see "Your card's security code is incorrect."
     end
 
     scenario "processing error" do
@@ -34,7 +34,7 @@ feature "user registers at MyFLiX and pays with credit card", :js, :vcr do
 
     scenario "declined card" do
       fill_in_credit_card_data_and_submit("4000000000000002")
-      expect_to_see "Your card was declined.", wait: 3
+      expect_to_see "Your card was declined."
     end
   end
 
@@ -43,7 +43,7 @@ feature "user registers at MyFLiX and pays with credit card", :js, :vcr do
 
     scenario "with invalid user data and valid card" do
       fill_in_credit_card_data_and_submit("4242424242424242")
-      expect_to_see "Please fix the errors below.", wait: 3
+      expect_to_see "Please fix the errors below."
     end
 
     scenario "with invalid user data and invalid card" do
