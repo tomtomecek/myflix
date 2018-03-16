@@ -2,6 +2,8 @@
 
 [![Build Status](https://secure.travis-ci.org/tomtomecek/myflix.png)](http://travis-ci.org/tomtomecek/myflix)
 
+[![CircleCI](https://circleci.com/gh/tomtomecek/myflix.svg?style=svg)](https://circleci.com/gh/tomtomecek/myflix)
+
 E-commerce application, a clone of NetFlix, with payment processing, account management, and administration capabilities.
 
 ## Home Page and Sign up

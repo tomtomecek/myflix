@@ -1,5 +1,5 @@
-def sign_in(a_user=nil)
-  user = a_user || Fabricate(:user)
+def sign_in(user=nil)
+  user ||= Fabricate(:user)
   visit sign_in_path
   fill_in "email",    with: user.email
   fill_in "password", with: user.password
@@ -10,12 +10,12 @@ def sign_out
   visit sign_out_path
 end
 
-def expect_to_see(text)
-  expect(page).to have_content text
+def expect_to_see(text, options = {})
+  expect(page).to have_content(text, options)
 end
 
-def expect_to_not_see(text)
-  expect(page).to have_no_content text
+def expect_to_not_see(text, options = {})
+  expect(page).to have_no_content(text, options)
 end
 
 def expect_to_be_in(path)

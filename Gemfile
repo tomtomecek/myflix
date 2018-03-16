@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
-ruby '2.1.6'
+ruby '2.3.6'
 
-gem 'rails',          '4.1.1'
+gem 'rails',          '4.1.6'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
 gem 'coffee-rails'
@@ -39,20 +39,20 @@ group :development, :test do
   gem 'fabrication'
   gem 'pry'
   gem 'pry-nav'
-  gem 'rspec-rails', '2.99'
+  gem 'rspec-rails', '3.6.0'
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', '2.15.1'
   gem 'capybara-email'
-  gem 'capybara-webkit'
   gem 'launchy'
   gem 'database_cleaner', '1.4.1'
   gem 'shoulda-matchers', require: false
   gem 'vcr'
   gem 'webmock'
-  gem 'selenium-webdriver', '2.45.0'
+  gem 'selenium-webdriver', '3.6.0'
   gem 'poltergeist'
+  gem 'rspec_junit_formatter'
 end
 
 group :production, :staging do

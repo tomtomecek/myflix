@@ -1,0 +1,77 @@
+version: 2
+jobs:
+  build:
+    parallelism: 4
+    working_directory: ~/myflix
+    docker:
+      - image: circleci/ruby:2.3.6-node-browsers
+        environment:
+          RAILS_ENV: test
+          RACK_ENV: test
+          PGHOST: localhost
+          PGUSER: postgres
+      - image: circleci/postgres:9.6.4
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: myflix_test
+      - image: docker.elastic.co/elasticsearch/elasticsearch:5.2.2
+        environment:
+          xpack.security.enabled: false
+          transport.host: localhost
+    steps:
+      - checkout
+
+      # Restore bundle cache
+      - restore_cache:
+          key: myflix-app-{{ checksum "Gemfile.lock" }}
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      # Store bundle cache
+      - save_cache:
+          key: myflix-app-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      - run:
+          name: Database setup
+          command: bundle exec rake db:create db:schema:load --trace
+
+      - run:
+          name: Create the screenshot artifact directory
+          command: mkdir -p /tmp/capybara;
+
+      - run: |
+          bundle exec rspec -r rspec_junit_formatter \
+                            --format RspecJunitFormatter \
+                            --out ~/myflix/tmp/test-results/rspec.xml \
+                            --format progress \
+                            $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --timings-type=classname)
+
+      # Save artifacts
+      - store_test_results:
+          path: ~/myflix/tmp/test-results
+      - store_artifacts:
+          path: ~/myflix/tmp/test-results
+      - store_artifacts:
+          path: ~/myflix/tmp/capybara
+
+# deployment:
+#   production:
+#     branch: master
+#     commands:
+#       - heroku maintenance:on --app tt-myflix
+#       - heroku pg:backups capture --app tt-myflix
+#       - git push git@heroku.com:tt-myflix.git $CIRCLE_SHA1:refs/heads/master
+#       - heroku run rake db:migrate --app tt-myflix
+#       - heroku run rake elasticsearch:index --app tt-myflix
+#       - heroku maintenance:off --app tt-myflix
+#   staging:
+#     branch: staging
+#     commands:
+#       - heroku maintenance:on --app tt-staging-myflix
+#       - git push git@heroku.com:tt-staging-myflix.git $CIRCLE_SHA1:refs/heads/master
+#       - heroku run rake db:migrate --app tt-staging-myflix
+#       - heroku run rake elasticsearch:index --app tt-staging-myflix
+#       - heroku maintenance:off --app tt-staging-myflix
