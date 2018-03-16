@@ -24,7 +24,7 @@ feature "user registers at MyFLiX and pays with credit card", :js, :vcr do
 
     scenario "incorrect cvc" do
       fill_in_credit_card_data_and_submit("4000000000000127")
-      expect_to_see "Your card's security code is incorrect."
+      expect_to_see "Your card's security code is incorrect.", wait: 3
     end
 
     scenario "processing error" do
