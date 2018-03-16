@@ -1,26 +1,15 @@
 language: ruby
 rvm:
   - 2.1.6
-sudo: required
-dist: trusty
 cache: bundler
 services:
   - elasticsearch
 env: DISPLAY=':99.0'
 addons:
   postgresql: "9.6"
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
 before_script:
-  - wget http://chromedriver.storage.googleapis.com/2.36/chromedriver_linux64.zip
-  - unzip chromedriver_linux64.zip -d /home/travis/.rvm/gems/ruby-2.1.6/bin
-  - export CHROME_BIN=chromium-browser
   - psql -c 'create database myflix_test;' -U postgres
   - sh -e /etc/init.d/xvfb start
-  - sleep 3
 script: bundle exec rspec spec
 env:
   SECRET_KEY_BASE=02662b79a435bdddb917d8f1458d3377aab453c755331419e3f55f0a531d7f53c15124c658f15ccb2d87b711db7c9d45d92956680412cc67accb4f84dbcef6ee
