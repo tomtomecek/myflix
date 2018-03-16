@@ -52,6 +52,7 @@ group :test do
   gem 'webmock'
   gem 'selenium-webdriver', '3.6.0'
   gem 'poltergeist'
+  gem 'rspec_junit_formatter'
 end
 
 group :production, :staging do
