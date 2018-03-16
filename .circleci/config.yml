@@ -1,6 +1,7 @@
 version: 2
 jobs:
   build:
+    parallelism: 4
     working_directory: ~/myflix
     docker:
       - image: circleci/ruby:2.3.6-node-browsers
@@ -55,31 +56,6 @@ jobs:
           path: ~/myflix/tmp/test-results
       - store_artifacts:
           path: ~/myflix/tmp/capybara
-
-
-
-
-# dependencies:
-#   pre:
-#     - gem install bundler
-#   post:
-#     - wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.0.2.tar.gz
-#     - tar -xvf elasticsearch-5.0.2.tar.gz
-#     - elasticsearch-5.0.2/bin/elasticsearch: {background: true}
-#     - sleep 10 && wget --waitretry=5 --retry-connrefused -v http://127.0.0.1:9200/
-
-# machine:
-#   ruby:
-#     version: 2.3.6
-#   environment:
-#     DBUS_SESSION_BUS_ADDRESS: /dev/null
-
-# test:
-#   override:
-#     - bundle exec rspec -r rspec_junit_formatter --format progress --format RspecJunitFormatter --out $CIRCLE_TEST_REPORTS/rspec/junit.xml:
-#         parallel: true
-#         files:
-#           - spec/**/*_spec.rb
 
 # deployment:
 #   production:
