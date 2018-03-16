@@ -7,9 +7,7 @@ describe UserRegistration do
 
     context "with valid person data and valid card" do
       before do
-        StripeWrapper::Customer
-          .should_receive(:create)
-          .and_return(success_subscription)
+        expect(StripeWrapper::Customer).to receive(:create).and_return(success_subscription)
       end
 
       it "create the user" do
@@ -110,9 +108,7 @@ describe UserRegistration do
     context "with valid person data and declined card" do
       let(:user) { user = Fabricate.build(:user) }
       before do
-        StripeWrapper::Customer
-          .should_receive(:create)
-          .and_return(fail_subscription)
+        expect(StripeWrapper::Customer).to receive(:create).and_return(fail_subscription)
         UserRegistration.new(user, "stripe_token").register
       end
 
@@ -134,12 +130,12 @@ describe UserRegistration do
       end
 
       it "does not charge the card" do
-        StripeWrapper::Customer.should_not_receive(:create)
+        expect(StripeWrapper::Customer).to_not receive(:create)
         UserRegistration.new(user, "stripe_token").register
       end
 
       it "does not create a subscription" do
-        StripeWrapper::Customer.should_not_receive(:create)
+        expect(StripeWrapper::Customer).to_not receive(:create)
         UserRegistration.new(user, "stripe_token").register
         expect(user.subscriptions.count).to eq(0)
       end
@@ -156,15 +152,13 @@ describe UserRegistration do
     subject { UserRegistration.new(user, "stripe_token").register }
 
     it "returns true if registration was successfull." do
-      StripeWrapper::Customer
-        .should_receive(:create).and_return(success_subscription)
+      expect(StripeWrapper::Customer).to receive(:create).and_return(success_subscription)
       expect(subject).to be_successfull
       ActionMailer::Base.deliveries.clear
     end
 
     it "returns false if registration failed." do
-      StripeWrapper::Customer
-        .should_receive(:create).and_return(fail_subscription)
+      expect(StripeWrapper::Customer).to receive(:create).and_return(fail_subscription)
       expect(subject).not_to be_successfull
     end
   end
