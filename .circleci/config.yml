@@ -57,6 +57,42 @@ jobs:
       - store_artifacts:
           path: ~/myflix/tmp/capybara
 
+  deploy:
+    machine:
+        enabled: true
+    working_directory: ~/myflix
+    environment:
+      HEROKU_APP: "tt-myflix"
+    steps:
+      - checkout
+      - run:
+          name: Setup Heroku
+          command: bash .circleci/setup-heroku.sh
+
+      - run:
+          command: |
+            heroku maintenance:on
+            heroku pg:backups capture
+            git push git@heroku.com:tt-myflix.git $CIRCLE_SHA1:refs/heads/master
+            heroku run rake db:migrate
+            heroku run rake elasticsearch:index
+            heroku maintenance:off
+
+            sleep 5 # sleep for 5 seconds to wait for dynos
+            heroku restart
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+
 # deployment:
 #   production:
 #     branch: master
