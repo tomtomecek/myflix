@@ -34,7 +34,7 @@ feature "user registers at MyFLiX and pays with credit card", :js, :vcr do
 
     scenario "declined card" do
       fill_in_credit_card_data_and_submit("4000000000000002")
-      expect_to_see "Your card was declined."
+      expect_to_see "Your card was declined.", wait: 3
     end
   end
 
