@@ -10,12 +10,12 @@ def sign_out
   visit sign_out_path
 end
 
-def expect_to_see(text)
-  expect(page).to have_content text
+def expect_to_see(text, options = {})
+  expect(page).to have_content(text, options)
 end
 
-def expect_to_not_see(text)
-  expect(page).to have_no_content text
+def expect_to_not_see(text, options = {})
+  expect(page).to have_no_content(text, options)
 end
 
 def expect_to_be_in(path)

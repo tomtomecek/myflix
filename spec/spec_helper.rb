@@ -12,6 +12,7 @@ Sidekiq::Testing.inline!
 
 Capybara.javascript_driver = :poltergeist
 Capybara.server_port = 52662
+# Capybara.default_max_wait_time = 3
 
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/cassettes'

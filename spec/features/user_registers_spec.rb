@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "user registers at MyFLiX and pays with credit card", :js, :vcr, driver: :selenium_chrome do
+feature "user registers at MyFLiX and pays with credit card", :js, :vcr do
 
   background { visit register_path }
 
@@ -19,7 +19,7 @@ feature "user registers at MyFLiX and pays with credit card", :js, :vcr, driver:
 
     scenario "expired card" do
       fill_in_credit_card_data_and_submit("4000000000000069")
-      expect_to_see "Your card has expired."
+      expect_to_see "Your card has expired.", wait: 3
     end
 
     scenario "incorrect cvc" do
@@ -43,7 +43,7 @@ feature "user registers at MyFLiX and pays with credit card", :js, :vcr, driver:
 
     scenario "with invalid user data and valid card" do
       fill_in_credit_card_data_and_submit("4242424242424242")
-      expect_to_see "Please fix the errors below."
+      expect_to_see "Please fix the errors below.", wait: 3
     end
 
     scenario "with invalid user data and invalid card" do
@@ -56,22 +56,23 @@ feature "user registers at MyFLiX and pays with credit card", :js, :vcr, driver:
       expect_to_see "Please fix the errors below."
     end
   end
-end
 
-def fill_in_valid_user_data
+  def fill_in_valid_user_data
   fill_in "Email Address", with: "alice@example.com"
   fill_in "Password",      with: "password"
   fill_in "Full Name",     with: "Alice Wang"
+  end
+
+  def fill_in_invalid_user_data
+    fill_in "Email Address", with: "alice@example.com"
+  end
+
+  def fill_in_credit_card_data_and_submit(card_number)
+    fill_in "Credit Card Number", with: card_number
+    fill_in "Security Code",      with: "123"
+    select "4 - April", from: "date_month"
+    select (Time.now.year + 1), from: "date_year"
+    click_button "Sign Up"
+  end
 end
 
-def fill_in_invalid_user_data
-  fill_in "Email Address", with: "alice@example.com"
-end
-
-def fill_in_credit_card_data_and_submit(card_number)
-  fill_in "Credit Card Number", with: card_number
-  fill_in "Security Code",      with: "123"
-  select "4 - April", from: "date_month"
-  select (Time.now.year + 1), from: "date_year"
-  click_button "Sign Up"
-end
