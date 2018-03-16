@@ -1,14 +1,17 @@
 dependencies:
   pre:
     - gem install bundler
+  post:
+    - wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.2.tar.gz
+    - tar -xvf elasticsearch-6.2.2.tar.gz
+    - elasticsearch-6.2.2/bin/elasticsearch: {background: true}
+    - sleep 10 && wget --waitretry=5 --retry-connrefused -v http://127.0.0.1:9200/
 
 machine:
   ruby:
     version: 2.3.6
   environment:
     DBUS_SESSION_BUS_ADDRESS: /dev/null
-  services:
-    - elasticsearch
 
 test:
   override:
