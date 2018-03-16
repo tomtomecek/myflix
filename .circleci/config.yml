@@ -71,9 +71,10 @@ jobs:
 
       - run:
           command: |
+            heroku git:remote -a tt-myflix
             heroku maintenance:on
             heroku pg:backups capture
-            git push git@heroku.com:tt-myflix.git $CIRCLE_SHA1:refs/heads/master
+            git push --force git@heroku.com:tt-myflix.git $CIRCLE_SHA1:refs/heads/master
             heroku run rake db:migrate
             heroku run rake elasticsearch:index
             heroku maintenance:off
