@@ -97,7 +97,7 @@ describe Video do
         batman_review = Fabricate(:review, video: batman, body: "such a star movie!")
         refresh_index
 
-        expect(Video.search("star", reviews: true).records.to_a).to eq([star_wars, about_sun, batman])
+        expect(Video.search("star", reviews: true).records.to_a).to match_array [star_wars, about_sun, batman]
       end
     end
 
