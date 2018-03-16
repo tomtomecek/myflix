@@ -4,8 +4,8 @@ http_interactions:
     method: post
     uri: https://api.stripe.com/v1/customers
     body:
-      encoding: US-ASCII
-      string: card=tok_1C66AAAqLMYq45GOfAoglSYS&plan=myflix_standard&email=kelly%40example.com
+      encoding: UTF-8
+      string: card=tok_1C6KRgAqLMYq45GO77r1IvCd&plan=myflix_standard&email=kelly%40example.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -18,7 +18,7 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
-      - '{"bindings_version":"1.16.1","lang":"ruby","lang_version":"2.1.6 p336 (2015-04-13)","platform":"x86_64-darwin16.0","publisher":"stripe","uname":"Darwin
+      - '{"bindings_version":"1.16.1","lang":"ruby","lang_version":"2.3.6 p384 (2017-12-14)","platform":"x86_64-darwin16","publisher":"stripe","uname":"Darwin
         Tomass-MacBook-Pro.local 16.7.0 Darwin Kernel Version 16.7.0: Thu Jan 11 22:59:40
         PST 2018; root:xnu-3789.73.8~1/RELEASE_X86_64 x86_64"}'
       Content-Length:
@@ -31,7 +31,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Fri, 16 Mar 2018 00:11:17 GMT
+      - Fri, 16 Mar 2018 15:26:19 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -51,7 +51,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_0pVvlfXRfcb36K
+      - req_1mtMc3NM2hghHZ
       Stripe-Version:
       - '2015-02-10'
       Strict-Transport-Security:
@@ -60,17 +60,17 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "cus_CV6MlCYGgoHqS1",
+          "id": "cus_CVL7YQ4oKd2iYs",
           "object": "customer",
           "account_balance": 0,
-          "created": 1521159076,
+          "created": 1521213978,
           "currency": "usd",
-          "default_source": "card_1C66AAAqLMYq45GO88kTK1xJ",
+          "default_source": "card_1C6KRgAqLMYq45GOpflSEWcA",
           "delinquent": false,
           "description": null,
           "discount": null,
           "email": "kelly@example.com",
-          "invoice_prefix": "90DD305",
+          "invoice_prefix": "4FD32B1",
           "livemode": false,
           "metadata": {},
           "shipping": null,
@@ -78,7 +78,7 @@ http_interactions:
             "object": "list",
             "data": [
               {
-                "id": "card_1C66AAAqLMYq45GO88kTK1xJ",
+                "id": "card_1C6KRgAqLMYq45GOpflSEWcA",
                 "object": "card",
                 "address_city": null,
                 "address_country": null,
@@ -90,7 +90,7 @@ http_interactions:
                 "address_zip_check": null,
                 "brand": "Visa",
                 "country": "US",
-                "customer": "cus_CV6MlCYGgoHqS1",
+                "customer": "cus_CVL7YQ4oKd2iYs",
                 "cvc_check": "pass",
                 "dynamic_last4": null,
                 "exp_month": 3,
@@ -105,23 +105,23 @@ http_interactions:
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_CV6MlCYGgoHqS1/sources"
+            "url": "/v1/customers/cus_CVL7YQ4oKd2iYs/sources"
           },
           "subscriptions": {
             "object": "list",
             "data": [
               {
-                "id": "sub_CV6M04gvBdE8wp",
+                "id": "sub_CVL7Em3aw2PuLe",
                 "object": "subscription",
                 "application_fee_percent": null,
                 "billing": "charge_automatically",
-                "billing_cycle_anchor": 1521159076,
+                "billing_cycle_anchor": 1521213978,
                 "cancel_at_period_end": false,
                 "canceled_at": null,
-                "created": 1521159076,
-                "current_period_end": 1523837476,
-                "current_period_start": 1521159076,
-                "customer": "cus_CV6MlCYGgoHqS1",
+                "created": 1521213978,
+                "current_period_end": 1523892378,
+                "current_period_start": 1521213978,
+                "customer": "cus_CVL7YQ4oKd2iYs",
                 "days_until_due": null,
                 "discount": null,
                 "ended_at": null,
@@ -129,9 +129,9 @@ http_interactions:
                   "object": "list",
                   "data": [
                     {
-                      "id": "si_CV6MG9kQXuig3D",
+                      "id": "si_CVL7r0O4wNHP3l",
                       "object": "subscription_item",
-                      "created": 1521159077,
+                      "created": 1521213978,
                       "metadata": {},
                       "plan": {
                         "id": "myflix_standard",
@@ -150,12 +150,12 @@ http_interactions:
                         "name": "MyFLiX Standard"
                       },
                       "quantity": 1,
-                      "subscription": "sub_CV6M04gvBdE8wp"
+                      "subscription": "sub_CVL7Em3aw2PuLe"
                     }
                   ],
                   "has_more": false,
                   "total_count": 1,
-                  "url": "/v1/subscription_items?subscription=sub_CV6M04gvBdE8wp"
+                  "url": "/v1/subscription_items?subscription=sub_CVL7Em3aw2PuLe"
                 },
                 "livemode": false,
                 "metadata": {},
@@ -176,7 +176,7 @@ http_interactions:
                   "name": "MyFLiX Standard"
                 },
                 "quantity": 1,
-                "start": 1521159076,
+                "start": 1521213978,
                 "status": "active",
                 "tax_percent": null,
                 "trial_end": null,
@@ -185,13 +185,13 @@ http_interactions:
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_CV6MlCYGgoHqS1/subscriptions"
+            "url": "/v1/customers/cus_CVL7YQ4oKd2iYs/subscriptions"
           },
           "cards": {
             "object": "list",
             "data": [
               {
-                "id": "card_1C66AAAqLMYq45GO88kTK1xJ",
+                "id": "card_1C6KRgAqLMYq45GOpflSEWcA",
                 "object": "card",
                 "address_city": null,
                 "address_country": null,
@@ -203,7 +203,7 @@ http_interactions:
                 "address_zip_check": null,
                 "brand": "Visa",
                 "country": "US",
-                "customer": "cus_CV6MlCYGgoHqS1",
+                "customer": "cus_CVL7YQ4oKd2iYs",
                 "cvc_check": "pass",
                 "dynamic_last4": null,
                 "exp_month": 3,
@@ -218,10 +218,10 @@ http_interactions:
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_CV6MlCYGgoHqS1/cards"
+            "url": "/v1/customers/cus_CVL7YQ4oKd2iYs/cards"
           },
-          "default_card": "card_1C66AAAqLMYq45GO88kTK1xJ"
+          "default_card": "card_1C6KRgAqLMYq45GOpflSEWcA"
         }
     http_version: 
-  recorded_at: Fri, 16 Mar 2018 00:11:18 GMT
+  recorded_at: Fri, 16 Mar 2018 15:26:19 GMT
 recorded_with: VCR 2.9.3
