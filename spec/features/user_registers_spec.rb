@@ -14,7 +14,7 @@ feature "user registers at MyFLiX and pays with credit card", :js, :vcr do
 
     scenario "invalid card" do
       fill_in_credit_card_data_and_submit("123")
-      expect_to_see "This card number looks invalid"
+      expect_to_see "The card number is not a valid credit card number."
     end
 
     scenario "expired card" do
@@ -48,7 +48,7 @@ feature "user registers at MyFLiX and pays with credit card", :js, :vcr do
 
     scenario "with invalid user data and invalid card" do
       fill_in_credit_card_data_and_submit("123")
-      expect_to_see "This card number looks invalid"
+      expect_to_see "The card number is not a valid credit card number."
     end
 
     scenario "with invalid user data and declined card" do
@@ -56,22 +56,23 @@ feature "user registers at MyFLiX and pays with credit card", :js, :vcr do
       expect_to_see "Please fix the errors below."
     end
   end
-end
 
-def fill_in_valid_user_data
+  def fill_in_valid_user_data
   fill_in "Email Address", with: "alice@example.com"
   fill_in "Password",      with: "password"
   fill_in "Full Name",     with: "Alice Wang"
+  end
+
+  def fill_in_invalid_user_data
+    fill_in "Email Address", with: "alice@example.com"
+  end
+
+  def fill_in_credit_card_data_and_submit(card_number)
+    fill_in "Credit Card Number", with: card_number
+    fill_in "Security Code",      with: "123"
+    select "4 - April", from: "date_month"
+    select (Time.now.year + 1), from: "date_year"
+    click_button "Sign Up"
+  end
 end
 
-def fill_in_invalid_user_data
-  fill_in "Email Address", with: "alice@example.com"
-end
-
-def fill_in_credit_card_data_and_submit(card_number)
-  fill_in "Credit Card Number", with: card_number
-  fill_in "Security Code",      with: "123"
-  select "4 - April", from: "date_month"
-  select "2017", from: "date_year"
-  click_button "Sign Up"
-end

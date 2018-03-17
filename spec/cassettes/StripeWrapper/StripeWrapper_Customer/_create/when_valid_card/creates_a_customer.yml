@@ -4,8 +4,8 @@ http_interactions:
     method: post
     uri: https://api.stripe.com/v1/tokens
     body:
-      encoding: US-ASCII
-      string: card[number]=4242424242424242&card[cvc]=123&card[exp_month]=3&card[exp_year]=2017
+      encoding: UTF-8
+      string: card[number]=4242424242424242&card[cvc]=123&card[exp_month]=3&card[exp_year]=2020
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -18,9 +18,9 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
-      - '{"bindings_version":"1.16.1","lang":"ruby","lang_version":"2.1.5 p273 (2014-11-13)","platform":"x86_64-darwin13.0","publisher":"stripe","uname":"Darwin
-        Tomass-MacBook-Pro.local 13.4.0 Darwin Kernel Version 13.4.0: Sun Aug 17 19:50:11
-        PDT 2014; root:xnu-2422.115.4~1/RELEASE_X86_64 x86_64"}'
+      - '{"bindings_version":"1.16.1","lang":"ruby","lang_version":"2.3.6 p384 (2017-12-14)","platform":"x86_64-darwin16","publisher":"stripe","uname":"Darwin
+        Tomass-MacBook-Pro.local 16.7.0 Darwin Kernel Version 16.7.0: Thu Jan 11 22:59:40
+        PST 2018; root:xnu-3789.73.8~1/RELEASE_X86_64 x86_64"}'
       Content-Length:
       - '81'
   response:
@@ -31,68 +31,75 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 05 Jan 2015 12:27:03 GMT
+      - Fri, 16 Mar 2018 15:23:56 GMT
       Content-Type:
-      - application/json;charset=utf-8
+      - application/json
       Content-Length:
-      - '695'
+      - '778'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
       - 'true'
       Access-Control-Allow-Methods:
       - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
       Access-Control-Max-Age:
       - '300'
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_KEcowSIZWVdLDiW2
+      - req_4exn3QtfzaX1Iv
       Stripe-Version:
-      - '2014-12-22'
+      - '2015-02-10'
       Strict-Transport-Security:
-      - max-age=31556926; includeSubDomains
+      - max-age=31556926; includeSubDomains; preload
     body:
       encoding: UTF-8
       string: |
         {
-          "id": "tok_15HZwpAqLMYq45GOmuBN010w",
-          "livemode": false,
-          "created": 1420460823,
-          "used": false,
+          "id": "tok_1C6KPQAqLMYq45GOWNsWb04B",
           "object": "token",
-          "type": "card",
           "card": {
-            "id": "card_15HZwpAqLMYq45GOHVfmpu5S",
+            "id": "card_1C6KPQAqLMYq45GOihalEYJE",
             "object": "card",
-            "last4": "4242",
-            "brand": "Visa",
-            "funding": "credit",
-            "exp_month": 3,
-            "exp_year": 2017,
-            "fingerprint": "YUjxXc5h8LOAv7gw",
-            "country": "US",
-            "name": null,
-            "address_line1": null,
-            "address_line2": null,
             "address_city": null,
+            "address_country": null,
+            "address_line1": null,
+            "address_line1_check": null,
+            "address_line2": null,
             "address_state": null,
             "address_zip": null,
-            "address_country": null,
-            "cvc_check": "unchecked",
-            "address_line1_check": null,
             "address_zip_check": null,
-            "dynamic_last4": null
-          }
+            "brand": "Visa",
+            "country": "US",
+            "cvc_check": "unchecked",
+            "dynamic_last4": null,
+            "exp_month": 3,
+            "exp_year": 2020,
+            "fingerprint": "YUjxXc5h8LOAv7gw",
+            "funding": "credit",
+            "last4": "4242",
+            "metadata": {},
+            "name": null,
+            "tokenization_method": null
+          },
+          "client_ip": "88.212.56.2",
+          "created": 1521213836,
+          "livemode": false,
+          "type": "card",
+          "used": false
         }
     http_version: 
-  recorded_at: Mon, 05 Jan 2015 12:27:04 GMT
+  recorded_at: Fri, 16 Mar 2018 15:23:57 GMT
 - request:
     method: post
     uri: https://api.stripe.com/v1/customers
     body:
-      encoding: US-ASCII
-      string: card=tok_15HZwpAqLMYq45GOmuBN010w&plan=myflix_standard&email=alice%40example.com
+      encoding: UTF-8
+      string: card=tok_1C6KPQAqLMYq45GOWNsWb04B&plan=myflix_standard&email=alice%40example.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -105,9 +112,9 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
-      - '{"bindings_version":"1.16.1","lang":"ruby","lang_version":"2.1.5 p273 (2014-11-13)","platform":"x86_64-darwin13.0","publisher":"stripe","uname":"Darwin
-        Tomass-MacBook-Pro.local 13.4.0 Darwin Kernel Version 13.4.0: Sun Aug 17 19:50:11
-        PDT 2014; root:xnu-2422.115.4~1/RELEASE_X86_64 x86_64"}'
+      - '{"bindings_version":"1.16.1","lang":"ruby","lang_version":"2.3.6 p384 (2017-12-14)","platform":"x86_64-darwin16","publisher":"stripe","uname":"Darwin
+        Tomass-MacBook-Pro.local 16.7.0 Darwin Kernel Version 16.7.0: Thu Jan 11 22:59:40
+        PST 2018; root:xnu-3789.73.8~1/RELEASE_X86_64 x86_64"}'
       Content-Length:
       - '80'
   response:
@@ -118,116 +125,197 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 05 Jan 2015 12:27:07 GMT
+      - Fri, 16 Mar 2018 15:23:58 GMT
       Content-Type:
-      - application/json;charset=utf-8
+      - application/json
       Content-Length:
-      - '2285'
+      - '4648'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
       - 'true'
       Access-Control-Allow-Methods:
       - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
       Access-Control-Max-Age:
       - '300'
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_S9JahagBzsGlEtvx
+      - req_9mE4lw6G0UCn8z
       Stripe-Version:
-      - '2014-12-22'
+      - '2015-02-10'
       Strict-Transport-Security:
-      - max-age=31556926; includeSubDomains
+      - max-age=31556926; includeSubDomains; preload
     body:
       encoding: UTF-8
       string: |
         {
+          "id": "cus_CVL5wqQK951b1J",
           "object": "customer",
-          "created": 1420460826,
-          "id": "cus_5SUwOxRWCux8zJ",
-          "livemode": false,
-          "description": null,
-          "email": "alice@example.com",
-          "delinquent": false,
-          "metadata": {},
-          "subscriptions": {
-            "object": "list",
-            "total_count": 1,
-            "has_more": false,
-            "url": "/v1/customers/cus_5SUwOxRWCux8zJ/subscriptions",
-            "data": [
-              {
-                "id": "sub_5SUwpqmmfRcc2K",
-                "plan": {
-                  "interval": "month",
-                  "name": "MyFLiX Standard",
-                  "created": 1420358262,
-                  "amount": 999,
-                  "currency": "usd",
-                  "id": "myflix_standard",
-                  "object": "plan",
-                  "livemode": false,
-                  "interval_count": 1,
-                  "trial_period_days": null,
-                  "metadata": {},
-                  "statement_descriptor": null
-                },
-                "object": "subscription",
-                "start": 1420460826,
-                "status": "active",
-                "customer": "cus_5SUwOxRWCux8zJ",
-                "cancel_at_period_end": false,
-                "current_period_start": 1420460826,
-                "current_period_end": 1423139226,
-                "ended_at": null,
-                "trial_start": null,
-                "trial_end": null,
-                "canceled_at": null,
-                "quantity": 1,
-                "application_fee_percent": null,
-                "discount": null,
-                "tax_percent": null,
-                "metadata": {}
-              }
-            ]
-          },
-          "discount": null,
           "account_balance": 0,
+          "created": 1521213837,
           "currency": "usd",
-          "cards": {
+          "default_source": "card_1C6KPQAqLMYq45GOihalEYJE",
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": "alice@example.com",
+          "invoice_prefix": "EDACBB7",
+          "livemode": false,
+          "metadata": {},
+          "shipping": null,
+          "sources": {
             "object": "list",
-            "total_count": 1,
-            "has_more": false,
-            "url": "/v1/customers/cus_5SUwOxRWCux8zJ/cards",
             "data": [
               {
-                "id": "card_15HZwpAqLMYq45GOHVfmpu5S",
+                "id": "card_1C6KPQAqLMYq45GOihalEYJE",
                 "object": "card",
-                "last4": "4242",
-                "brand": "Visa",
-                "funding": "credit",
-                "exp_month": 3,
-                "exp_year": 2017,
-                "fingerprint": "YUjxXc5h8LOAv7gw",
-                "country": "US",
-                "name": null,
-                "address_line1": null,
-                "address_line2": null,
                 "address_city": null,
+                "address_country": null,
+                "address_line1": null,
+                "address_line1_check": null,
+                "address_line2": null,
                 "address_state": null,
                 "address_zip": null,
-                "address_country": null,
-                "cvc_check": "pass",
-                "address_line1_check": null,
                 "address_zip_check": null,
+                "brand": "Visa",
+                "country": "US",
+                "customer": "cus_CVL5wqQK951b1J",
+                "cvc_check": "pass",
                 "dynamic_last4": null,
-                "customer": "cus_5SUwOxRWCux8zJ"
+                "exp_month": 3,
+                "exp_year": 2020,
+                "fingerprint": "YUjxXc5h8LOAv7gw",
+                "funding": "credit",
+                "last4": "4242",
+                "metadata": {},
+                "name": null,
+                "tokenization_method": null
               }
-            ]
+            ],
+            "has_more": false,
+            "total_count": 1,
+            "url": "/v1/customers/cus_CVL5wqQK951b1J/sources"
           },
-          "default_card": "card_15HZwpAqLMYq45GOHVfmpu5S"
+          "subscriptions": {
+            "object": "list",
+            "data": [
+              {
+                "id": "sub_CVL5GwBqZl97h4",
+                "object": "subscription",
+                "application_fee_percent": null,
+                "billing": "charge_automatically",
+                "billing_cycle_anchor": 1521213837,
+                "cancel_at_period_end": false,
+                "canceled_at": null,
+                "created": 1521213837,
+                "current_period_end": 1523892237,
+                "current_period_start": 1521213837,
+                "customer": "cus_CVL5wqQK951b1J",
+                "days_until_due": null,
+                "discount": null,
+                "ended_at": null,
+                "items": {
+                  "object": "list",
+                  "data": [
+                    {
+                      "id": "si_CVL5r48K6FUiPR",
+                      "object": "subscription_item",
+                      "created": 1521213838,
+                      "metadata": {},
+                      "plan": {
+                        "id": "myflix_standard",
+                        "object": "plan",
+                        "amount": 999,
+                        "created": 1420358262,
+                        "currency": "usd",
+                        "interval": "month",
+                        "interval_count": 1,
+                        "livemode": false,
+                        "metadata": {},
+                        "nickname": null,
+                        "product": "prod_BUhWZS4BHAiv9k",
+                        "trial_period_days": null,
+                        "statement_descriptor": null,
+                        "name": "MyFLiX Standard"
+                      },
+                      "quantity": 1,
+                      "subscription": "sub_CVL5GwBqZl97h4"
+                    }
+                  ],
+                  "has_more": false,
+                  "total_count": 1,
+                  "url": "/v1/subscription_items?subscription=sub_CVL5GwBqZl97h4"
+                },
+                "livemode": false,
+                "metadata": {},
+                "plan": {
+                  "id": "myflix_standard",
+                  "object": "plan",
+                  "amount": 999,
+                  "created": 1420358262,
+                  "currency": "usd",
+                  "interval": "month",
+                  "interval_count": 1,
+                  "livemode": false,
+                  "metadata": {},
+                  "nickname": null,
+                  "product": "prod_BUhWZS4BHAiv9k",
+                  "trial_period_days": null,
+                  "statement_descriptor": null,
+                  "name": "MyFLiX Standard"
+                },
+                "quantity": 1,
+                "start": 1521213837,
+                "status": "active",
+                "tax_percent": null,
+                "trial_end": null,
+                "trial_start": null
+              }
+            ],
+            "has_more": false,
+            "total_count": 1,
+            "url": "/v1/customers/cus_CVL5wqQK951b1J/subscriptions"
+          },
+          "cards": {
+            "object": "list",
+            "data": [
+              {
+                "id": "card_1C6KPQAqLMYq45GOihalEYJE",
+                "object": "card",
+                "address_city": null,
+                "address_country": null,
+                "address_line1": null,
+                "address_line1_check": null,
+                "address_line2": null,
+                "address_state": null,
+                "address_zip": null,
+                "address_zip_check": null,
+                "brand": "Visa",
+                "country": "US",
+                "customer": "cus_CVL5wqQK951b1J",
+                "cvc_check": "pass",
+                "dynamic_last4": null,
+                "exp_month": 3,
+                "exp_year": 2020,
+                "fingerprint": "YUjxXc5h8LOAv7gw",
+                "funding": "credit",
+                "last4": "4242",
+                "metadata": {},
+                "name": null,
+                "tokenization_method": null
+              }
+            ],
+            "has_more": false,
+            "total_count": 1,
+            "url": "/v1/customers/cus_CVL5wqQK951b1J/cards"
+          },
+          "default_card": "card_1C6KPQAqLMYq45GOihalEYJE"
         }
     http_version: 
-  recorded_at: Mon, 05 Jan 2015 12:27:08 GMT
+  recorded_at: Fri, 16 Mar 2018 15:23:58 GMT
 recorded_with: VCR 2.9.3

@@ -26,10 +26,14 @@ class Video < ActiveRecord::Base
       if query.present?
         {
           query: {
-            multi_match: {
-              query: query,
-              fields: ["title^100", "description^50"],
-              operator: "and"
+            bool: {
+              must: {
+                multi_match: {
+                  query: query,
+                  fields: ["title^100", "description^50"],
+                  operator: "and"
+                }
+              }
             }
           },
           highlight: {
@@ -42,16 +46,16 @@ class Video < ActiveRecord::Base
           }
         }
       else
-        { query: { match_all: {} } }
+        { query: { bool: { must: { match_all: {} } } } }
       end
 
     if query.present? && options[:reviews]
-      search_definition[:query][:multi_match][:fields] << "reviews.body"
+      search_definition[:query][:bool][:must][:multi_match][:fields] << "reviews.body"
       search_definition[:highlight][:fields].update "reviews.body" => { fragment_size: 235 }
     end
 
     if options[:rating_from].present? || options[:rating_to].present?
-      search_definition[:filter] = {
+      search_definition[:query][:bool][:filter] = {
         range: {
           average_rating: {
             gte: (options[:rating_from] if options[:rating_from].present?),

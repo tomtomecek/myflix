@@ -1,15 +1,14 @@
 language: ruby
 rvm:
-  - 2.1.6
-sudo: false
+  - 2.3.6
 cache: bundler
 services:
   - elasticsearch
+env: DISPLAY=':99.0'
 addons:
-  postgresql: "9.3"
+  postgresql: "9.6"
 before_script:
   - psql -c 'create database myflix_test;' -U postgres
-  - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 script: bundle exec rspec spec
 env:
