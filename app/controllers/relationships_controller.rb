@@ -1,5 +1,4 @@
 class RelationshipsController < AuthenticatedController
-
   def index
     @relationships = current_user.following_relationships
   end
@@ -15,8 +14,7 @@ class RelationshipsController < AuthenticatedController
     relationship = Relationship.find(params[:id])
     flash[:info] = "You have unfollowed #{relationship.leader.fullname}"
     relationship.destroy if current_user == relationship.follower
-    
+
     redirect_to people_url
   end
-
 end

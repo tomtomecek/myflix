@@ -16,22 +16,24 @@ describe InvitationsController do
 
   describe "POST create" do
     let(:pete) { Fabricate(:user) }
-    before { set_current_user(pete) }
-    after { ActionMailer::Base.deliveries.clear }
-    
+    before do
+      set_current_user(pete)
+      ActionMailer::Base.deliveries.clear
+    end
+
     it_behaves_like "require sign in" do
       let(:action) { post :create, invitation: Fabricate.attributes_for(:invitation) }
     end
 
     context "with valid inputs" do
       before do
-        post :create, invitation: { 
+        post :create, invitation: {
           recipient_name: "Kelly",
           recipient_email: "kelly@example.com",
           message: "Please join this really cool site!" }
       end
-      
-      it "redirects to home url" do        
+
+      it "redirects to home url" do
         expect(response).to redirect_to home_url
       end
 
@@ -47,7 +49,7 @@ describe InvitationsController do
         expect(Invitation.first.sender).to eq(pete)
       end
 
-      it "sends out the email to correct address" do        
+      it "sends out the email to correct address" do
         expect(ActionMailer::Base.deliveries.last.to).to eq(["kelly@example.com"])
       end
     end
@@ -99,7 +101,7 @@ describe InvitationsController do
       end
 
       it "sets the @invitation" do
-        post :create, invitation: { 
+        post :create, invitation: {
           recipient_name: "",
           recipient_email: "kelly@example.com",
           message: "Please join this really cool site!"

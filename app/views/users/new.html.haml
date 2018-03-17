@@ -29,9 +29,9 @@
           .form-group
             %label.control-label.col-sm-2 Expiration
             .col-sm-3
-              = select_month(Date.today, {add_month_numbers: true}, data: { stripe: "exp-month" }, name: nil, class: 'form-control')
+              = select_month(Date.today, {add_month_numbers: true}, data: { stripe: "exp-month" }, name: nil, class: "form-control")
             .col-sm-2
-              = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, data: { stripe: "exp-year" }, name: nil, class: 'form-control')
+              = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, data: { stripe: "exp-year" }, name: nil, class: "form-control")
         %fieldset.actions.control-group.col-sm-offset-2
           .controls
             = f.submit "Sign Up", class: "btn btn-default"

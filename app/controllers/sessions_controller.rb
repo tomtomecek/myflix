@@ -1,5 +1,4 @@
 class SessionsController < ApplicationController
-
   def new
     redirect_to home_url if logged_in?
   end

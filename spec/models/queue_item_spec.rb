@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe QueueItem do
-  it { should belong_to(:user) }
-  it { should belong_to(:video) }
-  it { should validate_numericality_of(:position).only_integer }
-  it { should delegate_method(:video_title).to(:video).as(:title) }
-  it { should delegate_method(:category).to(:video) }
-  it { should delegate_method(:category_name).to(:category).as(:name) }
+  it { is_expected.to belong_to(:user) }
+  it { is_expected.to belong_to(:video) }
+  it { is_expected.to validate_numericality_of(:position).only_integer }
+  it { is_expected.to delegate_method(:video_title).to(:video).as(:title) }
+  it { is_expected.to delegate_method(:category).to(:video) }
+  it { is_expected.to delegate_method(:category_name).to(:category).as(:name) }
 
 
   describe "#rating" do
@@ -47,5 +47,4 @@ describe QueueItem do
       expect(Review.first.rating).to eq(3)
     end
   end
-  
 end

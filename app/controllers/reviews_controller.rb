@@ -1,5 +1,4 @@
 class ReviewsController < AuthenticatedController
-
   def create
     @video = Video.find(params[:video_id])
     @review = @video.reviews.build(review_params.merge!(user: current_user))
@@ -12,10 +11,9 @@ class ReviewsController < AuthenticatedController
     end
   end
 
-  private
+private
 
   def review_params
     params.require(:review).permit(:body, :rating)
   end
-
 end
