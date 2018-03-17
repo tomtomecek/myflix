@@ -21,14 +21,11 @@ jobs:
     steps:
       - checkout
 
-      # Restore bundle cache
       - restore_cache:
           key: myflix-app-{{ checksum "Gemfile.lock" }}
 
-      # Bundle install dependencies
       - run: bundle install --path vendor/bundle
 
-      # Store bundle cache
       - save_cache:
           key: myflix-app-{{ checksum "Gemfile.lock" }}
           paths:
@@ -57,7 +54,31 @@ jobs:
       - store_artifacts:
           path: ~/myflix/tmp/capybara
 
-  deploy:
+  deploy_staging:
+    machine:
+        enabled: true
+    working_directory: ~/myflix
+    environment:
+      HEROKU_APP: "tt-staging-myflix"
+    steps:
+      - checkout
+      - run:
+          name: Setup Heroku
+          command: bash .circleci/setup-heroku.sh
+
+      - run:
+          command: |
+            heroku git:remote -a $HEROKU_APP
+            heroku maintenance:on
+            git push --force git@heroku.com:$HEROKU_APP.git $CIRCLE_SHA1:refs/heads/master
+            heroku run rake db:migrate
+            heroku run rake elasticsearch:index
+            heroku maintenance:off
+
+            sleep 5 # sleep for 5 seconds to wait for dynos
+            heroku restart
+
+  deploy_production:
     machine:
         enabled: true
     working_directory: ~/myflix
@@ -71,10 +92,10 @@ jobs:
 
       - run:
           command: |
-            heroku git:remote -a tt-myflix
+            heroku git:remote -a $HEROKU_APP
             heroku maintenance:on
             heroku pg:backups capture
-            git push --force git@heroku.com:tt-myflix.git $CIRCLE_SHA1:refs/heads/master
+            git push --force git@heroku.com:$HEROKU_APP.git $CIRCLE_SHA1:refs/heads/master
             heroku run rake db:migrate
             heroku run rake elasticsearch:index
             heroku maintenance:off
@@ -87,28 +108,15 @@ workflows:
   build-and-deploy:
     jobs:
       - build
-      - deploy:
+      - deploy_staging:
           requires:
             - build
           filters:
             branches:
+              only: staging
+      - deploy_production:
+          requires:
+            - deploy_staging
+          filters:
+            branches:
               only: master
-
-# deployment:
-#   production:
-#     branch: master
-#     commands:
-#       - heroku maintenance:on --app tt-myflix
-#       - heroku pg:backups capture --app tt-myflix
-#       - git push git@heroku.com:tt-myflix.git $CIRCLE_SHA1:refs/heads/master
-#       - heroku run rake db:migrate --app tt-myflix
-#       - heroku run rake elasticsearch:index --app tt-myflix
-#       - heroku maintenance:off --app tt-myflix
-#   staging:
-#     branch: staging
-#     commands:
-#       - heroku maintenance:on --app tt-staging-myflix
-#       - git push git@heroku.com:tt-staging-myflix.git $CIRCLE_SHA1:refs/heads/master
-#       - heroku run rake db:migrate --app tt-staging-myflix
-#       - heroku run rake elasticsearch:index --app tt-staging-myflix
-#       - heroku maintenance:off --app tt-staging-myflix
