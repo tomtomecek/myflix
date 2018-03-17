@@ -16,9 +16,11 @@ describe InvitationsController do
 
   describe "POST create" do
     let(:pete) { Fabricate(:user) }
-    before { set_current_user(pete) }
-    after { ActionMailer::Base.deliveries.clear }
-    
+    before do
+      set_current_user(pete)
+      ActionMailer::Base.deliveries.clear
+    end
+
     it_behaves_like "require sign in" do
       let(:action) { post :create, invitation: Fabricate.attributes_for(:invitation) }
     end
