@@ -1,5 +1,4 @@
 class UserRegistration
-
   attr_accessor :error_message, :status
   attr_reader :user, :stripe_token, :invitation_token
   def initialize(user, stripe_token, invitation_token=nil)
@@ -20,7 +19,7 @@ class UserRegistration
           customer_id: subscription.customer.id,
           subscription_id: subscription.customer.subscriptions.first.id
         )
-        send_welcome_message_email(user)
+        UserMailer.delay.welcome_email(user.id)
         handle_invitation if invitation_token
         self.status = :success
       else
@@ -47,9 +46,5 @@ private
       invitation.sender.follow(user)
       invitation.update_column(:token, nil)
     end
-  end
-
-  def send_welcome_message_email(user)
-    UserMailer.delay.welcome_email(user.id)
   end
 end
