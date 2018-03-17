@@ -124,6 +124,11 @@ describe UserRegistration do
     context "with invalid person data" do
       let(:user) { User.new(email: "no match") }
 
+      it "sets proper error message" do
+        registration = UserRegistration.new(user, "stripe_token").register
+        expect(registration.error_message).to eq "Invalid user details."
+      end
+
       it "does not create a user" do
         UserRegistration.new(user, "stripe_token").register
         expect(User.count).to eq(0)
@@ -151,25 +156,25 @@ describe UserRegistration do
     let (:user) { Fabricate.build(:user) }
     subject { UserRegistration.new(user, "stripe_token").register }
 
-    it "returns true if registration was successfull." do
+    it "returns true when registration was successfull." do
       expect(StripeWrapper::Customer).to receive(:create).and_return(success_subscription)
       expect(subject).to be_successfull
       ActionMailer::Base.deliveries.clear
     end
 
-    it "returns false if registration failed." do
+    it "returns false when registration failed." do
       expect(StripeWrapper::Customer).to receive(:create).and_return(fail_subscription)
       expect(subject).not_to be_successfull
     end
   end
-end
 
-def success_subscription
-  subscriptions = double(:subscriptions, first: double(:first, id: "sub_456"))
-  customer = double(:customer, id: "cus_123", subscriptions: subscriptions)
-  double(:subscription, successfull?: true, customer: customer)
-end
+  def success_subscription
+    subscriptions = double(:subscriptions, first: double(:first, id: "sub_456"))
+    customer = double(:customer, id: "cus_123", subscriptions: subscriptions)
+    double(:subscription, successfull?: true, customer: customer)
+  end
 
-def fail_subscription
-  double(:subscription, successfull?: false, error_message: "an error message")
+  def fail_subscription
+    double(:subscription, successfull?: false, error_message: "an error message")
+  end
 end

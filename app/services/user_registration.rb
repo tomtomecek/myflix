@@ -24,8 +24,12 @@ class UserRegistration
         handle_invitation if invitation_token
         self.status = :success
       else
+        self.status = :failed
         self.error_message = subscription.error_message
       end
+    else
+      self.status = :failed
+      self.error_message = "Invalid user details."
     end
     self
   end
