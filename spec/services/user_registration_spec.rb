@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe UserRegistration do
-
   describe "#register" do
     after { ActionMailer::Base.deliveries.clear }
 

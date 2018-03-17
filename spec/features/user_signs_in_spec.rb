@@ -11,10 +11,10 @@ feature "User signing in" do
     fill_in_form_and_submit
     expect_to_see("Incorrect email or password")
   end
-end
 
-def fill_in_form_and_submit
-  fill_in "email",    with: "no match"
-  fill_in "password", with: "no match"
-  click_on "Sign in"
+  def fill_in_form_and_submit
+    fill_in "email",    with: "no match"
+    fill_in "password", with: "no match"
+    click_on "Sign in"
+  end
 end

@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe VideoSearchDecorator do
-
   describe "#title" do
     let(:normal_title_response) { OpenStruct.new("title" => "Family guy") }
     let(:highlighted_title_response) do
