@@ -69,7 +69,7 @@ jobs:
       - run:
           command: |
             heroku maintenance:on
-            git push --force git@heroku.com:$HEROKU_APP.git $CIRCLE_SHA1:refs/heads/staging
+            git push --force git@heroku.com:$HEROKU_APP.git $CIRCLE_SHA1:refs/heads/master
             heroku run rake db:migrate
             heroku run rake elasticsearch:index
             heroku maintenance:off
