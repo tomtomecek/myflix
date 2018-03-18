@@ -1,5 +1,4 @@
 class QueueItemsController < AuthenticatedController
-
   def index
     @queue_items = current_user.queue_items
   end
@@ -20,8 +19,8 @@ class QueueItemsController < AuthenticatedController
   def update_queue
     if params[:queue_items]
       begin
-        update_positions      
-        current_user.normalizes_queue_items      
+        update_positions
+        current_user.normalizes_queue_items
       rescue ActiveRecord::RecordInvalid
         flash[:danger] = "Invalid position number."
       end
@@ -29,7 +28,7 @@ class QueueItemsController < AuthenticatedController
     redirect_to my_queue_url
   end
 
-  private
+private
 
   def queue_video(video)
     QueueItem.create(video: video, user: current_user, position: new_queued_position) unless is_video_queued?(video)
@@ -51,5 +50,4 @@ class QueueItemsController < AuthenticatedController
       end
     end
   end
-
 end

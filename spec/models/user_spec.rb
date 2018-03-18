@@ -1,19 +1,19 @@
 require 'spec_helper'
 
 describe User do
-  it { should have_many(:reviews).order(created_at: :desc) }
-  it { should have_many(:queue_items).order(:position) }
-  it { should have_many(:following_relationships)
-                .class_name("Relationship")
-                .with_foreign_key(:follower_id) }
-  it { should have_many(:leading_relationships)
-                .class_name("Relationship")
-                .with_foreign_key(:leader_id) }
-  it { should validate_presence_of(:email) }
-  it { should validate_uniqueness_of(:email).case_insensitive }
-  it { should validate_presence_of(:password) }
-  it { should ensure_length_of(:password).is_at_least(6) }
-  it { should validate_presence_of(:fullname) }
+  it { is_expected.to have_many(:reviews).order(created_at: :desc) }
+  it { is_expected.to have_many(:queue_items).order(:position) }
+  it { is_expected.to have_many(:following_relationships)
+                        .class_name("Relationship")
+                        .with_foreign_key(:follower_id) }
+  it { is_expected.to have_many(:leading_relationships)
+                        .class_name("Relationship")
+                        .with_foreign_key(:leader_id) }
+  it { is_expected.to validate_presence_of(:email) }
+  it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
+  it { is_expected.to validate_presence_of(:password) }
+  it { is_expected.to ensure_length_of(:password).is_at_least(6) }
+  it { is_expected.to validate_presence_of(:fullname) }
 
   it "creates user with downcased email" do
     tom = Fabricate(:user, email: "TEST@EXAMPLE.COM")
@@ -79,6 +79,6 @@ describe User do
       alice = Fabricate(:user, activated: true)
       alice.deactivate!
       expect(alice.activated?).to be false
-    end    
-  end 
+    end
+  end
 end

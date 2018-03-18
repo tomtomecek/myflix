@@ -82,7 +82,7 @@ describe RelationshipsController do
       it "does not destroy relationship" do
         clear_current_user
         doug = Fabricate(:user)
-        set_current_user(doug)        
+        set_current_user(doug)
         delete :destroy, id: relationship
         expect(Relationship.count).to eq(1)
       end
@@ -92,5 +92,4 @@ describe RelationshipsController do
       let(:action) { delete :destroy, id: 1 }
     end
   end
-
 end

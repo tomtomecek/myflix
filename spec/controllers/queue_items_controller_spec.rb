@@ -17,7 +17,7 @@ describe QueueItemsController do
     end
   end
 
-  describe "POST create" do    
+  describe "POST create" do
     context "for authorized user" do
       let(:video) { Fabricate(:video) }
       
@@ -61,7 +61,7 @@ describe QueueItemsController do
     end
   end
 
-  describe "DELETE destroy" do    
+  describe "DELETE destroy" do
     it "redirects to my_queue" do
       queue_item = Fabricate(:queue_item)
       delete :destroy, id: queue_item.id
@@ -111,7 +111,7 @@ describe QueueItemsController do
 
         it "normalizes the queue items" do
           patch :update_queue, queue_items: [{id: queue_item1.id, position: 3}, {id:queue_item2.id, position: 2}]
-          expect(current_user.queue_items.map(&:position)).to eq([1, 2])          
+          expect(current_user.queue_items.map(&:position)).to eq([1, 2])
         end
       end
 

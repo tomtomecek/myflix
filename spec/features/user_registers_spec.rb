@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 feature "user registers at MyFLiX and pays with credit card", :js, :vcr do
-
   background { visit register_path }
 
   context "with valid user data" do
@@ -75,4 +74,3 @@ feature "user registers at MyFLiX and pays with credit card", :js, :vcr do
     click_button "Sign Up"
   end
 end
-

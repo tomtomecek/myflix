@@ -1,5 +1,4 @@
 class CategoriesController < AuthenticatedController
-
   def index
     @categories = Category.all
   end
@@ -7,5 +6,4 @@ class CategoriesController < AuthenticatedController
   def show
     @category = Category.find(params[:id])
   end
-
 end

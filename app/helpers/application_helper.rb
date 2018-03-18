@@ -10,4 +10,8 @@ module ApplicationHelper
   def average_ratings
     (10..50).map { |num| num / 10.0 }
   end
+
+  def gravatar_for(user)
+    image_tag("http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(user.email)}?s=40")
+  end
 end

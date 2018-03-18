@@ -63,15 +63,15 @@ describe StripeWrapper do
       end
     end
   end
-end
 
-def set_stripe_token_for_card(card_number)
-  Stripe::Token.create(
-    card: {
-      number: card_number,
-      cvc: "123",
-      exp_month: 03,
-      exp_year: Time.now.year + 2
-    }
-  ).id
+  def set_stripe_token_for_card(card_number)
+    Stripe::Token.create(
+      card: {
+        number: card_number,
+        cvc: "123",
+        exp_month: 03,
+        exp_year: Time.now.year + 2
+      }
+    ).id
+  end
 end
