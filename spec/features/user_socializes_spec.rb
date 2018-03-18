@@ -18,12 +18,12 @@ feature "user socializes in myflix" do
 
     click_on "People"
     expect_to_be_in people_path
-    within_followings_table do
+    within("table") do
       expect_to_see(bob.fullname)
       unfollow_user
     end
     expect_to_see("You have unfollowed #{bob.fullname}")
-    within_followings_table do
+    within("table") do
       expect_to_not_see(bob.fullname)
     end
   end
@@ -38,11 +38,5 @@ feature "user socializes in myflix" do
 
   def unfollow_user
     find(:xpath, "//a[@data-method='delete']").click
-  end
-
-  def within_followings_table(&block)
-    within(:xpath, "//table") do
-      yield
-    end
   end
 end

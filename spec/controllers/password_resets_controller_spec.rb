@@ -3,8 +3,6 @@ require 'spec_helper'
 describe PasswordResetsController do
 
   describe "POST create" do
-    before { ActionMailer::Base.deliveries.clear }
-
     context "with valid email" do
       let(:alice) { Fabricate(:user, email: "alice@example.com") }
       before { post :create, email: alice.email }

@@ -6,7 +6,7 @@ feature "User interacts with advanced search", :elasticsearch do
     Video.__elasticsearch__.refresh_index!
   end
 
-  background do
+  scenario "user interacts with advanced search" do
     star_wars1 = Fabricate(:video, title: "Star Wars: Episode I")
     star_wars2 = Fabricate(:video, title: "Star Wars: Episode II")
     star_trek  = Fabricate(:video, title: "Star Trek")
@@ -17,9 +17,7 @@ feature "User interacts with advanced search", :elasticsearch do
     Fabricate(:review, video: star_trek,  rating: 5)
     refresh_index
     sign_in
-  end
 
-  scenario "user interacts with advanced search" do
     click_on "Advanced Search"
     search_for("Star Wars")
     validate_search_by_title

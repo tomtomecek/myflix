@@ -8,7 +8,6 @@ describe QueueItem do
   it { is_expected.to delegate_method(:category).to(:video) }
   it { is_expected.to delegate_method(:category_name).to(:category).as(:name) }
 
-
   describe "#rating" do
     let(:video)  { Fabricate(:video) }
     let(:tom)    { Fabricate(:user) }
