@@ -11,13 +11,13 @@ feature "user interacts with my queue" do
 
     add_video_to_queue(futurama)
     expect_video_to_be_in_queue(futurama)
-    
+
     visit video_path(futurama)
     expect_link_to_not_be_seen("+ My Queue")
 
     add_video_to_queue(south_park)
     add_video_to_queue(interstellar)
-    
+
     set_video_position(futurama, 6)
     set_video_position(south_park, 1)
     set_video_position(interstellar, 2)
@@ -32,7 +32,7 @@ feature "user interacts with my queue" do
     expect(page).to have_content video.title
   end
 
-  def expect_link_to_not_be_seen(link)    
+  def expect_link_to_not_be_seen(link)
     expect(page).to_not have_content link
   end
 

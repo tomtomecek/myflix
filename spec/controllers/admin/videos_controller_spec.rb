@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Admin::VideosController do
-
   describe "GET new" do
     it_behaves_like "require sign in" do
       let(:action) { get :new }
@@ -67,7 +66,7 @@ describe Admin::VideosController do
             video_url: "http://xxx.com"
           }
         end
-        
+
         it "renders the :new template" do
           expect(response).to render_template :new
         end
