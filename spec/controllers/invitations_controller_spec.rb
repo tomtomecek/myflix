@@ -16,10 +16,7 @@ describe InvitationsController do
 
   describe "POST create" do
     let(:pete) { Fabricate(:user) }
-    before do
-      set_current_user(pete)
-      ActionMailer::Base.deliveries.clear
-    end
+    before { set_current_user(pete) }
 
     it_behaves_like "require sign in" do
       let(:action) { post :create, invitation: Fabricate.attributes_for(:invitation) }
@@ -92,7 +89,7 @@ describe InvitationsController do
       end
 
       it "does not send out the email" do
-        post :create, invitation: { 
+        post :create, invitation: {
           recipient_name: "",
           recipient_email: "kelly@example.com",
           message: "Please join this really cool site!"

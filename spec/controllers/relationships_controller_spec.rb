@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe RelationshipsController do
-
   describe "GET index" do
     it "sets the @relationships" do
       alice = Fabricate(:user)
@@ -25,7 +24,7 @@ describe RelationshipsController do
     let(:alice) { Fabricate(:user) }
     let(:bob)   { Fabricate(:user) }
     before { set_current_user(alice) }
-    
+
     context "with valid inputs" do
       it "redirects to people page" do
         post :create, leader_id: bob.id
@@ -48,7 +47,7 @@ describe RelationshipsController do
       it "does not allow one to follow themselves" do
         post :create, leader_id: alice.id
         expect(Relationship.count).to eq(0)
-      end  
+      end
     end
 
     it_behaves_like "require sign in" do
@@ -60,7 +59,7 @@ describe RelationshipsController do
     let(:alice) { Fabricate(:user) }
     let(:relationship) { Fabricate(:relationship, follower: alice) }
     before { set_current_user(alice) }
-    
+
     it "redirects to people page" do
       delete :destroy, id: relationship
       expect(response).to redirect_to people_url
@@ -77,7 +76,7 @@ describe RelationshipsController do
         expect(Relationship.count).to eq(0)
       end
     end
-    
+
     context "when user is not follower" do
       it "does not destroy relationship" do
         clear_current_user

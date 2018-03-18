@@ -9,7 +9,7 @@ class PasswordResetsController < ApplicationController
       UserMailer.delay.send_reset_token(user.id)
       redirect_to confirm_password_reset_url
     else
-      flash.now[:danger] = params[:email].blank? ? "Email can not be blank" : "Invalid email"
+      flash.now[:danger] = params[:email].blank? ? "Email cannot be blank" : "Invalid email"
       render :new
     end
   end

@@ -18,11 +18,11 @@ describe ReviewsController do
       it "creates a review" do
         expect(Review.count).to eq(1)
       end
-      
+
       it "creates a review under video" do
         expect(Review.first.video).to eq(video)
       end
-      
+
       it "creates a review under video and under user" do
         expect(Review.first.user).to eq(current_user)
       end
@@ -50,7 +50,7 @@ describe ReviewsController do
         expect(assigns(:reviews)).to match_array([review])
       end
     end
-    
+
     it_behaves_like "require sign in" do
       let(:action) { post :create, video_id: video.id }
     end

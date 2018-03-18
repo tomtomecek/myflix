@@ -57,9 +57,9 @@ feature "user registers at MyFLiX and pays with credit card", :js, :vcr do
   end
 
   def fill_in_valid_user_data
-  fill_in "Email Address", with: "alice@example.com"
-  fill_in "Password",      with: "password"
-  fill_in "Full Name",     with: "Alice Wang"
+    fill_in "Email Address", with: "alice@example.com"
+    fill_in "Password",      with: "password"
+    fill_in "Full Name",     with: "Alice Wang"
   end
 
   def fill_in_invalid_user_data

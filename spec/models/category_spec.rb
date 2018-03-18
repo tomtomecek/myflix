@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Category do
-  it { should have_many(:videos).order(:title) }
-  it { should validate_presence_of(:name) }
+  it { is_expected.to have_many(:videos).order(:title) }
+  it { is_expected.to validate_presence_of(:name) }
 
   describe ".recent_videos" do
     let(:category) { Fabricate(:category) }

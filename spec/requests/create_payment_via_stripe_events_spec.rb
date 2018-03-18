@@ -91,7 +91,7 @@ describe "Create payments via stripe events" do
       expect(Payment.first.amount).to eq(999)
     end
 
-    it "creates a payment with charge id", :vcr do      
+    it "creates a payment with charge id", :vcr do
       expect(Payment.first.charge_id).to eq("ch_15HXSxAqLMYq45GOreetEOzh")
     end
   end

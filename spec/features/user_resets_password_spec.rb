@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 feature "user resets password" do
-  background { clear_emails }
-
   scenario "user follows reset password workflow" do
     alice = Fabricate(:user, email: "alice@email.com", password: "old-password")
     visit sign_in_path

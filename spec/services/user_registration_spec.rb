@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe UserRegistration do
   describe "#register" do
-    after { ActionMailer::Base.deliveries.clear }
-
     context "with valid person data and valid card" do
       before do
         expect(StripeWrapper::Customer).to receive(:create).and_return(success_subscription)
@@ -158,7 +156,6 @@ describe UserRegistration do
     it "returns true when registration was successfull." do
       expect(StripeWrapper::Customer).to receive(:create).and_return(success_subscription)
       expect(subject).to be_successfull
-      ActionMailer::Base.deliveries.clear
     end
 
     it "returns false when registration failed." do
